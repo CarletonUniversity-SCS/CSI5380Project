@@ -1885,10 +1885,15 @@ span.points {
   color: #999;
   font-size: 13px;
 }
-span.code {
+span.rdate {
   color: #999;
+  line-height: 2em;
 }
-span.brand {
+span.artist {
+  color: #999;
+  line-height: 2em;
+}
+span.category {
   color: #999;
   line-height: 2em;
 }
@@ -2155,6 +2160,10 @@ p.product_descr {
   text-transform: uppercase;
   color: #555;
   margin: 3% 0 6% 0;
+}
+.cdquantity {
+	width:48px;
+	margin-left:10px;
 }
 .det_nav1 ul li{
 	display: inline-block;

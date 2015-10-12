@@ -1,0 +1,6 @@
+1）主页为index.html，这一页可以看到分类菜单和搜索栏，也包含登录注册等可接入链接
+2）从主页可以进入对应分类下的cd catalog（cdcatalog.html）
+3)选择具体的cd,可以查看详细信息（details.html）
+4）注册和登录界面（register.html）
+5）checkout过程
+首先可以查看购物车的信息（checkout.html），确认无误后place order(confirmorder.html),然后填写配送信息（shipping.html）和账单信息（billing.html）,填写提交后要确认信息（confirmaddress.html）,确认无误后输入信用卡信息（payment.html），根据付款结果返回对应的结果页面（sucesspay.html）.

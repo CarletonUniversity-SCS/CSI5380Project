@@ -628,11 +628,11 @@ input:focus {
   margin: 5px 0;
 }
 /* create_btn */
-.create_btn {
+.create_btn,.confirm_btn {
   float: left;
   width: 21%;
 }
-.create_btn a {
+.create_btn a,.confirm_btn a {
   text-transform: capitalize;
   display: inline-block;
   padding: 6px 16px;
@@ -645,7 +645,7 @@ input:focus {
   -o-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
 }
-.create_btn a:hover{
+.create_btn a:hover,.confirm_btn a:hover{
 	background: #00405d;
 	color:#ffffff; 
 	text-decoration:none;
@@ -653,6 +653,16 @@ input:focus {
 .create_btn a img{
 	vertical-align: top;
 	margin-top: 3px;
+}
+.confirm_btn a img{
+	vertical-align: top;
+	margin-top: 3px;
+}
+.confirm_btn{
+	float:right;
+	margin-bottom: 15px;
+	margin-left: 10px;
+	font-size: 24px;
 }
 .reg a {
   vertical-align: middle;

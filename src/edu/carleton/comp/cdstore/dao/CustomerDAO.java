@@ -57,17 +57,27 @@ public class CustomerDAO extends DAO {
 		String sqlstring=MessageFormat.format(sql1, new Object[]{cus.getEmail()});
 		ResultSet exits=this.dao.executeLookup(sqlstring,"test.lookupuser");
 		String sql=this.sqlcode.getProperty("customer.create");
-		boolean flag;
-		String sqlString = MessageFormat.format(sql, new Object[]{
-				cus.getUserid(),
-				cus.getFname(),
-				cus.getIname(),
-				cus.getPassword(),
-				cus.getEmail(),
-				cus.getSex()});
-		flag=this.dao.executeUpdate(sqlString);
+		boolean flag=true;
+		
+		try {
+			if (exits.next()==false){
+			String sqlString = MessageFormat.format(sql, new Object[]{
+					cus.getUserid(),
+					cus.getPassword(),
+					cus.getFname(),
+					cus.getIname(),
+					cus.getEmail(),
+					cus.getSex()});
+			flag=this.dao.executeUpdate(sqlString);
+			
+			}else{
+				flag=false;			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return flag;
-		//aaa
+		
 	}
 
 	@Override

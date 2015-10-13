@@ -3,8 +3,9 @@
 <head>
 <title>Online CD Store</title>
 <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
-<!-- jQuery (necessary JavaScript plugins) -->
+<!-- jQuery -->
 <script type='text/javascript' src="js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
 <!-- Custom Theme files -->
 <link href="css/style.css" rel='stylesheet' type='text/css' />
 <!-- Custom Theme files -->
@@ -16,6 +17,75 @@
 <link href="css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
 <!--show login form-->
 <script src="js/menu_jquery.js"></script>
+
+<!-- ajax+jquery -->
+<script>
+<!--request->keep seesion and get userinfo-->
+<!--request1->login and store accountinfo in cookies if user choose to -->
+$(document).ready(function(){ 
+	var address="localhost:8443"; 
+    var request = $.ajax({  
+        url: "http://"+address+"/CSI5380/keepsession.do",  
+        type: "POST",  
+        async: false,
+        dataType: "json",  
+        cache: false,  
+        success: function (result, textStatus) {
+        	while(result!=null){
+        	$(".login").remove();
+        	var accountinfo="<div class='accountinfo'><span>Welcome back,<a class='fisrtname'>"+result.customer.fname+"</a></span></div>";
+        	$(".log").append(accountinfo);
+        	}
+        },  
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+        	alert(errorThrown); }  
+    });
+    
+    if ($.cookie("rmbUser") == "true") { 
+        $("#remeber").prop("checked", true); 
+        $("#email").val($.cookie("username")); 
+        $("#password").val($.cookie("password")); 
+    } 
+
+
+    $("#login").click(function(){ 
+
+
+        if ($("#remeber").prop("checked")) { 
+        var username = $("#email").val(); 
+        var password = $("#password").val(); 
+        $.cookie("rmbUser", "true", { expires: 7 }); //store a 7-days cookies
+        $.cookie("username", username, { expires: 7 }); 
+        $.cookie("password", password, { expires: 7 }); 
+        }else{ 
+        $.cookie("rmbUser", "false", { expire: -1 }); 
+        $.cookie("username", "", { expires: -1 }); 
+        $.cookie("password", "", { expires: -1 }); 
+
+        }
+
+        var _json = jQuery.param({ "email": $("#email").val(),"password": $("#password").val()});  
+        var request1 = $.ajax({  
+            url: "http://"+address+"/CSI5380/login.do",  
+            type: "POST",  
+            async: false,  
+            data: _json, 
+            dataType: "json",  
+            cache: false,  
+            success: function (result, textStatus) {
+                if (result.code=="200")
+                  {
+                    window.location.href="index.html" 
+                  }else{
+                alert(result.code);  }
+                
+            },  
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(errorThrown); }  
+        }); 
+        
+});
+</script>
 </head>
 <body>
 <!-- header_top -->
@@ -67,7 +137,7 @@
 						                        <input type="password" name="password" id="password">
 						                    </fieldset>
 										    <fieldset>
-												<label for="checkbox"><input type="checkbox" id="checkbox"> <i>Remember me</i></label>
+												<label for="checkbox"><input type="checkbox" id="remeber"> <i>Remember me</i></label>
 											</fieldset>
 						                    <input type="submit" id="login" value="Sign in"><label><a href="register.html">Register</a></label></span>
 						            	</fieldset>

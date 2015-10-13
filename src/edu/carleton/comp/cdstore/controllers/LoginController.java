@@ -25,24 +25,23 @@ public class LoginController extends HttpServlet{
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		HttpSession session=req.getSession();
-		session.setMaxInactiveInterval(7200);
-		
-		
-		PrintWriter out = resp.getWriter();
-		
+		session.setMaxInactiveInterval(7200);	
+		PrintWriter out = resp.getWriter();		
 		String email=req.getParameter("email");
 		String password=req.getParameter("password");
 		Customer customer=(Customer)dao.findByPrimaryKey(email);
-		if(customer!=null){
-			if(customer.getPassword().equals(password)){
-				session.setAttribute("email", email);
-				String result="{code:Login Successs!}";
-				out.println(result);
-			} else {
-				String result="{code:incorrect account or password!}";
-				out.println(result);
-			}
+		dao.destory();
+		if(customer==null){
+			String result="{code:Invalid account!}";
+			out.println(result);
 		}
+		if(!password.equals(customer.getPassword())){
+		String result="{code: Invalid Password. Please try again!}";	
+			out.println(result);
+		}
+		String result="{code: Login Success!}";
+		session.setAttribute("account", email);;
+		out.println(result);
 	}
 	
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)

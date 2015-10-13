@@ -22,13 +22,12 @@ public class CustomerDAO extends DAO {
 			String sql=this.sqlcode.getProperty("customer.findall");
 			return super.processResultSet(this.dao.executeLookup(sql, "customer.findall"));
 		}
-	
 		
 		@Override
 		public Object findByPrimaryKey(String paramString) {
-			String sql=this.sqlcode.getProperty("test.lookupuser");
+			String sql=this.sqlcode.getProperty("customer.lookupuser");
 			String sqlstring=MessageFormat.format(sql, new Object[]{paramString});
-			return getDataObject(this.dao.executeLookup(sqlstring,"test.lookupuser"),true);
+			return getDataObject(this.dao.executeLookup(sqlstring,"customer.lookupuser"),true);
 		}
 		@Override
 		protected Object getDataObject(ResultSet rs, boolean close) {

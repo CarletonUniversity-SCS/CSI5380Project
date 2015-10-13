@@ -34,22 +34,17 @@ import edu.carleton.comp.cdstore.models.Customer;
 			String repassword="123";
 			
 			PrintWriter out = resp.getWriter();
-			
-
 				if (password.equals(repassword)){
 					Customer c =new Customer(password,firstname,lastname,email,sex);
 					CustomerDAO cd=new CustomerDAO();
-					boolean flag=cd.create(c);
-					
+					boolean flag=cd.create(c);		
 					if(flag==true){
 							String result="{code:Successs!}";
-							out.println(result);
-						
+							out.println(result);					
 					}else{
 						    String result="{code:User Already Existed!}";
 							out.println(result);
 					}
-				
 				}else{
 					resp.setContentType("text/html;charset=UTF-8");
 					String result="{code:Password Not Match£¡}";

@@ -1,4 +1,4 @@
-package org.carleton.comp.servlet.filters;
+package edu.carleton.comp.cdstore.filter;
 import java.io.*;
 import java.net.URLEncoder;
 import java.util.regex.Pattern;

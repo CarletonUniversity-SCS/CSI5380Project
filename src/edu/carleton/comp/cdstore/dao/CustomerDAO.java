@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.List;
 
-import edu.carleton.comp.cdstore.domain.Customer;
+import edu.carleton.comp.cdstore.models.Customer;
 
 public class CustomerDAO extends DAO {
 		

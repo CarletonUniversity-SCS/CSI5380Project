@@ -1,4 +1,4 @@
-package edu.carleton.comp.cdstore.domain;
+package edu.carleton.comp.cdstore.models;
 
 public class Customer {
 	private int userid;

@@ -67,6 +67,7 @@ public class CustomerDAO extends DAO {
 				cus.getSex()});
 		flag=this.dao.executeUpdate(sqlString);
 		return flag;
+		//aaa
 	}
 
 	@Override

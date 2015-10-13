@@ -22,9 +22,7 @@ public class CustomerDAO extends DAO {
 			String sql=this.sqlcode.getProperty("customer.findall");
 			return super.processResultSet(this.dao.executeLookup(sql, "customer.findall"));
 		}
-		
 	
-		
 		
 		@Override
 		public Object findByPrimaryKey(String paramString) {

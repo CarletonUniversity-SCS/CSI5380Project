@@ -7,12 +7,14 @@ public class Customer {
 	private String fname;
 	private String iname;
 	private String email;
-	public Customer(String password, String fname, String iname,String email){
+	private String sex;
+	public Customer(String password, String fname, String iname,String email,String sex){
 		
 		this.password=password;
 		this.fname=fname;
 		this.iname=iname;
 		this.email=email;
+		this.sex=sex;
 	}
 	public int getUserid() {
 		return userid;
@@ -45,4 +47,11 @@ public class Customer {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public String getSex() {
+		return sex;
+	}
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+	
 }

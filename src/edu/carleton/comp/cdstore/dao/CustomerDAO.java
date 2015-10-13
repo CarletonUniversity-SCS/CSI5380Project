@@ -37,7 +37,7 @@ public class CustomerDAO extends DAO {
 			Customer customer=null;
 			try{
 				if(rs.next()){
-					customer=new Customer(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5));
+					customer=new Customer(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6));
 				}
 			}catch(SQLException e){
 				e.printStackTrace();
@@ -51,9 +51,25 @@ public class CustomerDAO extends DAO {
 		}
 		
 	@Override
-	public boolean create(Object paramObject) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean create(Object o) {
+		Customer cus=(Customer) o;
+		String sql1=this.sqlcode.getProperty("test.lookupuser");
+		String sqlstring=MessageFormat.format(sql1, new Object[]{cus.getEmail()});
+		ResultSet exits=this.dao.executeLookup(sqlstring,"test.lookupuser");
+		String sql=this.sqlcode.getProperty("customer.create");
+		boolean flag;
+		String sqlString = MessageFormat.format(sql, new Object[]{
+				cus.getUserid(),
+				cus.getFname(),
+				cus.getIname(),
+				cus.getPassword(),
+				cus.getEmail(),
+				cus.getSex()});
+		flag=this.dao.executeUpdate(sqlString);
+		return flag;
+		}else{
+			
+		}
 	}
 
 	@Override

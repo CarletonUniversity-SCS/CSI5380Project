@@ -4,17 +4,64 @@
 <title>Online CD Store</title>
 <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
 <!-- jQuery (necessary JavaScript plugins) -->
-<script type='text/javascript' src="js/jquery-1.11.1.min.js"></script>
+<script type='text/javascript' src="js/jquery-2.1.3.js"></script>
+<script type='text/javascript' src="js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
 <!-- Custom Theme files -->
 <link href="css/style.css" rel='stylesheet' type='text/css' />
 <!-- Custom Theme files -->
 <!--//theme-style-->
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Playfair+Display:400,700,900' rel='stylesheet' type='text/css'>
 <!-- start menu -->
 <link href="css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
 <script src="js/menu_jquery.js"></script>
+<!-- ajax+jquery for register -->
+<script>
+$(document).ready(function(){ 
+    var address="localhost:8443";
+    
+    $("#register-submit").click(function(){
+    	var password=$('#password').val();
+        var repassword=$('#repassword').val();
+        var fname=$('#fname').val();
+        var lname=$('#lname').val();
+        var email=$('#email').val();
+        var sex;
+        
+        if($("#male").prop("checked")){
+        	sex="male";}
+        else{
+        	sex="female";
+        }
+        
+        if(password==repassword){
+        	var _json = jQuery.param({ "password": password,"email": email,"firstname": fname,"lastname": lname,"sex":sex});  
+            var request = $.ajax({  
+            	url: "https://"+address+"/CSI5380/register.do",
+                data:_json,
+                type: "POST",  
+                async: false,
+                dataType: "json",  
+                cache: false,  
+                success: function (result, textStatus) {
+                	if (result.code=="success")
+                    {
+                		window.location.href="index.html";
+                    }else{
+                  alert(result.code);  }
+                	
+                },  
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert(errorThrown);
+                    }  
+            });
+
+        }else{
+            alert("Password Not Match!");
+          }
+    });
+});
+</script>
 </head>
 <body>
 <!-- header_top -->
@@ -63,41 +110,36 @@
 			<form id="registration_form" action="" method="post">
 				<div>
 					<label>
-						<input placeholder="user name:" type="text" tabindex="0" required autofocus>
+						<input id="fname" placeholder="first name:" type="text" tabindex="1" required autofocus>
 					</label>
 				</div>
 				<div>
 					<label>
-						<input placeholder="first name:" type="text" tabindex="1" required autofocus>
+						<input id="lname" placeholder="last name:" type="text" tabindex="2" required autofocus>
 					</label>
 				</div>
 				<div>
 					<label>
-						<input placeholder="last name:" type="text" tabindex="2" required autofocus>
-					</label>
-				</div>
-				<div>
-					<label>
-						<input placeholder="email address:" type="email" tabindex="3" required>
+						<input id="email" placeholder="email address:" type="email" tabindex="3" required>
 					</label>
 				</div>
 				<div class="sky-form">
 					<div class="sky_form1">
 						<ul>
-							<li><label class="radio left"><input type="radio" name="radio" checked=""><i></i>Male</label></li>
-							<li><label class="radio"><input type="radio" name="radio"><i></i>Female</label></li>
+							<li><label class="radio left"><input id="male" type="radio" name="radio" checked=""><i></i>Male</label></li>
+							<li><label class="radio"><input id="female" type="radio" name="radio"><i></i>Female</label></li>
 							<div class="clearfix"></div>
 						</ul>
 					</div>
 				</div>
 				<div>
 					<label>
-						<input placeholder="password" type="password" tabindex="4" required>
+						<input id="password" placeholder="password" type="password" tabindex="4" required>
 					</label>
 				</div>						
 				<div>
 					<label>
-						<input placeholder="retype password" type="password" tabindex="4" required>
+						<input id="repassword" placeholder="retype password" type="password" tabindex="4" required>
 					</label>
 				</div>	
 				<div class="sky-form">

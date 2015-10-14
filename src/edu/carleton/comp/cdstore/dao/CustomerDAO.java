@@ -50,9 +50,9 @@ public class CustomerDAO extends DAO {
 	@Override
 	public boolean create(Object o) {
 		Customer cus=(Customer) o;
-		String sql1=this.sqlcode.getProperty("test.lookupuser");
+		String sql1=this.sqlcode.getProperty("customer.lookupuser");
 		String sqlstring=MessageFormat.format(sql1, new Object[]{cus.getEmail()});
-		ResultSet exits=this.dao.executeLookup(sqlstring,"test.lookupuser");
+		ResultSet exits=this.dao.executeLookup(sqlstring,"customer.lookupuser");
 		String sql=this.sqlcode.getProperty("customer.create");
 		boolean flag=true;
 		

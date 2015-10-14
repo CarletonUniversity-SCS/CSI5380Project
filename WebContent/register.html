@@ -21,6 +21,7 @@ $(document).ready(function(){
     var address="localhost:8443";
     
     $("#register-submit").click(function(){
+    	
     	var password=$('#password').val();
         var repassword=$('#repassword').val();
         var fname=$('#fname').val();
@@ -60,6 +61,30 @@ $(document).ready(function(){
             alert("Password Not Match!");
           }
     });
+    
+    $("#login").click(function(){ 
+
+        var _json = jQuery.param({ "email": $("#email").val(),"password": $("#password").val()});  
+        var request1 = $.ajax({  
+            url: "https://"+address+"/CSI5380/login.do",  
+            type: "POST",  
+            async: false,  
+            data: _json, 
+            dataType: "json",  
+            cache: false,  
+            success: function (result, textStatus) {
+                if (result.code=="success")
+                  {
+                    window.location.href="index.html" 
+                  }else{
+                alert(result.code);  }
+                
+            },  
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert(errorThrown); }  
+        }); 
+        
+});
 });
 </script>
 </head>
@@ -159,16 +184,16 @@ $(document).ready(function(){
 			<form id="registration_form" action="" method="post">
 				<div>
 					<label>
-						<input placeholder="email:" type="email" tabindex="3" required>
+						<input id="email" placeholder="email:" type="email" tabindex="3" required>
 					</label>
 				</div>
 				<div>
 					<label>
-						<input placeholder="password" type="password" tabindex="4" required>
+						<input id="password" placeholder="password" type="password" tabindex="4" required>
 					</label>
 				</div>						
 				<div>
-					<input type="submit" value="sign in" id="register-submit">
+					<input type="submit" value="sign in" id="login">
 				</div>
 				<div class="forget">
 					<a href="#">forgot your password</a>

@@ -19,8 +19,9 @@
 
 <!-- ajax+jquery --> 
 <script>
-<!--request->keep seesion and get userinfo-->
-<!--request1->login and store accountinfo in cookies if user choose to-->
+<!--request-keep seesion and get userinfo-->
+<!--request1-login and store accountinfo in cookies if user choose to-->
+<!--request2-get category and set as menu bar-->
 $(document).ready(function(){ 
 	var address="localhost:8443"; 
     var request = $.ajax({  
@@ -72,7 +73,7 @@ $(document).ready(function(){
             dataType: "json",  
             cache: false,  
             success: function (result, textStatus) {
-                if (result.code=="200")
+                if (result.code=="success")
                   {
                     window.location.href="index.html" 
                   }else{
@@ -84,6 +85,46 @@ $(document).ready(function(){
         }); 
         
 });
+    var request2 = $.ajax({  
+        url: "https://"+address+"/CSI5380/queryCategory.do",  
+        type: "POST",  
+        async: false,
+        dataType: "json",  
+        cache: false,  
+        success: function (result, textStatus) {
+          result=eval(result.categoryList);
+          var decate="<li class='active grid'><a class='color1' href='index.html'>Home</a></li><li class='grid'><a class='color2 tm'>new arrivals</a></li>";
+          $('.megamenu skyblue').append(decate);
+          for(var i=0; i< result.length; i++) 
+          {  
+           j=i+1;
+          	var category="<li class='grid'><a class='color"+j+" tm'>"+result[i].name+"</a></li>";
+           $('.megamenu skyblue').append(category);
+          }
+          $(".tm").unbind('click').bind('click',function(){
+              var menu=$(this).text;
+              window.location.href="cdcatalog.html?menu="+menu;  
+          });
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+        	alert(errorThrown); }  
+          
+        }); 
+    
+    $("a[name='takelook']").click(function(){
+    	
+    	window.location.href="cdcatalog.html?menu=new arrivals;
+    	
+        
+});
+	$("a[name='bestsellers']").click(function(){
+    	
+		window.location.href="cdcatalog.html?menu=best sellers;
+    	
+        
+});
+    
+   
 });
 </script>
 </head>
@@ -192,7 +233,7 @@ $(document).ready(function(){
 					<h3>NEW ARRIVALS</h3>
 					<p>CATCH UP WITH THE TREND</p>
 					<div class="crt-btn">
-						<a href="cdcatalog.html">TAKE A LOOK</a>
+						<a name="takelook" href="cdcatalog.html">TAKE A LOOK</a>
 					</div>
 				</div>
 			</div>
@@ -202,7 +243,7 @@ $(document).ready(function(){
 					<h3>BEST SELLERS</h3>
 					<p>GET THE BEST SALE ALBUM</p>
 					<div class="crt-btn">
-						<a href="cdcatalog.html">SHOP NOW</a>
+						<a name="bestsellers" href="cdcatalog.html">SHOP NOW</a>
 					</div>
 				</div>
 			</div>

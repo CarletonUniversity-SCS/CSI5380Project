@@ -14,7 +14,7 @@ public class Address {
 	
 	public Address(int addrid, String addrline1, String addrline2, String city, String province, String zipcode,
 			String country, String phone, int userid) {
-		super();
+		
 		this.addrid = addrid;
 		this.addrline1 = addrline1;
 		this.addrline2 = addrline2;
@@ -25,6 +25,8 @@ public class Address {
 		this.phone = phone;
 		this.userid = userid;
 	}
+	
+	
 	public final int getAddrid() {
 		return addrid;
 	}

@@ -17,7 +17,7 @@ public class CD {
 	
 	public CD(int cdid, String title, String artist, Date date, String intro, float price, int stock, String imgurl,
 			int cateid) {
-		super();
+		
 		this.cdid = cdid;
 		this.title = title;
 		this.artist = artist;

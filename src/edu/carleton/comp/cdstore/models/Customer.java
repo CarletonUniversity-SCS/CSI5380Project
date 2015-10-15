@@ -16,6 +16,15 @@ public class Customer {
 		this.email=email;
 		this.sex=sex;
 	}
+	
+	public Customer(String password, String fname, String iname,String sex){
+		
+		this.password=password;
+		this.fname=fname;
+		this.iname=iname;
+		this.sex=sex;
+	}
+	
 	public final int getUserid() {
 		return userid;
 	}

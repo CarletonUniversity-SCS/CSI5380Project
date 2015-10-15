@@ -27,6 +27,31 @@ public class Address {
 	}
 	
 	
+	public Address(String addrline1, String addrline2, String city, String province, String zipcode,
+			String country, String phone, int userid){
+		
+		this.addrline1 = addrline1;
+		this.addrline2 = addrline2;
+		this.city = city;
+		this.province = province;
+		this.zipcode = zipcode;
+		this.country = country;
+		this.phone = phone;
+		this.userid = userid;
+	}
+	
+	public Address(String addrline1, String addrline2, String city, String province, String zipcode,
+			String country, String phone){
+		
+		this.addrline1 = addrline1;
+		this.addrline2 = addrline2;
+		this.city = city;
+		this.province = province;
+		this.zipcode = zipcode;
+		this.country = country;
+		this.phone = phone;
+	
+	}
 	public final int getAddrid() {
 		return addrid;
 	}

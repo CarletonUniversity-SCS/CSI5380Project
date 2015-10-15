@@ -2,7 +2,7 @@ package edu.carleton.comp.cdstore.dao;
 
 import java.sql.ResultSet;
 
-public class ItemDAO extends DAO{
+public class CDDAO extends DAO{
 
 	@Override
 	public boolean create(Object paramObject) {

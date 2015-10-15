@@ -13,10 +13,6 @@ import edu.carleton.comp.cdstore.dao.CustomerDAO;
 import edu.carleton.comp.cdstore.models.Customer;
 
 public class LoginController extends HttpServlet{
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -24,8 +20,8 @@ public class LoginController extends HttpServlet{
 		resp.setContentType("text/html;charset=utf-8");
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
-		HttpSession session=req.getSession();
-		session.setMaxInactiveInterval(7200);	
+		//HttpSession session=req.getSession();
+		//session.setMaxInactiveInterval(7200);	
 		PrintWriter out = resp.getWriter();		
 		String email=req.getParameter("email");
 		String password=req.getParameter("password");
@@ -40,7 +36,7 @@ public class LoginController extends HttpServlet{
 			out.println(result);
 		}
 		String result="{code: Login Success!}";
-		session.setAttribute("account", email);;
+		//session.setAttribute("account", email);;
 		out.println(result);
 	}
 	

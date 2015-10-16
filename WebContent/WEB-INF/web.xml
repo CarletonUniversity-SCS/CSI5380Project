@@ -35,5 +35,14 @@
         <error-code>404</error-code>
         <location>/404.html</location>
     </error-page>
+    
+    <servlet>
+    <servlet-name>MaintainSession</servlet-name>
+    <servlet-class>edu.carleton.comp.cdstore.sessionmanager.MaintainSession</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MaintainSession</servlet-name>
+    <url-pattern>/keepsession.do</url-pattern>
+  </servlet-mapping>
   
 </web-app>

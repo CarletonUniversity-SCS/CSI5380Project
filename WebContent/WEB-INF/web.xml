@@ -40,11 +40,11 @@
     <url-pattern>/keepsession.do</url-pattern>
   </servlet-mapping>
    <servlet>
-    <servlet-name>GetProductListServlet</servlet-name>
-    <servlet-class>edu.carleton.comp.cdstore.controllers.GetProductListController</servlet-class>
+    <servlet-name>GetCategoryListServlet</servlet-name>
+    <servlet-class>edu.carleton.comp.cdstore.controllers.GetCategoryController</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>GetProductListServlet</servlet-name>
+    <servlet-name>GetCategoryListServlet</servlet-name>
     <url-pattern>/queryCategory.do</url-pattern>
   </servlet-mapping>
    <error-page>

@@ -86,8 +86,8 @@ $(document).ready(function(){
         
 	});
 	
-	//get categoryList
-	var request2 = $.ajax({  
+	 //get Category list
+    var request2 = $.ajax({  
         url: "https://"+address+"/CSI5380/queryCategory.do",  
         type: "POST",  
         async: false,
@@ -95,25 +95,18 @@ $(document).ready(function(){
         cache: false,  
         success: function (result, textStatus) {
           result=eval(result.categoryList);
-          var decate="<li class='grid'><a class='color1' href='index.html'>Home</a></li><li class='grid'><a class='color2 tm'>new arrivals</a></li>";
-          $('.megamenu skyblue').append(decate);
+          var decate="<li class='active grid'><a class='color1' href='index.html'>Home</a></li><li class='grid'><a class='color2 tm'>new arrivals</a></li>";
+          $('.megamenu').append(decate);
           for(var i=0; i< result.length; i++) 
           {  
            j=i+1;
-           
-           if(result[i].name==menu){
-        	   var category="<li class='active grid'><a class='color"+j+" tm'>"+result[i].name+"</a></li>";
-           }else{
-        	   var category="<li class='grid'><a class='color"+j+" tm'>"+result[i].name+"</a></li>";
-        	   }
-           $('.megamenu skyblue').append(category);
-           
-           }
-        
+          	var category="<li class='grid'><a class='color"+(j+2)+" tm'>"+result[i].catename+"</a></li>";
+           $('.megamenu').append(category);
+          }
           $(".tm").unbind('click').bind('click',function(){
               var menu=$(this).text;
-              //window.location.href="cdcatalog.html?menu="+menu;
-              $.post("cdcatalog.html",{"menu": menu});
+              window.location.href="cdcatalog.html?menu="+menu;
+              //$.post("cdcatalog.html",{"menu": menu});
           });
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -435,7 +428,6 @@ $(document).ready(function(){
 						</div>
 					</div>
 				</div>
-				<div class="reg"></div>
 				<div class="cart box_1">
 					<a name="checkout" class="checka">
 						<h3> <span id="simpleCart_total" class="simpleCart_total"></span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span> items)<img src="images/bag.png" alt=""></h3>
@@ -456,6 +448,7 @@ $(document).ready(function(){
 	</div>
 		<!-- start header menu -->
 	<ul class="megamenu skyblue">
+	<!--  
 		<li class="active grid"><a class="color1" href="index.html">Home</a></li>
 		<li class="grid"><a class="color2" href="#cdcatalog.html">new arrivals</a></li>
 		<li class="grid"><a class="color4" href="cdcatalog.html">Pop</a></li>				
@@ -466,7 +459,7 @@ $(document).ready(function(){
 		<li class="grid"><a class="color3" href="cdcatalog.html">Rock</a></li>
 		<li class="grid"><a class="color7" href="cdcatalog.html">Dance</a></li>
 		<li class="grid"><a class="color10" href="cdcatalog.html">R&B</a></li>
-
+	-->
 	</ul> 
 </div>
 </div>

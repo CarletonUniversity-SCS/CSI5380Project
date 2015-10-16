@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.alibaba.fastjson.JSON;
 
@@ -23,8 +24,8 @@ public class LoginController extends HttpServlet{
 		resp.setContentType("text/html;charset=utf-8");
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
-		//HttpSession session=req.getSession();
-		//session.setMaxInactiveInterval(7200);	
+		HttpSession session=req.getSession();
+		session.setMaxInactiveInterval(7200);	
 		PrintWriter out = resp.getWriter();		
 		String email=req.getParameter("email");
 		String password=req.getParameter("password");

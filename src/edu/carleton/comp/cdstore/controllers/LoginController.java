@@ -2,11 +2,15 @@ package edu.carleton.comp.cdstore.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.alibaba.fastjson.JSON;
 
 import edu.carleton.comp.cdstore.dao.CustomerDAO;
 import edu.carleton.comp.cdstore.models.Customer;
@@ -24,19 +28,23 @@ public class LoginController extends HttpServlet{
 		PrintWriter out = resp.getWriter();		
 		String email=req.getParameter("email");
 		String password=req.getParameter("password");
+		Map<String, Object> result = new HashMap<String, Object>();
+		String result_str;
 		Customer customer=(Customer)dao.findByPrimaryKey(email);
 		dao.destory();
 		if(customer==null){
-			String result="{code:Invalid account!}";
-			out.println(result);
+			result.put("code", "Invalid account!");
+			result_str = JSON.toJSONString(result);
+			out.print(result_str);
+		}else if(!password.equals(customer.getPassword())){
+			result.put("code", "Invalid Password. Please try again!");
+			result_str = JSON.toJSONString(result);
+			out.print(result_str);
+		}else{
+		result.put("code", "success");
+		result_str = JSON.toJSONString(result);
+		out.print(result_str);
 		}
-		if(!password.equals(customer.getPassword())){
-		String result="{code: Invalid Password. Please try again!}";	
-			out.println(result);
-		}
-		String result="{code: Login Success!}";
-		//session.setAttribute("account", email);;
-		out.println(result);
 	}
 	
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)

@@ -25,9 +25,9 @@ public class CustomerDAO extends DAO {
 		
 		@Override
 		public Object findByPrimaryKey(String paramString) {
-			String sql=this.sqlcode.getProperty("customer.lookupuser");
+			String sql=this.sqlcode.getProperty("customer.searchuserbyemail");
 			String sqlstring=MessageFormat.format(sql, new Object[]{paramString});
-			return getDataObject(this.dao.executeLookup(sqlstring,"customer.lookupuser"),true);
+			return getDataObject(this.dao.executeLookup(sqlstring,"customer.searchuserbyemail"),true);
 		}
 		@Override
 		protected Object getDataObject(ResultSet rs, boolean close) {
@@ -50,9 +50,9 @@ public class CustomerDAO extends DAO {
 	@Override
 	public boolean create(Object o) {
 		Customer cus=(Customer) o;
-		String sql1=this.sqlcode.getProperty("customer.lookupuser");
+		String sql1=this.sqlcode.getProperty("customer.searchuserbyemail");
 		String sqlstring=MessageFormat.format(sql1, new Object[]{cus.getEmail()});
-		ResultSet exits=this.dao.executeLookup(sqlstring,"customer.lookupuser");
+		ResultSet exits=this.dao.executeLookup(sqlstring,"customer.searchuserbyemail");
 		String sql=this.sqlcode.getProperty("customer.create");
 		boolean flag=true;
 		

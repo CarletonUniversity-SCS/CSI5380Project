@@ -33,7 +33,8 @@ import edu.carleton.comp.cdstore.models.Customer;
 			PrintWriter out = resp.getWriter();
 					Customer c =new Customer(password,firstname,lastname,email,sex);
 					CustomerDAO cd=new CustomerDAO();
-					boolean flag=cd.create(c);		
+					boolean flag=cd.create(c);
+					cd.destory();
 					if(flag==true){
 							result.put("code", "success");
 							String result_str = JSON.toJSONString(result);

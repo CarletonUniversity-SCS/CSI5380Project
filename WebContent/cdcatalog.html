@@ -6,27 +6,86 @@
 <!-- jQuery (necessary JavaScript plugins) -->
 <script type='text/javascript' src="js/jquery-2.1.3.js"></script>
 <script type='text/javascript' src="js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script type="text/javascript"  src="js/getUrlParam.js"></script>
 <!-- Custom Theme files -->
 <link href="css/style.css" rel='stylesheet' type='text/css' />
 <!-- Custom Theme files -->
 <!--//theme-style-->
-
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-
 <!-- start menu -->
 <link href="css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
 <script src="js/menu_jquery.js"></script>
 <!-- ajax+jquery -->
-<!--request2-get category and set as menu bar-->
-<!-- request1-query total cd amount under each category -->
-<!-- request-query by category and show cd catalog -->
-<!-- need to care about seperate page and add to cart -->
 <script>
 $(document).ready(function(){ 
-	
+	var address="localhost:8443";
 	var menu=UrlParm.parm("menu");
+	var content=UrlParm.parm("content");
+	var key=UrlParm.parm("key");
+	//take diffrent variables into the same function and get personality result
+	var _json = jQuery.param({ "menu": menu,"content":content,"key":key});
+	var _json1 = jQuery.param({ "menu": menu,"content":content,"key":"popular"});
+	var _json2 = jQuery.param({ "menu": menu,"content":content,"key":"redate"});
+	var _json3 = jQuery.param({ "menu": menu,"content":content,"key":"discount"});
+	var _json4 = jQuery.param({ "menu": menu,"content":content,"key":"price"});
+	//maintain session
+	var request3 = $.ajax({  
+        url: "https://"+address+"/CSI5380/keepsession.do",  
+        type: "POST",  
+        async: false,
+        dataType: "json",  
+        cache: false,  
+        success: function (result, textStatus) {
+        	while(result!=null){
+        	$(".login").remove();
+        	var accountinfo="<div class='accountinfo'><span>Welcome back,<a class='fisrtname'>"+result.customer.fname+"</a></span></div>";
+        	$(".log").append(accountinfo);
+        	}
+        },  
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+        	alert(errorThrown); }  
+    });
 	
+	 //create cookie store cart items and show quantity and price of the chosen items
+	if ($.cookie('cart')!=null){
+		var cj=$.cookie('cart');
+		var cjson= jQuery.param({"cjson": cj});
+		var request3 = $.ajax({
+	        url: "https://"+address+"/CSI5380/cookies.do",  
+	        type: "POST",  
+	        async: false,
+	        data:cjson,
+	        dataType: "json",  
+	        cache: false,  
+	        success: function (result, textStatus) {
+	        	$("#simpleCart_total").text("$"+result.totalprice);
+	        	$("#simpleCart_quantity").text(result.quantity);
+	        	
+	        },  
+	        error: function (XMLHttpRequest, textStatus, errorThrown) {
+	        	alert(errorThrown); }  
+	    });
+		
+	}else{
+		$.cookie("cart", "", { expires: 7 });
+		$("#simpleCart_total").text("$0.0");
+    	$("#simpleCart_quantity").text(0);
+		
+	}
+	 
+	//view shopping cart
+	$("a[name='checkout']").click(function(){
+    	
+		if($.cookie('cart')!="" && $.cookie('cart')!=null){
+			window.location.href="checkout.html";
+		}else{
+			alert("You Do Not Have Items In Cart Yet!");
+		}
+        
+	});
+	
+	//get categoryList
 	var request2 = $.ajax({  
         url: "https://"+address+"/CSI5380/queryCategory.do",  
         type: "POST",  
@@ -52,76 +111,75 @@ $(document).ready(function(){
         
           $(".tm").unbind('click').bind('click',function(){
               var menu=$(this).text;
-              window.location.href="cdcatalog.html?menu="+menu;  
+              //window.location.href="cdcatalog.html?menu="+menu;
+              $.post("cdcatalog.html",{"menu": menu});
           });
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
         	alert(errorThrown); }  
           
         }); 
-	
+	//getProductlist
 	var request = $.ajax({  
-    	url: "https://"+address+"/CSI5380/querybyCategoryM.do",  
+    	url: "https://"+address+"/CSI5380/getProductlist.do",  
     	type: "POST",  
     	async: false,
-    	dataType: "json",  
-    	cache: false,  
-    	success: function (result, textStatus) {
-    		
-    		$('#menutitle').text(menu+" - "+result.amount+"items");
-    	},  
-    	error: function (XMLHttpRequest, textStatus, errorThrown) {
-        	alert(errorThrown); }  
-	});
-
-	var request1 = $.ajax({  
-    	url: "https://"+address+"/CSI5380/querybyCategory.do",  
-    	type: "POST",  
-    	async: false,
+    	data:_json,
     	dataType: "json",  
     	cache: false,  
     	success: function (result, textStatus) {
         	result=eval(result.cdList);
+        	$(".subset1").children().remove();
         	for(i=0;i<=cdList.length;i++){
         		j=i+1;
         		h=parseInt(j/4);
         		l=j%4;
-        		var item="<div class='grid1_of_4' id='"+result[i].cdid+"'><div class='content_box'><a name="images"><img src='"+result[i].imgurl+"' class='img-responsive'/></a><h4><a name="title">"+result[i].title+"</a></h4><p>by "+result[i].artist+"</p><div class='grid_1 simpleCart_shelfItem'><div class='item_add'><span class='item_price'><h6>ONLY CAD$"+result[i].price+"</h6></span></div><div class='item_add'><span class='item_price'><a id="cart">add to cart</a></span></div></div></div></div>";
-        		if(h==1){
+        		var item="<div class='grid1_of_4' id='"+result[i].cdid+"'><div class='content_box'><a name='images'><img src='"+result[i].imgurl+"' class='img-responsive'/></a><h4><a name='title'>"+result[i].title+"</a></h4><p>by "+result[i].artist+"</p><div class='grid_1 simpleCart_shelfItem'><div class='item_add'><span class='item_price'><h6>ONLY CAD$"+result[i].price+"</h6></span></div><div class='item_add'><span class='item_price'><a id='cart'>add to cart</a></span></div></div></div></div>";
+        		if(h==0){
         			$(".subset1").append(item);		
-        		}else if(h==2){
+        		}else if(h==1){
         			$(".subset2").append(item);
-        		}else if(h==3){
+        		}else if(h==2){
         			$(".subset3").append(item);
         		}
         		
         		$("a[name='images']").unbind('click').bind('click',function(){
                     var cdid=$(this).parent().parent().attr("id");
-                    window.location.href="details.html?cdid="+cdid;  
+                    window.location.href="details.html?cdid="+cdid;
+                    //$.post("details.html",{"cdid": cdid});
             }); 
         		$("a[name='title']").unbind('click').bind('click',function(){
                     var cdid=$(this).parent().parent().parent().attr("id");
-                    window.location.href="details.html?cdid="+cdid;  
+                    window.location.href="details.html?cdid="+cdid;
+                    //$.post("details.html",{"cdid": cdid});
             });
         		$("#cart").unbind('click').bind('click',function(){
                     var cdid=$(this).parent().parent().parent().parent().parent().parent().attr("id");
-                    //add item to cookies/session 
+                    //add item to cookies/session
+                    var aj=$.cookie('cart');
+                    $.post("https://"+address+"/CSI5380/addtocart.do",{"cdid": cdid,"quantity":1,"aj":aj});
             });
+        		$('#menutitle').text(menu+" - "+cdList.length+"items");	
+        		
+        	}
        	 
-    	},  
+    	}, 
+    	
     	error: function (XMLHttpRequest, textStatus, errorThrown) {
         	alert(errorThrown); }  
 	});
-	
-	
+/**
+	//get productlist order by sales
 		$("a[name='popular']").bind('click',function(){
-			url: "https://"+address+"/CSI5380/querybyPopular.do",  
+			url: "https://"+address+"/CSI5380/getProductlist.do",  
 	    	type: "POST",  
 	    	async: false,
+	    	data:_json1,
 	    	dataType: "json",  
 	    	cache: false,  
 	    	success: function (result, textStatus) {
 	        	result=eval(result.cdList);
+	        	$(".subset1").children().remove();
 	        	for(i=0;i<=cdList.length;i++){
 	        		j=i+1;
 	        		h=parseInt(j/4);
@@ -134,18 +192,24 @@ $(document).ready(function(){
 	        		}else if(h==3){
 	        			$(".subset3").append(item);
 	        		}
-	        		
+	        		//get detail of the product
 	        		$("a[name='images']").unbind('click').bind('click',function(){
 	                    var cdid=$(this).parent().parent().attr("id");
-	                    window.location.href="details.html?cdid="+cdid;  
+	                    //window.location.href="details.html?cdid="+cdid;
+	                    $.post("details.html",{"cdid": cdid});
 	            }); 
+	        		//get detail of the product
 	        		$("a[name='title']").unbind('click').bind('click',function(){
 	                    var cdid=$(this).parent().parent().parent().attr("id");
-	                    window.location.href="details.html?cdid="+cdid;  
+	                    //window.location.href="details.html?cdid="+cdid;
+	                    $.post("details.html",{"cdid": cdid});
 	            });
+	        		//get detail of the product
 	        		$("#cart").unbind('click').bind('click',function(){
 	                    var cdid=$(this).parent().parent().parent().parent().parent().parent().attr("id");
-	                    //add item to cookies/session 
+	                    //add item to cookies/session
+	                    $.post("https://"+address+"/CSI5380/addtocart.do",{"cdid": cdid,"quantity":1});
+	                    
 	            });
 	       	 
 	    	},  
@@ -154,15 +218,17 @@ $(document).ready(function(){
 		});
 		
 		
-		
+		//get productlist order by released date
 		$("a[name='new']").bind('click',function(){
-			url: "https://"+address+"/CSI5380/querybyDate.do",  
+			url: "https://"+address+"/CSI5380/getProductlist.do",  
 	    	type: "POST",  
 	    	async: false,
+	    	data:_json2
 	    	dataType: "json",  
 	    	cache: false,  
 	    	success: function (result, textStatus) {
 	        	result=eval(result.cdList);
+	        	$(".subset1").children().remove();
 	        	for(i=0;i<=cdList.length;i++){
 	        		j=i+1;
 	        		h=parseInt(j/4);
@@ -175,33 +241,40 @@ $(document).ready(function(){
 	        		}else if(h==3){
 	        			$(".subset3").append(item);
 	        		}
-	        		
+	        		//get detail of the product
 	        		$("a[name='images']").unbind('click').bind('click',function(){
 	                    var cdid=$(this).parent().parent().attr("id");
-	                    window.location.href="details.html?cdid="+cdid;  
+	                    //window.location.href="details.html?cdid="+cdid;
+	                    $.post("details.html",{"cdid": cdid});
 	            }); 
+	        		//get detail of the product
 	        		$("a[name='title']").unbind('click').bind('click',function(){
 	                    var cdid=$(this).parent().parent().parent().attr("id");
-	                    window.location.href="details.html?cdid="+cdid;  
+	                    //window.location.href="details.html?cdid="+cdid;
+	                    $.post("details.html",{"cdid": cdid});
 	            });
-	        		$("#cart").unbind('click').bind('click',function(){
+	        		//get detail of the product
+	        		$("#cart").bind('click',function(){
 	                    var cdid=$(this).parent().parent().parent().parent().parent().parent().attr("id");
-	                    //add item to cookies/session 
+	                  //add item to cookies/session
+	                    $.post("https://"+address+"/CSI5380/addtocart.do",{"cdid": cdid,"quantity":1});
 	            });
 	       	 
 	    	},  
 	    	error: function (XMLHttpRequest, textStatus, errorThrown) {
 	        	alert(errorThrown); }  
 		});
-		
+		//get productlist order by promotion
 		$("a[name='dicount']").bind('click',function(){
-			url: "https://"+address+"/CSI5380/querybyDate.do",  
+			url: "https://"+address+"/CSI5380/getProductlist.do",  
 	    	type: "POST",  
 	    	async: false,
+	    	data:_json3
 	    	dataType: "json",  
 	    	cache: false,  
 	    	success: function (result, textStatus) {
 	        	result=eval(result.cdList);
+	        	$(".subset1").children().remove();
 	        	for(i=0;i<=cdList.length;i++){
 	        		j=i+1;
 	        		h=parseInt(j/4);
@@ -214,18 +287,69 @@ $(document).ready(function(){
 	        		}else if(h==3){
 	        			$(".subset3").append(item);
 	        		}
-	        		
+	        		//get detail of the product
 	        		$("a[name='images']").unbind('click').bind('click',function(){
 	                    var cdid=$(this).parent().parent().attr("id");
-	                    window.location.href="details.html?cdid="+cdid;  
+	                    //window.location.href="details.html?cdid="+cdid;
+	                    $.post("details.html",{"cdid": cdid});
 	            }); 
+	        		//get detail of the product
 	        		$("a[name='title']").unbind('click').bind('click',function(){
 	                    var cdid=$(this).parent().parent().parent().attr("id");
-	                    window.location.href="details.html?cdid="+cdid;  
+	                    //window.location.href="details.html?cdid="+cdid;
+	                     $.post("details.html",{"cdid": cdid});
 	            });
+	        		//get detail of the product
 	        		$("#cart").unbind('click').bind('click',function(){
 	                    var cdid=$(this).parent().parent().parent().parent().parent().parent().attr("id");
-	                    //add item to cookies/session 
+	                  //add item to cookies/session
+	                    $.post("https://"+address+"/CSI5380/addtocart.do",{"cdid": cdid,"quantity":1});
+	            });
+	       	 
+	    	},  
+	    	error: function (XMLHttpRequest, textStatus, errorThrown) {
+	        	alert(errorThrown); }  
+		});
+		//get productlist order by price
+		$("a[name='price']").bind('click',function(){
+			url: "https://"+address+"/CSI5380/getProductlist.do",  
+	    	type: "POST",  
+	    	async: false,
+	    	data:_json4
+	    	dataType: "json",  
+	    	cache: false,  
+	    	success: function (result, textStatus) {
+	        	result=eval(result.cdList);
+	        	$(".subset1").children().remove();
+	        	for(i=0;i<=cdList.length;i++){
+	        		j=i+1;
+	        		h=parseInt(j/4);
+	        		l=j%4;
+	        		var item="<div class='grid1_of_4' id='"+result[i].cdid+"'><div class='content_box'><a name="images"><img src='"+result[i].imgurl+"' class='img-responsive'/></a><h4><a name="title">"+result[i].title+"</a></h4><p>by "+result[i].artist+"</p><div class='grid_1 simpleCart_shelfItem'><div class='item_add'><span class='item_price'><h6>ONLY CAD$"+result[i].price+"</h6></span></div><div class='item_add'><span class='item_price'><a id="cart">add to cart</a></span></div></div></div></div>";
+	        		if(h==1){
+	        			$(".subset1").append(item);		
+	        		}else if(h==2){
+	        			$(".subset2").append(item);
+	        		}else if(h==3){
+	        			$(".subset3").append(item);
+	        		}
+	        		//get detail of the product
+	        		$("a[name='images']").unbind('click').bind('click',function(){
+	                    var cdid=$(this).parent().parent().attr("id");
+	                    //window.location.href="details.html?cdid="+cdid;
+	                    $.post("details.html",{"cdid": cdid});
+	            }); 
+	        		//get detail of the product
+	        		$("a[name='title']").unbind('click').bind('click',function(){
+	                    var cdid=$(this).parent().parent().parent().attr("id");
+	                    //window.location.href="details.html?cdid="+cdid;
+	                    $.post("details.html",{"cdid": cdid});
+	            });
+	        		//get detail of the product
+	        		$("#cart").unbind('click').bind('click',function(){
+	                    var cdid=$(this).parent().parent().parent().parent().parent().parent().attr("id");
+	                  //add item to cookies/session
+	                    $.post("https://"+address+"/CSI5380/addtocart.do",{"cdid": cdid,"quantity":1});
 	            });
 	       	 
 	    	},  
@@ -233,44 +357,17 @@ $(document).ready(function(){
 	        	alert(errorThrown); }  
 		});
 		
-		$("a[name='price']").bind('click',function(){
-			url: "https://"+address+"/CSI5380/querybyDate.do",  
-	    	type: "POST",  
-	    	async: false,
-	    	dataType: "json",  
-	    	cache: false,  
-	    	success: function (result, textStatus) {
-	        	result=eval(result.cdList);
-	        	for(i=0;i<=cdList.length;i++){
-	        		j=i+1;
-	        		h=parseInt(j/4);
-	        		l=j%4;
-	        		var item="<div class='grid1_of_4' id='"+result[i].cdid+"'><div class='content_box'><a name="images"><img src='"+result[i].imgurl+"' class='img-responsive'/></a><h4><a name="title">"+result[i].title+"</a></h4><p>by "+result[i].artist+"</p><div class='grid_1 simpleCart_shelfItem'><div class='item_add'><span class='item_price'><h6>ONLY CAD$"+result[i].price+"</h6></span></div><div class='item_add'><span class='item_price'><a id="cart">add to cart</a></span></div></div></div></div>";
-	        		if(h==1){
-	        			$(".subset1").append(item);		
-	        		}else if(h==2){
-	        			$(".subset2").append(item);
-	        		}else if(h==3){
-	        			$(".subset3").append(item);
-	        		}
-	        		
-	        		$("a[name='images']").unbind('click').bind('click',function(){
-	                    var cdid=$(this).parent().parent().attr("id");
-	                    window.location.href="details.html?cdid="+cdid;  
-	            }); 
-	        		$("a[name='title']").unbind('click').bind('click',function(){
-	                    var cdid=$(this).parent().parent().parent().attr("id");
-	                    window.location.href="details.html?cdid="+cdid;  
-	            });
-	        		$("#cart").unbind('click').bind('click',function(){
-	                    var cdid=$(this).parent().parent().parent().parent().parent().parent().attr("id");
-	                    //add item to cookies/session 
-	            });
-	       	 
-	    	},  
-	    	error: function (XMLHttpRequest, textStatus, errorThrown) {
-	        	alert(errorThrown); }  
-		});
+**/
+		//search product by key words
+		$("#search").click(function(){
+	        var content=$("#content").val();
+	        //window.location.href="cdcatalog.html?content="+content"&menu="+menu;
+	        $.post("cdcatalog.html",{"menu": menu,"content": content});
+	});
+		
+		
+		
+		
 	
 });
 
@@ -339,18 +436,18 @@ $(document).ready(function(){
 				</div>
 				<div class="reg"></div>
 				<div class="cart box_1">
-					<a href="checkout.html">
-						<h3> <span class="simpleCart_total">$0.00</span> (<span id="simpleCart_quantity" class="simpleCart_quantity">0</span> items)<img src="images/bag.png" alt=""></h3>
+					<a name="checkout" class="checka">
+						<h3> <span id="simpleCart_total" class="simpleCart_total"></span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span> items)<img src="images/bag.png" alt=""></h3>
 					</a>	
 					<div class="clearfix"> </div>
 				</div>
 				<div class="clearfix"> </div>
 			</div>
 			<div class="search">
-				<form>
-					<input type="text" value="" placeholder="search...">
-					<input type="submit" value="">
-				</form>
+				
+					<input id="content" type="text" value="" placeholder="search...">
+					<input id="search" type="submit" value="">
+				
 			</div>
 			<div class="clearfix"> </div>
 		</div>

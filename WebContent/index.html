@@ -20,11 +20,10 @@
 <!-- ajax+jquery --> 
 <script>
 <!--request-keep seesion and get userinfo-->
-<!--request1-login and store accountinfo in cookies if user choose to-->
-<!--request2-get category and set as menu bar-->
 $(document).ready(function(){ 
-	var address="localhost:8443"; 
-    var request = $.ajax({  
+	var address="localhost:8443";
+	//maintain session
+	var request = $.ajax({  
         url: "https://"+address+"/CSI5380/keepsession.do",  
         type: "POST",  
         async: false,
@@ -40,17 +39,14 @@ $(document).ready(function(){
         error: function (XMLHttpRequest, textStatus, errorThrown) {
         	alert(errorThrown); }  
     });
-    
+ 
     if ($.cookie("rmbUser") == "true") { 
         $("#checkbox").prop("checked", true); 
         $("#email").val($.cookie("username")); 
         $("#password").val($.cookie("password")); 
     } 
-
-
     $("#login").click(function(){ 
-
-
+    	//login
         if ($("#checkbox").prop("checked")) { 
         var username = $("#email").val(); 
         var password = $("#password").val(); 
@@ -61,9 +57,7 @@ $(document).ready(function(){
         $.cookie("rmbUser", "false", { expire: -1 }); 
         $.cookie("username", "", { expires: -1 }); 
         $.cookie("password", "", { expires: -1 }); 
-
         }
-
         var _json = jQuery.param({ "email": $("#email").val(),"password": $("#password").val()});  
         var request1 = $.ajax({  
             url: "https://"+address+"/CSI5380/login.do",  
@@ -83,8 +77,47 @@ $(document).ready(function(){
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(errorThrown); }  
         }); 
+    }); 
+      //create cookie store cart items and show quantity and price of the chosen items
+    	if ($.cookie('cart')!=null){
+    		var cj=$.cookie('cart');
+    		var cjson= jQuery.param({"cjson": cj});
+    		var request3 = $.ajax({
+    	        url: "https://"+address+"/CSI5380/cookies.do",  
+    	        type: "POST",  
+    	        async: false,
+    	        data:cjson,
+    	        dataType: "json",  
+    	        cache: false,  
+    	        success: function (result, textStatus) {
+    	        	$("#simpleCart_total").text("$"+result.totalprice);
+    	        	$("#simpleCart_quantity").text(result.quantity);
+    	        	
+    	        },  
+    	        error: function (XMLHttpRequest, textStatus, errorThrown) {
+    	        	alert(errorThrown); }  
+    	    });
+    		
+    	}else{
+    		$.cookie("cart", "", { expires: 7 });
+    		$("#simpleCart_total").text("$0.0");
+        	$("#simpleCart_quantity").text(0);
+    		
+    	}
+    	//view shopping cart
+    	$("a[name='checkout']").click(function(){
+        	
+    		if($.cookie('cart')!="" && $.cookie('cart')!=null){
+    			window.location.href="checkout.html";
+    		}else{
+    			alert("You Do Not Have Items In Cart Yet!");
+    		}
+            
+    	});
+    	
         
-});
+        
+    //get Category list
     var request2 = $.ajax({  
         url: "https://"+address+"/CSI5380/queryCategory.do",  
         type: "POST",  
@@ -103,24 +136,26 @@ $(document).ready(function(){
           }
           $(".tm").unbind('click').bind('click',function(){
               var menu=$(this).text;
-              window.location.href="cdcatalog.html?menu="+menu;  
+              window.location.href="cdcatalog.html?menu="+menu;
+              //$.post("cdcatalog.html",{"menu": menu});
           });
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
         	alert(errorThrown); }  
           
         }); 
-    
+    //get product list
     $("a[name='takelook']").click(function(){
     	
-    	window.location.href="cdcatalog.html?menu=new arrivals;
-    	
+    	window.location.href="cdcatalog.html?menu=redate";
+    	//$.post("cdcatalog.html",{"menu": redate});
         
 });
+    //get product list
 	$("a[name='bestsellers']").click(function(){
     	
-		window.location.href="cdcatalog.html?menu=best sellers;
-    	
+		window.location.href="cdcatalog.html?menu=popular";
+		//$.post("cdcatalog.html",{"menu": popular});
         
 });
     
@@ -167,7 +202,7 @@ $(document).ready(function(){
 					<!-- loginform defaultly hidden,while click "loginButton",it shows.(menu_jquery.js)-->
 						<div id="loginContainer"><a href="#" id="loginButton"><span>Login</span></a>
 						    <div id="loginBox">                
-						        <form id="loginForm">
+						        <div id="loginForm">
 						                <fieldset id="body">
 						                	<fieldset>
 						                        <label for="email">Email Address</label>
@@ -183,25 +218,23 @@ $(document).ready(function(){
 						                    <input type="submit" id="login" value="Sign in"><label><a href="register.html">Register</a></label></span>
 						            	</fieldset>
 						            <span><a href="#">Forgot your password?</a></span>
-								</form>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="reg"></div>
 				<div class="cart box_1">
-					<a href="checkout.html">
-						<h3> <span class="simpleCart_total">$0.00</span> (<span id="simpleCart_quantity" class="simpleCart_quantity">0</span> items)<img src="images/bag.png" alt=""></h3>
+					<a name="checkout" class="checka">
+						<h3> <span id="simpleCart_total" class="simpleCart_total"></span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span> items)<img src="images/bag.png" alt=""></h3>
 					</a>	
 					<div class="clearfix"> </div>
 				</div>
 				<div class="clearfix"> </div>
 			</div>
 			<div class="search">
-				<form>
-					<input type="text" value="" placeholder="search...">
-					<input type="submit" value="">
-				</form>
+					<input id="content" type="text" value="" placeholder="search...">
+					<input type="submit" value="" id="search">
 			</div>
 			<div class="clearfix"> </div>
 		</div>

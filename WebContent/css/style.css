@@ -97,6 +97,7 @@ body a{
 .check{
 	padding:5em 0;
 }
+
 .cart-item-info h3{
 	font-size:1em;
 	font-weight:600;
@@ -133,7 +134,8 @@ body a{
 	font-weight:400;
 } 
 
-.close1,.close2{
+/**.close1,.close2{**/
+.close,.close1,.close2{
   background: url('../images/close_1.png') no-repeat 0px 0px;
   cursor: pointer;
   width: 28px;
@@ -438,6 +440,9 @@ select.item_Size {
   padding: 10px 20px;
   font-size: 0.85em;
   border: none;
+}
+.checka:hover{
+	cursor:pointer;
 }
 /********** Login *************/
 #loginContainer {
@@ -3576,7 +3581,8 @@ a.order {
 .delivery {
   margin-top: 1em;
 }
-.close1, .close2 {
+/**.close1, .close2 {**/
+.close,.close1,.close2{
   top: 31px;
 }
 .delivery p {

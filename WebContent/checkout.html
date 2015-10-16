@@ -4,17 +4,101 @@
 <title>Online CD Store</title>
 <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
 <!-- jQuery (necessary JavaScript plugins) -->
-<script type='text/javascript' src="js/jquery-1.11.1.min.js"></script>
+<script type='text/javascript' src="js/jquery-2.1.3.js"></script>
+<script type='text/javascript' src="js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
 <!-- Custom Theme files -->
 <link href="css/style.css" rel='stylesheet' type='text/css' />
 <!-- Custom Theme files -->
 <!--//theme-style-->
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Playfair+Display:400,700,900' rel='stylesheet' type='text/css'>
 <!-- start menu -->
 <link href="css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
 <script src="js/menu_jquery.js"></script>
+<!-- ajax+jquery --> 
+<script>
+$(document).ready(function(){ 
+	var address="localhost:8443";
+	//matain session
+	var request = $.ajax({  
+        url: "https://"+address+"/CSI5380/keepsession.do",  
+        type: "POST",  
+        async: false,
+        dataType: "json",  
+        cache: false,  
+        success: function (result, textStatus) {
+        	while(result!=null){
+        	$(".login").remove();
+        	var accountinfo="<div class='accountinfo'><span>Welcome back,<a class='fisrtname'>"+result.customer.fname+"</a></span></div>";
+        	$(".log").append(accountinfo);
+        	}
+        },  
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+        	alert(errorThrown); }  
+    });
+	
+	
+	if ($.cookie('cart')!=null){
+		var cj=$.cookie('cart');
+		var cjson= jQuery.param({"cjson": cj});
+		//show cart items quantitu and total price
+		var request3 = $.ajax({
+	        url: "https://"+address+"/CSI5380/cookies.do",  
+	        type: "POST",  
+	        async: false,
+	        data:cjson,
+	        dataType: "json",  
+	        cache: false,  
+	        success: function (result, textStatus) {
+	        	$("#simpleCart_total").text("$"+result.totalprice);
+	        	$("#simpleCart_quantity").text(result.quantity);
+	        	
+	        },  
+	        error: function (XMLHttpRequest, textStatus, errorThrown) {
+	        	alert(errorThrown); }  
+	    });
+		//show the itemList
+		itemList=eval(cj);
+		for(i=0;i<=itemList.length;i++){
+			var item="<div class='cart-header'><div id='"+itemList[i].cdid+"' class='close'> </div><div class='cart-sec simpleCart_shelfItem'><div class='cart-item cyc'><img src='"+itemList[i].imgurl+"' class='img-responsive'/></div><div class='cart-item-info'><h3><a>"+itemList[i].title+"</a><span>by "+itemList[i].artist+"</span></h3><h3>Price: CAD$ "+itemList[i].price+"</h3><ul class='qty'><li><p>Qty : </p><input class='quantityinput' type='text' placeholder='1' value='"+itemList[i].quantity+"'/></li></ul><div class='delivery'><span>Delivered in 2-3 bussiness days</span><div class='clearfix'></div></div></div><div class='clearfix'></div></div></div>";
+			$(".col-md-13 cart-items").append(item);	
+		}
+		//delete removed items in cookies
+		$('.close').bind('click',function(){
+			$(this).parent().fadeOut('slow', function(c){
+				$(this).parent().remove();
+				var cdid=$(this).attr("id");
+				$.post("https://"+address+"/CSI5380/deleteCartItems.do",{"cdid": cdid});
+			});
+			});
+		//modify items quantity in cookies
+		$(".quantityinput").keyup(function(){
+			$.post("https://"+address+"/CSI5380/changeCartItems.do",{"cdid": cdid,"quantity":quantity});
+			});
+		
+	}else{
+		$.cookie("cart", "", { expires: 7 });
+		$("#simpleCart_total").text("$0.0");
+    	$("#simpleCart_quantity").text(0);
+		
+	}
+	//view shopping cart
+	$("a[name='checkout']").click(function(){
+    	
+		if($.cookie('cart')!="" && $.cookie('cart')!=null){
+			window.location.href="checkout.html";
+		}else{
+			alert("You Do Not Have Items In Cart Yet!");
+		}
+        
+	});
+	
+   
+	
+	
+	
+});	
+</script>
 </head>
 <body>
 <!-- header_top -->
@@ -77,8 +161,8 @@
 				</div>
 				<div class="reg"></div>
 				<div class="cart box_1">
-					<a href="checkout.html">
-						<h3> <span class="simpleCart_total">$0.00</span> (<span id="simpleCart_quantity" class="simpleCart_quantity">0</span> items)<img src="images/bag.png" alt=""></h3>
+					<a name="checkout" class="checka">
+						<h3> <span id="simpleCart_total" class="simpleCart_total"></span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span> items)<img src="images/bag.png" alt=""></h3>
 					</a>	
 					<div class="clearfix"> </div>
 				</div>
@@ -111,6 +195,7 @@
 </div>
 </div>
 <div class="container">
+<div class="check">
 	<div class="col-md-3 cart-total">
 			 <a class="continue" href="index.html">Continue to basket</a>
 			 <div class="shipping-details">
@@ -211,6 +296,7 @@
 		 
 		
 			<div class="clearfix"> </div>
+		</div>	
 	 </div>
 	 </div>
 <div class="foot-top">

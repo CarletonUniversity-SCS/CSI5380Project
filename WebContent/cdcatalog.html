@@ -30,7 +30,7 @@ $(document).ready(function(){
 	var _json3 = jQuery.param({ "menu": menu,"content":content,"key":"discount"});
 	var _json4 = jQuery.param({ "menu": menu,"content":content,"key":"price"});
 	//maintain session
-	var request3 = $.ajax({  
+	var request = $.ajax({  
         url: "https://"+address+"/CSI5380/keepsession.do",  
         type: "POST",  
         async: false,
@@ -39,8 +39,9 @@ $(document).ready(function(){
         success: function (result, textStatus) {
         	while(result!=null){
         	$(".login").remove();
-        	var accountinfo="<div class='accountinfo'><span>Welcome back,<a class='fisrtname'>"+result.customer.fname+"</a></span></div>";
+        	var accountinfo="<div class='accountinfo'><span>Welcome back, <a class='fisrtname' style='text-transform: capitalize'>"+result.account.fname+" !</a></span></div>";
         	$(".log").append(accountinfo);
+        	break;
         	}
         },  
         error: function (XMLHttpRequest, textStatus, errorThrown) {

@@ -43,7 +43,7 @@ public class LoginController extends HttpServlet{
 		}else{
 		result.put("code", "success");
 		result_str = JSON.toJSONString(result);
-		session.setAttribute("Account", email);
+		session.setAttribute("account", email);
 		out.print(result_str);
 		}
 	}

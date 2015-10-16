@@ -625,7 +625,8 @@ input:focus {
 }
 .log {
   float: left;
-  width: 19%;
+  /**width: 19%;**/
+  width: 40%;
 }
 .reg {
   float: left;
@@ -1339,31 +1340,31 @@ ul.grid_2 li {
 	background:	#40E0D0;
 }
 .w_nav2 li a.color3{
-	background:	#B03060;
-}
-.w_nav2 li a.color4{
 	background:	#000080;
 }
-.w_nav2 li a.color5{
+.w_nav2 li a.color4{
 	background:	#E60D41;
 }
+.w_nav2 li a.color5{
+	background:	#C0C0C0;
+}
 .w_nav2 li a.color6{
-	background:	#45BF55;
-}
-.w_nav2 li a.color7{
-	background:	#FF7F00;
-}
-.w_nav2 li a.color8{
 	background:	#8B4513;
 }
-.w_nav2 li a.color9{
+.w_nav2 li a.color7{
 	background:	#FFD700;
+}
+.w_nav2 li a.color8{
+	background:	#B03060;
+}
+.w_nav2 li a.color9{
+	background:	#FF7F00;
 }
 .w_nav2 li a.color10{
 	background:	#9FA8AB;
 }
 .w_nav2 li a.color11{
-	background:	#C0C0C0;
+	background:	#45BF55;
 }
 .w_nav2 li a.color12{
 	background:	#0AA5E2;

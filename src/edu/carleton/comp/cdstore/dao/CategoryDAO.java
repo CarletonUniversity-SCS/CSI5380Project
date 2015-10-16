@@ -27,7 +27,7 @@ public class CategoryDAO extends DAO{
 		Category category=null;
 		try{
 			if(rs.next()){
-				category=new Category(rs.getInt(1),rs.getString(1));
+				category=new Category(rs.getInt(1),rs.getString(2));
 			}
 		}catch(SQLException e){
 			e.printStackTrace();

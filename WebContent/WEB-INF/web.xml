@@ -30,16 +30,22 @@
   <servlet-mapping>
     <servlet-name>CookieServlet</servlet-name>
     <url-pattern>/cookies.do</url-pattern>
-  </servlet-mapping>
-  
-    
-    <servlet>
+  </servlet-mapping>    
+  <servlet>
     <servlet-name>MaintainSession</servlet-name>
     <servlet-class>edu.carleton.comp.cdstore.sessionmanager.MaintainSession</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>MaintainSession</servlet-name>
     <url-pattern>/keepsession.do</url-pattern>
+  </servlet-mapping>
+   <servlet>
+    <servlet-name>GetProductListServlet</servlet-name>
+    <servlet-class>edu.carleton.comp.cdstore.controllers.GetProductListController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetProductListServlet</servlet-name>
+    <url-pattern>/queryCategory.do</url-pattern>
   </servlet-mapping>
    <error-page>
         <error-code>404</error-code>

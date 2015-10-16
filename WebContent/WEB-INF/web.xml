@@ -31,10 +31,7 @@
     <servlet-name>CookieServlet</servlet-name>
     <url-pattern>/cookies.do</url-pattern>
   </servlet-mapping>
-   <error-page>
-        <error-code>404</error-code>
-        <location>/404.html</location>
-    </error-page>
+  
     
     <servlet>
     <servlet-name>MaintainSession</servlet-name>
@@ -44,5 +41,8 @@
     <servlet-name>MaintainSession</servlet-name>
     <url-pattern>/keepsession.do</url-pattern>
   </servlet-mapping>
-  
+   <error-page>
+        <error-code>404</error-code>
+        <location>/404.html</location>
+    </error-page>
 </web-app>

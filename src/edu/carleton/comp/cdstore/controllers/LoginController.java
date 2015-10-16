@@ -25,7 +25,6 @@ public class LoginController extends HttpServlet{
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		HttpSession session=req.getSession();
-		session.setMaxInactiveInterval(7200);	
 		PrintWriter out = resp.getWriter();		
 		String email=req.getParameter("email");
 		String password=req.getParameter("password");
@@ -44,6 +43,7 @@ public class LoginController extends HttpServlet{
 		}else{
 		result.put("code", "success");
 		result_str = JSON.toJSONString(result);
+		session.setAttribute("Account", email);
 		out.print(result_str);
 		}
 	}

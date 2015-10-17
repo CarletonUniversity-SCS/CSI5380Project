@@ -23,6 +23,7 @@ $(document).ready(function(){
 	var menu=UrlParm.parm("menu");
 	var content=UrlParm.parm("content");
 	var key=UrlParm.parm("key");
+	var mtitle=UrlParm.parm("title");
 	//take diffrent variables into the same function and get personality result
 	var _json = jQuery.param({ "menu": menu,"content":content,"key":key});
 	var _json1 = jQuery.param({ "menu": menu,"content":content,"key":"popular"});
@@ -86,7 +87,7 @@ $(document).ready(function(){
         
 	});
 	
-	 //get Category list
+	//get Category list
     var request2 = $.ajax({  
         url: "https://"+address+"/CSI5380/queryCategory.do",  
         type: "POST",  
@@ -104,8 +105,15 @@ $(document).ready(function(){
            $('.megamenu').append(category);
           }
           $(".tm").unbind('click').bind('click',function(){
-              var menu=$(this).text;
-              window.location.href="cdcatalog.html?menu="+menu;
+              var menu=$(this).text();
+              if(menu=="new arrivals"){
+            	  window.location.href="cdcatalog.html?content=&key=redate&menu=&title=new arrivals";
+              }else if(menu=="Home"){
+            	  window.location.href="index.html";
+              }else{
+            	  window.location.href="cdcatalog.html?content=&key=&menu="+menu;
+              }
+             
               //$.post("cdcatalog.html",{"menu": menu});
           });
         },
@@ -124,17 +132,29 @@ $(document).ready(function(){
     	success: function (result, textStatus) {
         	result=eval(result.cdList);
         	$(".subset1").children().remove();
-        	for(i=0;i<=cdList.length;i++){
+        	for(i=0;i<=result.length;i++){
         		j=i+1;
-        		h=parseInt(j/4);
+        		h=Math.floor(i/4)
         		l=j%4;
         		var item="<div class='grid1_of_4' id='"+result[i].cdid+"'><div class='content_box'><a name='images'><img src='"+result[i].imgurl+"' class='img-responsive'/></a><h4><a name='title'>"+result[i].title+"</a></h4><p>by "+result[i].artist+"</p><div class='grid_1 simpleCart_shelfItem'><div class='item_add'><span class='item_price'><h6>ONLY CAD$"+result[i].price+"</h6></span></div><div class='item_add'><span class='item_price'><a id='cart'>add to cart</a></span></div></div></div></div>";
         		if(h==0){
-        			$(".subset1").append(item);		
+        			if(l==0){
+        				$(".subset1").append(item+"<div class='clearfix'> </div>");	
+        			}else{
+        				$(".subset1").append(item);		
+        			}
         		}else if(h==1){
-        			$(".subset2").append(item);
+        			if(l==0){
+        				$(".subset2").append(item+"<div class='clearfix'> </div>");	
+        			}else{
+        				$(".subset2").append(item);		
+        			}
         		}else if(h==2){
-        			$(".subset3").append(item);
+        			if(l==0){
+        				$(".subset3").append(item+"<div class='clearfix'> </div>");	
+        			}else{
+        				$(".subset3").append(item);		
+        			}
         		}
         		
         		$("a[name='images']").unbind('click').bind('click',function(){
@@ -153,8 +173,11 @@ $(document).ready(function(){
                     var aj=$.cookie('cart');
                     $.post("https://"+address+"/CSI5380/addtocart.do",{"cdid": cdid,"quantity":1,"aj":aj});
             });
-        		$('#menutitle').text(menu+" - "+cdList.length+"items");	
-        		
+        		if(mtitle!=null){
+        		$('#menutitle').text(mtitle+" - "+result.length+" items");	
+        		}else{
+        			$('#menutitle').text(menu+" - "+result.length+" items");	
+        		}
         	}
        	 
     	}, 
@@ -448,18 +471,6 @@ $(document).ready(function(){
 	</div>
 		<!-- start header menu -->
 	<ul class="megamenu skyblue">
-	<!--  
-		<li class="active grid"><a class="color1" href="index.html">Home</a></li>
-		<li class="grid"><a class="color2" href="#cdcatalog.html">new arrivals</a></li>
-		<li class="grid"><a class="color4" href="cdcatalog.html">Pop</a></li>				
-		<li class="grid"><a class="color5" href="cdcatalog.html">Jazz</a></li>
-		<li class="grid"><a class="color11" href="cdcatalog.html">Country</a></li>
-		<li class="grid"><a class="color8" href="cdcatalog.html">Blues</a></li>
-		<li class="grid"><a class="color9" href="cdcatalog.html">Hip-hop</a></li>
-		<li class="grid"><a class="color3" href="cdcatalog.html">Rock</a></li>
-		<li class="grid"><a class="color7" href="cdcatalog.html">Dance</a></li>
-		<li class="grid"><a class="color10" href="cdcatalog.html">R&B</a></li>
-	-->
 	</ul> 
 </div>
 </div>
@@ -470,7 +481,7 @@ $(document).ready(function(){
 	<!-- start content -->
 	<div class="col-md-9 cd_content">
 		<div class="cd">
-			<a href="#"><h4 id="menutitle">New Arrivals - <span>25 itemms</span> </h4></a>
+			<a><h4 id="menutitle" style="text-transform: capitalize;"><span></span> </h4></a>
 			<ul class="w_nav">
 						<li>Sort : </li>
 		     			<li><a name="popular" class="active">popular</a></li> |
@@ -483,172 +494,14 @@ $(document).ready(function(){
 		</div>
 		<!-- grids_of_4 -->
 		<div class="grids_of_4 subset1">
-		  <div class="grid1_of_4">
-				<div class="content_box"><a href="details.html">
-			   	   	 <img src="images/1.png" class="img-responsive" alt=""/>
-				   	  </a>
-				    <h4><a href="details.html">Revival</a></h4>
-				     <p>by Selena Gomez</p>
-					 <div class="grid_1 simpleCart_shelfItem">
-				    
-					 <div class="item_add"><span class="item_price"><h6>ONLY CAD$49.00</h6></span></div>
-					<div class="item_add"><span class="item_price"><a href="#">add to cart</a></span></div>
-					 </div>
-			   	</div>
-			</div>
-			<div class="grid1_of_4">
-				<div class="content_box"><a href="details.html">
-			   	   	 <img src="images/c2.jpg" class="img-responsive" alt=""/>
-				   	  </a>
-				    <h4><a href="details.html">Hands Of Love</a></h4>
-				     <p>by Miley Cyrus</p>
-					 <div class="grid_1 simpleCart_shelfItem">
-				    
-					 <div class="item_add"><span class="item_price"><h6>ONLY CAD$46.00</h6></span></div>
-					<div class="item_add"><span class="item_price"><a href="#">add to cart</a></span></div>
-					 </div>
-			   	</div>
-			</div>
-			<div class="grid1_of_4">
-				<div class="content_box"><a href="details.html">
-			   	   	 <img src="images/c3.jpg" class="img-responsive" alt=""/>
-				   	  </a>
-				    <h4><a href="details.html">Storyteller</a></h4>
-				     <p>by Carrier Underwood</p>
-					 <div class="grid_1 simpleCart_shelfItem">
-				    
-					 <div class="item_add"><span class="item_price"><h6>ONLY CAD$58.00</h6></span></div>
-					<div class="item_add"><span class="item_price"><a href="#">add to cart</a></span></div>
-					 </div>
-			   	</div>
-			</div>
-			<div class="grid1_of_4">
-				<div class="content_box"><a href="details.html">
-			   	   	 <img src="images/c4.jpg" class="img-responsive" alt=""/>
-				   	  </a>
-				    <h4><a href="details.html">Music To Watch Boys To</a></h4>
-				     <p>by Lana Del Rey</p>
-					 <div class="grid_1 simpleCart_shelfItem">
-				    
-					 <div class="item_add"><span class="item_price"><h6>ONLY CAD$32.00</h6></span></div>
-					<div class="item_add"><span class="item_price"><a href="#">add to cart</a></span></div>
-					 </div>
-			   	</div>
-			</div>
-			<div class="clearfix"></div>
 		</div>
 		
-		
+		 
 		<div class="grids_of_4 subset2">
-		 <div class="grid1_of_4">
-				<div class="content_box"><a href="details.html">
-			   	   	 <img src="images/c5.jpg" class="img-responsive" alt=""/>
-				   	  </a>
-				    <h4><a href="details.html">The Hills</a></h4>
-				     <p>by The Weekends</p>
-					 <div class="grid_1 simpleCart_shelfItem">
-				    
-					 <div class="item_add"><span class="item_price"><h6>ONLY $109.00</h6></span></div>
-					<div class="item_add"><span class="item_price"><a href="#">add to cart</a></span></div>
-					 </div>
-			   	</div>
-			</div>
-			<div class="grid1_of_4">
-				<div class="content_box"><a href="details.html">
-			   	   	 <img src="images/2-.jpg" class="img-responsive" alt=""/>
-				   	  </a>
-				    <h4><a href="details.html">1989</a></h4>
-				     <p>by Taylor Swift</p>
-					 <div class="grid_1 simpleCart_shelfItem">
-				    
-					 <div class="item_add"><span class="item_price"><h6>ONLY CAD$45.00</h6></span></div>
-					<div class="item_add"><span class="item_price"><a href="#">add to cart</a></span></div>
-					 </div>
-			   	</div>
-			</div>
-			<div class="grid1_of_4">
-				<div class="content_box"><a href="details.html">
-			   	   	 <img src="images/c6.jpg" class="img-responsive" alt=""/>
-				   	  </a>
-				    <h4><a href="details.html">What Do You Mean?</a></h4>
-				     <p>by Justin Bibber</p>
-					 <div class="grid_1 simpleCart_shelfItem">
-				    
-					 <div class="item_add"><span class="item_price"><h6>ONLY CAD$48.00</h6></span></div>
-					<div class="item_add"><span class="item_price"><a href="#">add to cart</a></span></div>
-					 </div>
-			   	</div>
-			</div>
-			<div class="grid1_of_4">
-				<div class="content_box"><a href="details.html">
-			   	   	 <img src="images/c8.jpg" class="img-responsive" alt=""/>
-				   	  </a>
-				    <h4><a href="details.html">Hotline Biling</a></h4>
-				     <p>by Dreke</p>
-					 <div class="grid_1 simpleCart_shelfItem">
-				    
-					 <div class="item_add"><span class="item_price"><h6>ONLY CAD$34.00</h6></span></div>
-					<div class="item_add"><span class="item_price"><a href="#">add to cart</a></span></div>
-					 </div>
-			   	</div>
-			</div>
-			<div class="clearfix"></div>
 		</div>
+		 
 		
 		<div class="grids_of_4 subset3">
-		  <div class="grid1_of_4">
-				<div class="content_box"><a href="details.html">
-			   	   	 <img src="images/c9.png" class="img-responsive" alt=""/>
-				   	  </a>
-				    <h4><a href="details.html">Photograph</a></h4>
-				     <p>by Ed Sheeran</p>
-					 <div class="grid_1 simpleCart_shelfItem">
-				    
-					 <div class="item_add"><span class="item_price"><h6>ONLY CAD$40.00</h6></span></div>
-					<div class="item_add"><span class="item_price"><a href="#">add to cart</a></span></div>
-					 </div>
-			   	</div>
-			</div>
-			<div class="grid1_of_4">
-				<div class="content_box"><a href="details.html">
-			   	   	 <img src="images/c10.jpg" class="img-responsive" alt=""/>
-				   	  </a>
-				    <h4><a href="details.html">Downtown</a></h4>
-				     <p>by Macklemore & Ryan Lewis</p>
-					 <div class="grid_1 simpleCart_shelfItem">
-				    
-					 <div class="item_add"><span class="item_price"><h6>ONLY CAD$55.00</h6></span></div>
-					<div class="item_add"><span class="item_price"><a href="#">add to cart</a></span></div>
-					 </div>
-			   	</div>
-			</div>
-			<div class="grid1_of_4">
-				<div class="content_box"><a href="details.html">
-			   	   	 <img src="images/c11.jpg" class="img-responsive" alt=""/>
-				   	  </a>
-				    <h4><a href="details.html">Cool For The Summer</a></h4>
-				     <p>by Demi Lovato</p>
-					 <div class="grid_1 simpleCart_shelfItem">
-				    
-					 <div class="item_add"><span class="item_price"><h6>ONLY CAD$40.00</h6></span></div>
-					<div class="item_add"><span class="item_price"><a href="#">add to cart</a></span></div>
-					 </div>
-			   	</div>
-			</div>
-			<div class="grid1_of_4">
-				<div class="content_box"><a href="details.html">
-			   	   	 <img src="images/c12.jpg" class="img-responsive" alt=""/>
-				   	  </a>
-				    <h4><a href="details.html">Drag Me Down</a></h4>
-				     <p>by One Direction</p>
-					 <div class="grid_1 simpleCart_shelfItem">
-				    
-					 <div class="item_add"><span class="item_price"><h6>ONLY CAD$45.00</h6></span></div>
-					<div class="item_add"><span class="item_price"><a href="#">add to cart</a></span></div>
-					 </div>
-			   	</div>
-			</div>
-			<div class="clearfix"></div>
 		</div>
 		<!-- end grids_of_4 -->
 		

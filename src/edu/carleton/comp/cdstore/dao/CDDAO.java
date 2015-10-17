@@ -20,6 +20,63 @@ public class CDDAO extends DAO{
 		String sql=this.sqlcode.getProperty("CD.findall");
 		return super.processResultSet(this.dao.executeLookup(sql, "CD.findall"));
 	}
+	public List<Object> findbymenu(String menu){
+		String sql=this.sqlcode.getProperty("CD.querybymenu");
+		String sqlstring=MessageFormat.format(sql, new Object[]{menu});
+		return super.processResultSet(this.dao.executeLookup(sqlstring, "CD.querybymenu"));
+	}
+	public List<Object> findorderall(String key){
+		String sql;
+		String sqlstring;
+		ResultSet condition = null;
+		String keys;
+		if(key.equals("redate")){
+			keys="date";
+			sql=this.sqlcode.getProperty("CD.findorderall");
+			sqlstring=MessageFormat.format(sql, new Object[]{keys});
+			condition=this.dao.executeLookup(sqlstring, "CD.findorderall");
+		}else if(key.equals("price")){
+			keys="price";
+			sql=this.sqlcode.getProperty("CD.findorderall");
+			sqlstring=MessageFormat.format(sql, new Object[]{keys});
+			condition=this.dao.executeLookup(sqlstring, "CD.findorderall");
+		}else if(key.equals("popular")){
+			sql=this.sqlcode.getProperty("CD.findorderallp");
+			condition=this.dao.executeLookup(sql, "CD.findorderallp");
+		}else if(key.equals("discount")){
+			sql=this.sqlcode.getProperty("CD.findorderalld");
+			condition=this.dao.executeLookup(sql, "CD.findorderalld");
+		}
+		return super.processResultSet(condition);
+	}
+	
+		
+	public List<Object> findorderbymenu(String menu,String key){
+		String sql;
+		String sqlstring;
+		ResultSet condition = null;
+		if(key.equals("popular")){
+			sql=this.sqlcode.getProperty("CD.queryorderbysales");
+			sqlstring=MessageFormat.format(sql, new Object[]{menu});
+			condition=this.dao.executeLookup(sqlstring, "CD.queryorderbysales");
+		}else if(key.equals("redate")){
+			sql=this.sqlcode.getProperty("CD.queryorderbydate");
+			sqlstring=MessageFormat.format(sql, new Object[]{menu});
+			condition=this.dao.executeLookup(sqlstring, "CD.queryorderbydate");
+		}else if(key.equals("discount")){
+			sql=this.sqlcode.getProperty("CD.queryorderbdiscount");
+			sqlstring=MessageFormat.format(sql, new Object[]{menu});
+			condition=this.dao.executeLookup(sqlstring, "CD.queryorderbdiscount");
+		}else if(key.equals("price")){
+			sql=this.sqlcode.getProperty("CD.queryorderbyprice");
+			sqlstring=MessageFormat.format(sql, new Object[]{menu});
+			condition=this.dao.executeLookup(sqlstring, "CD.queryorderbyprice");
+		}
+		
+		return super.processResultSet(condition);
+		
+	}
+
 	@Override
 	protected Object getDataObject(ResultSet rs, boolean close) {
 		CD cd=null;
@@ -41,20 +98,46 @@ public class CDDAO extends DAO{
 
 	@Override
 	public Object findByPrimaryKey(int cdid) {
-		String sql=this.sqlcode.getProperty("cd.searchbyid");
+		String sql=this.sqlcode.getProperty("CD.searchbyid");
 		String sqlstring=MessageFormat.format(sql, new Object[]{cdid});
-		return getDataObject(this.dao.executeLookup(sqlstring,"cd.searchbyid"),true);
+		return getDataObject(this.dao.executeLookup(sqlstring,"CD.searchbyid"),true);
 	}
 
-	public Object defaultsearch(String input) {
-		String sql=this.sqlcode.getProperty("cd.defaultsearch");
+	public List<Object> defaultsearch(String input) {
+		String sql=this.sqlcode.getProperty("CD.defaultsearch");
 		String sqlstring=MessageFormat.format(sql, new Object[]{input});
-		return getDataObject(this.dao.executeLookup(sqlstring,"cd.defaultsearch"),true);
+		return super.processResultSet(this.dao.executeLookup(sqlstring, "CD.defaultsearch"));
 	}
-	public Object advancesearch(String input, int cateid) {
-		String sql=this.sqlcode.getProperty("cd.advancesearch");
-		String sqlstring=MessageFormat.format(sql, new Object[]{input,cateid});
-		return getDataObject(this.dao.executeLookup(sqlstring,"cd.advancesearch"),true);
+	public List<Object> advancesearch(String input, String catename) {
+		String sql=this.sqlcode.getProperty("CD.advancesearch");
+		String sqlstring=MessageFormat.format(sql, new Object[]{input,catename});
+		return super.processResultSet(this.dao.executeLookup(sqlstring, "CD.advancesearch"));
+	}
+	public List<Object> advancesearch(String input, String catename,String key) {
+		String sql;
+		String sqlstring;
+		ResultSet condition = null;
+		String keys;
+		if(key.equals("redate")){
+			keys="date";
+			sql=this.sqlcode.getProperty("CD.ordersearch");
+			sqlstring=MessageFormat.format(sql, new Object[]{input,catename,keys});
+			condition=this.dao.executeLookup(sqlstring, "CD.ordersearch");
+		}else if(key.equals("price")){
+			keys="price";
+			sql=this.sqlcode.getProperty("CD.ordersearch");
+			sqlstring=MessageFormat.format(sql, new Object[]{input,catename,keys});
+			condition=this.dao.executeLookup(sqlstring, "CD.ordersearch");
+		}else if(key.equals("popular")){
+			sql=this.sqlcode.getProperty("CD.ordersearchp");
+			sqlstring=MessageFormat.format(sql, new Object[]{input,catename});
+			condition=this.dao.executeLookup(sqlstring, "CD.ordersearchp");
+		}else if(key.equals("discount")){
+			sql=this.sqlcode.getProperty("CD.ordersearchd");
+			sqlstring=MessageFormat.format(sql, new Object[]{input,catename});
+			condition=this.dao.executeLookup(sqlstring, "CD.ordersearchd");
+		}
+		return super.processResultSet(condition);
 	}
 	
 	

@@ -27,6 +27,7 @@ public class GetCategoryListController extends HttpServlet  {
 		
 		CategoryDAO dao=new CategoryDAO();
 		List<Object> c=dao.findall();
+		dao.destory();
 		result.put("categoryList", c);
 		String result_str = JSON.toJSONString(result);
 		out.print(result_str);

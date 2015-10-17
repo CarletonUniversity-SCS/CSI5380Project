@@ -41,11 +41,19 @@
   </servlet-mapping>
    <servlet>
     <servlet-name>GetCategoryListServlet</servlet-name>
-    <servlet-class>edu.carleton.comp.cdstore.controllers.GetCategoryController</servlet-class>
+    <servlet-class>edu.carleton.comp.cdstore.controllers.GetCategoryListController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>GetCategoryListServlet</servlet-name>
     <url-pattern>/queryCategory.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>GetProductListServlet</servlet-name>
+    <servlet-class>edu.carleton.comp.cdstore.controllers.GetProductListController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetProductListServlet</servlet-name>
+    <url-pattern>/getProductlist.do</url-pattern>
   </servlet-mapping>
    <error-page>
         <error-code>404</error-code>

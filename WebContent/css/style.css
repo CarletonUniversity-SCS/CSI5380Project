@@ -842,6 +842,7 @@ ul.icon1 {
 }
 ul.megamenu.skyblue {
   background: #f5f5f5;
+  cursor: pointer;
 }
 .rgt-bottom {
   margin-bottom: 1em;

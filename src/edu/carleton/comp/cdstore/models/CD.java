@@ -28,6 +28,21 @@ public class CD {
 		this.imgurl = imgurl;
 		this.cateid = cateid;
 	}
+	
+	public CD(String title, String artist, Date date, String intro, float price, int stock, String imgurl,
+			int cateid) {
+		
+		this.title = title;
+		this.artist = artist;
+		this.date = date;
+		this.intro = intro;
+		this.price = price;
+		this.stock = stock;
+		this.imgurl = imgurl;
+		this.cateid = cateid;
+	}
+	
+	
 	public final int getCdid() {
 		return cdid;
 	}

@@ -16,7 +16,7 @@ public class ConfigProperties {
 		System.out.println("Sql dir:"+this.SQL_DIR);
 		//init();
 	}
-	
+	/*getting a property file reader instance */
 	public static synchronized ConfigProperties getInstance() {
 		String loc=ConfigProperties.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 		// TODO Auto-generated method stub
@@ -30,6 +30,7 @@ public class ConfigProperties {
 		}
 		return instance;
 	}
+	/*method for retrieving a property by name*/
 	public String getProperty(String property){
 	String pValue=null;
 	Properties p=new Properties();
@@ -53,7 +54,7 @@ public class ConfigProperties {
 			e.printStackTrace();
 		}
 	}*/
-	
+	/*destory the reader instance*/
 	public void destory(){
 		instance=null;
 	}

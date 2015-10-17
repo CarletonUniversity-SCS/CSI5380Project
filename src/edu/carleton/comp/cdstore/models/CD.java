@@ -1,21 +1,21 @@
 package edu.carleton.comp.cdstore.models;
 
-import java.sql.Date;
-
 public class CD {
 	int cdid;
 	String title;
 	String artist;
-	Date date;
+	String date;
 	String intro;
 	float price;
 	int stock;
 	String imgurl;
 	int cateid;
+	String catename;
 	
 	
-	
-	public CD(int cdid, String title, String artist, Date date, String intro, float price, int stock, String imgurl,
+
+
+	public CD(int cdid, String title, String artist, String date, String intro, float price, int stock, String imgurl,
 			int cateid) {
 		
 		this.cdid = cdid;
@@ -29,7 +29,7 @@ public class CD {
 		this.cateid = cateid;
 	}
 	
-	public CD(String title, String artist, Date date, String intro, float price, int stock, String imgurl,
+	public CD(String title, String artist, String date, String intro, float price, int stock, String imgurl,
 			int cateid) {
 		
 		this.title = title;
@@ -42,6 +42,16 @@ public class CD {
 		this.cateid = cateid;
 	}
 	
+	public CD(String title, String artist, String date, String intro, float price, int stock, String imgurl, String catename){
+		this.title = title;
+		this.artist = artist;
+		this.date = date;
+		this.intro = intro;
+		this.price = price;
+		this.stock = stock;
+		this.imgurl = imgurl;
+		this.catename= catename;
+	}
 	
 	public final int getCdid() {
 		return cdid;
@@ -61,10 +71,10 @@ public class CD {
 	public final void setArtist(String artist) {
 		this.artist = artist;
 	}
-	public final Date getDate() {
+	public final String getDate() {
 		return date;
 	}
-	public final void setDate(Date date) {
+	public final void setDate(String date) {
 		this.date = date;
 	}
 	public final String getIntro() {
@@ -98,5 +108,11 @@ public class CD {
 		this.cateid = cateid;
 	}
 	
-	
+	public final String getCatename() {
+		return catename;
+	}
+
+	public final void setCatename(String catename) {
+		this.catename = catename;
+	}
 }

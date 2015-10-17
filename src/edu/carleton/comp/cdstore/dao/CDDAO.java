@@ -3,6 +3,8 @@ package edu.carleton.comp.cdstore.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import edu.carleton.comp.cdstore.models.CD;
@@ -82,7 +84,10 @@ public class CDDAO extends DAO{
 		CD cd=null;
 		try{
 			if(rs.next()){
-				cd=new CD(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getDate(4),rs.getString(5),rs.getFloat(6),rs.getInt(7),rs.getString(8),rs.getInt(9));
+			
+				SimpleDateFormat format=new SimpleDateFormat("YYYY-MM-DD");
+				String date=format.format(rs.getDate(4));
+				cd=new CD(rs.getInt(1),rs.getString(2),rs.getString(3),date,rs.getString(5),rs.getFloat(6),rs.getInt(7),rs.getString(8),rs.getInt(9));
 			}
 		}catch(SQLException e){
 				e.printStackTrace();

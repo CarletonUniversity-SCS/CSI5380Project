@@ -68,7 +68,7 @@ public final class ConnectionPool {
 	}
 	
 	public void finalize()throws Throwable{}
-	/*backup getting connection method*/
+	/*default getting connection method*/
 	private Connection getDefaultConnection(){
 		Connection connection=null;
 		try{
@@ -92,7 +92,7 @@ public final class ConnectionPool {
 //		}
 //		return connection;
 //	}
-	
+	/*get database parameter from configure.properties*/
 	private static void setURL(){
 		Properties p=new Properties();
 		try{

@@ -125,13 +125,11 @@ $(document).ready(function(){
         dataType: "json",  
         cache: false,  
         success: function (result, textStatus) {
-        	var image="<img src='"+result.result.imgurl+"' class='img-responsive' /><div class='clearfix'></div>";
+        	var image="<img src='"+result.result[7]+"' class='img-responsive' /><div class='clearfix'></div>";
         	$('.images_3_of_2').append(image);
-        	var info="<h3>"+result.result.title+"</h3><span class='artist'>Artist: <a>"+result.result.artist+"</a></span><br><span class='category'>Category: <a>"+result.result.category+"</a></span><br><span class='rdate'>Released Date: <a>"+result.result.date+"</a> </span><br><div class='price'><span class='text'>Price:</span><span class='price-new'>  CAD$ "+result.result.price+"</span></div><div class='det_nav1'><h4>Quantity:<select name='quantity' id='quantity' class='cdquantity'><option selected=''>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select>&nbsp;<span>(<a class='stock' id='stock'>"+result.result.stock+"</a> in stock)</span></h4><div class='btn_form'><a name='buy' id='"+result.result.cdid+"' href='checkout.html'>buy</a></div>";
+        	var info="<h3>"+result.result[1]+"</h3><span class='artist'>Artist: <a>"+result.result[2]+"</a></span><br><span class='category'>Category: <a>"+result.result[8]+"</a></span><br><span class='rdate'>Released Date: <a>"+result.result[3]+"</a> </span><br><div class='price'><span class='text'>Price:</span><span class='price-new'>  CAD$ "+result.result[5]+"</span></div><div class='det_nav1'><h4>Quantity:<select name='quantity' id='quantity' class='cdquantity'><option selected=''>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select>&nbsp;<span>(<a class='stock' id='stock'>"+result.result[6]+"</a> in stock)</span></h4><div class='btn_form'><a name='buy' id='"+result.result[0]+"' href='checkout.html'>buy</a></div>";
         	$('.span_3_of_2').append(info);
-        	//var button="<a name='buy' id='"+result.result.cdid+"' href='checkout.html'>buy</a>";
-        	//$('.btn_form').append(button);
-        	var details="<h6>Details</h6><p class='prod-desc'>"+result.result.intro+"</p>";
+        	var details="<h6>Details</h6><p class='prod-desc'>"+result.result[4]+"</p>";
         	$('.single-bottom1').append(details);
         	
         	$("a[name='buy']").unbind('click').bind('click',function(){

@@ -37,7 +37,7 @@ public class ShippingDAO extends DAO{
 			Shipping shipping=null;
 			try{
 				if(rs.next())
-					shipping=new Shipping(rs.getInt(0),rs.getString(1),rs.getFloat(2));
+					shipping=new Shipping(rs.getInt(1),rs.getString(2),rs.getFloat(3));
 			}catch(SQLException e){
 				e.printStackTrace();
 			}

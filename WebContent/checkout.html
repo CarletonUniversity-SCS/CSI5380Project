@@ -17,9 +17,10 @@
 <script src="js/menu_jquery.js"></script>
 <!-- ajax+jquery --> 
 <script>
+<!--request-keep seesion and get userinfo-->
 $(document).ready(function(){ 
 	var address="localhost:8443";
-	//matain session
+	//maintain session
 	var request = $.ajax({  
         url: "https://"+address+"/CSI5380/keepsession.do",  
         type: "POST",  
@@ -29,8 +30,9 @@ $(document).ready(function(){
         success: function (result, textStatus) {
         	while(result!=null){
         	$(".login").remove();
-        	var accountinfo="<div class='accountinfo'><span>Welcome back,<a class='fisrtname'>"+result.customer.fname+"</a></span></div>";
+        	var accountinfo="<div class='accountinfo'><span>Welcome back, <a class='fisrtname' style='text-transform: capitalize'>"+result.account.fname+"</a> !</span></div>";
         	$(".log").append(accountinfo);
+        	break;
         	}
         },  
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -41,8 +43,7 @@ $(document).ready(function(){
 	if ($.cookie('cart')!=null){
 		var cj=$.cookie('cart');
 		var cjson= jQuery.param({"cjson": cj});
-		//show cart items quantitu and total price
-		var request3 = $.ajax({
+		var request1 = $.ajax({
 	        url: "https://"+address+"/CSI5380/cookies.do",  
 	        type: "POST",  
 	        async: false,
@@ -57,23 +58,95 @@ $(document).ready(function(){
 	        error: function (XMLHttpRequest, textStatus, errorThrown) {
 	        	alert(errorThrown); }  
 	    });
+		
 		//show the itemList
 		itemList=eval(cj);
-		for(i=0;i<=itemList.length;i++){
-			var item="<div class='cart-header'><div id='"+itemList[i].cdid+"' class='close'> </div><div class='cart-sec simpleCart_shelfItem'><div class='cart-item cyc'><img src='"+itemList[i].imgurl+"' class='img-responsive'/></div><div class='cart-item-info'><h3><a>"+itemList[i].title+"</a><span>by "+itemList[i].artist+"</span></h3><h3>Price: CAD$ "+itemList[i].price+"</h3><ul class='qty'><li><p>Qty : </p><input class='quantityinput' type='text' placeholder='1' value='"+itemList[i].quantity+"'/></li></ul><div class='delivery'><span>Delivered in 2-3 bussiness days</span><div class='clearfix'></div></div></div><div class='clearfix'></div></div></div>";
-			$(".col-md-13 cart-items").append(item);	
+		for(i=0;i<itemList.length;i++){
+			var item="<div class='cart-header'><div id='"+itemList[i].cdid+"' class='close'> </div><div class='cart-sec simpleCart_shelfItem'><div class='cart-item cyc'><img src='"+itemList[i].imgurl+"' class='img-responsive'/></div><div class='cart-item-info'><h3><a>"+itemList[i].title+"</a><span>by "+itemList[i].artist+"</span></h3><h3>Price: CAD$ "+itemList[i].price+"</h3><ul class='qty'><li><p>Qty : </p><input class='quantityinput' name="+itemList[i].cdid+" type='text' placeholder='1' value='"+itemList[i].quantity+"'/></li></ul><div class='delivery'><span>Delivered in 2-3 bussiness days</span><div class='clearfix'></div></div></div><div class='clearfix'></div></div></div>";
+			$(".cart-items").append(item);	
 		}
+		
 		//delete removed items in cookies
-		$('.close').bind('click',function(){
-			$(this).parent().fadeOut('slow', function(c){
-				$(this).parent().remove();
-				var cdid=$(this).attr("id");
-				$.post("https://"+address+"/CSI5380/deleteCartItems.do",{"cdid": cdid});
-			});
+		$('.close').unbind('click').bind('click',function(){
+			
+			$(this).parent().fadeOut('slow', function(){
+				
+				var cdid=$(this).children('.close').attr("id");
+				
+				var djson=jQuery.param({"cdid": cdid,"cjson": $.cookie('cart')});
+				
+				 var request2 = $.ajax({  
+                     url: "https://"+address+"/CSI5380/deleteCartItems.do",  
+                     type: "POST",  
+                     async: false,
+                     data:djson,
+                     dataType: "json",  
+                     cache: false,  
+                     success: function (result, textStatus) {
+                    	 $.cookie("cart", result.cookies, { expires: 7 });
+                      	var cj=$.cookie('cart');
+                   		var cjson= jQuery.param({"cjson": cj});
+                   		var request3 = $.ajax({
+                   	        url: "https://"+address+"/CSI5380/cookies.do",  
+                   	        type: "POST",  
+                   	        async: false,
+                   	        data:cjson,
+                   	        dataType: "json",  
+                   	        cache: false,  
+                   	        success: function (result, textStatus) {
+                   	        	$("#simpleCart_total").text("$"+result.totalprice);
+                   	        	$("#simpleCart_quantity").text(result.quantity);
+                   	        	
+                   	        },  
+                   	        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                   	        	alert(errorThrown); }  
+                   	    });
+                     },  
+                     error: function (XMLHttpRequest, textStatus, errorThrown) {
+                     	alert(errorThrown); }  
+                 });
+         });
+     	
 			});
 		//modify items quantity in cookies
+		$(".quantityinput").bind('click',function(){
+			$(this).val("");
+			});
 		$(".quantityinput").keyup(function(){
-			$.post("https://"+address+"/CSI5380/changeCartItems.do",{"cdid": cdid,"quantity":quantity});
+			var cdid=$(this).attr("name");
+			var quantity=$(this).val();
+			var mjson=jQuery.param({"cdid": cdid,"cjson": $.cookie('cart'),"quantity":quantity});
+			
+			 var request4 = $.ajax({  
+                 url: "https://"+address+"/CSI5380/changeCartItems.do",  
+                 type: "POST",  
+                 async: false,
+                 data:mjson,
+                 dataType: "json",  
+                 cache: false,  
+                 success: function (result, textStatus) {
+                	 $.cookie("cart", result.cookies, { expires: 7 });
+                  	var cj=$.cookie('cart');
+               		var cjson= jQuery.param({"cjson": cj});
+               		var request5 = $.ajax({
+               	        url: "https://"+address+"/CSI5380/cookies.do",  
+               	        type: "POST",  
+               	        async: false,
+               	        data:cjson,
+               	        dataType: "json",  
+               	        cache: false,  
+               	        success: function (result, textStatus) {
+               	        	$("#simpleCart_total").text("$"+result.totalprice);
+               	        	$("#simpleCart_quantity").text(result.quantity);
+               	        	
+               	        },  
+               	        error: function (XMLHttpRequest, textStatus, errorThrown) {
+               	        	alert(errorThrown); }  
+               	    });
+                 },  
+                 error: function (XMLHttpRequest, textStatus, errorThrown) {
+                 	alert(errorThrown); }  
+             });
 			});
 		
 	}else{
@@ -93,9 +166,89 @@ $(document).ready(function(){
         
 	});
 	
-   
+	 //get Category list
+    var request6 = $.ajax({  
+        url: "https://"+address+"/CSI5380/queryCategory.do",  
+        type: "POST",  
+        async: false,
+        dataType: "json",  
+        cache: false,  
+        success: function (result, textStatus) {
+          result=eval(result.categoryList);
+          var decate="<li class='active grid'><a class='color1' href='index.html'>Home</a></li><li class='grid'><a class='color2 tm'>new arrivals</a></li>";
+          $('.megamenu').append(decate);
+          for(var i=0; i< result.length; i++) 
+          {  
+           j=i+1;
+          	var category="<li class='grid'><a class='color"+(j+2)+" tm'>"+result[i].catename+"</a></li>";
+           $('.megamenu').append(category);
+          }
+          $(".tm").unbind('click').bind('click',function(){
+              var menu=$(this).text();
+              if(menu=="new arrivals"){
+            	  window.location.href="cdcatalog.html?content=&key=redate&menu=&title=new arrivals";
+              }else if(menu=="Home"){
+            	  window.location.href="index.html";
+              }else{
+            	  window.location.href="cdcatalog.html?content=&key=&menu="+escape(menu);
+              }
+             
+              //$.post("cdcatalog.html",{"menu": menu});
+          });
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+        	alert(errorThrown); }  
+          
+        }); 
+	 
+    $("#search").click(function(){
+        var content=$("#content").val();
+        window.location.href="cdcatalog.html?content="+content+"&key=&menu=&title="+content;
+});
+	 
+	//shipping method
+	var request7 = $.ajax({  
+        url: "https://"+address+"/CSI5380/shipping.do",  
+        type: "POST",  
+        async: false,
+        dataType: "json",  
+        cache: false,  
+        success: function (result, textStatus) {
+        	result=eval(result);
+    		for(i=0;i<result.result.length;i++){
+    			if(i==0){
+    				var method="<label class='radio left'><input type='radio' name='radio' id='"+result.result[i].shipid+"' checked=''><i></i><span>"+result.result[i].method+"</span><span>"+result.result[i].price+"</span></label>";
+    			}else{
+    				var method="<label class='radio'><input type='radio' id='"+result.result[i].shipid+"' name='radio'><i></i><span>"+result.result[i].method+"</span><span>"+result.result[i].price+"</span></label>";
+    			}
+    			$(".shipping-details").append(method);	
+    		}
+    		$(".shipping-details").append("<div class='clearfix'></div>");
+        },  
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+        	alert(errorThrown); }  
+    });
+	//price details
 	
-	
+	var shipid=$("input[name='radio']:checked").attr("id");
+	var pjson= jQuery.param({"cjson":$.cookie('cart'),"shipping":shipid});
+		var request8 = $.ajax({
+	        url: "https://"+address+"/CSI5380/pricedetails.do",  
+	        type: "POST",  
+	        async: false,
+	        data:pjson,
+	        dataType: "json",  
+	        cache: false,  
+	        success: function (result, textStatus) {
+	        	$("#purchase").text(result.purchase);
+	        	$("#tax").text(result.tax);
+	        	$("#subtotal").text(result.subtotal);
+	        	$("#shippingfee").text(result.shippingfee);
+	        	$("#totalfee").text(result.totalfee);
+	        },  
+	        error: function (XMLHttpRequest, textStatus, errorThrown) {
+	        	alert(errorThrown); }  
+	    });
 	
 });	
 </script>
@@ -138,7 +291,6 @@ $(document).ready(function(){
 					<!-- loginform defaultly hidden,while click "loginButton",it shows.(menu_jquery.js)-->
 						<div id="loginContainer"><a href="#" id="loginButton"><span>Login</span></a>
 						    <div id="loginBox">                
-						        <form id="loginForm">
 						                <fieldset id="body">
 						                	<fieldset>
 						                        <label for="email">Email Address</label>
@@ -154,12 +306,10 @@ $(document).ready(function(){
 						                    <input type="submit" id="login" value="Sign in"><label><a href="register.html">Register</a></label></span>
 						            	</fieldset>
 						            <span><a href="#">Forgot your password?</a></span>
-								</form>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="reg"></div>
 				<div class="cart box_1">
 					<a name="checkout" class="checka">
 						<h3> <span id="simpleCart_total" class="simpleCart_total"></span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span> items)<img src="images/bag.png" alt=""></h3>
@@ -180,17 +330,6 @@ $(document).ready(function(){
 	</div>
 		<!-- start header menu -->
 	<ul class="megamenu skyblue">
-		<li class="active grid"><a class="color1" href="index.html">Home</a></li>
-		<li class="grid"><a class="color2" href="cdcatalog.html">new arrivals</a></li>
-		<li class="grid"><a class="color4" href="cdcatalog.html">Pop</a></li>				
-		<li class="grid"><a class="color5" href="cdcatalog.html#">Jazz</a></li>
-		<li class="grid"><a class="color11" href="cdcatalog.html">Country</a></li>
-		<li class="grid"><a class="color8" href="cdcatalog.html">Blues</a></li>
-		<li class="grid"><a class="color9" href="cdcatalog.html">Hip-hop</a></li>
-		<li class="grid"><a class="color3" href="cdcatalog.html#">Rock</a></li>
-		<li class="grid"><a class="color7" href="cdcatalog.html#">Dance</a></li>
-		<li class="grid"><a class="color10" href="cdcatalog.html">R&B</a></li>
-
 	</ul> 
 </div>
 </div>
@@ -199,27 +338,23 @@ $(document).ready(function(){
 	<div class="col-md-3 cart-total">
 			 <a class="continue" href="index.html">Continue to basket</a>
 			 <div class="shipping-details">
-				 <h3>Shipping Method</h3>
-				 <label class="radio left"><input type="radio" name="radio" checked=""><i></i><span>Standard Shipping</span><span>15.00</span></label>
-				 <label class="radio"><input type="radio" name="radio"><i></i><span>Express Shipping</span><span>25.00</span></label>
-				 <label class="radio"><input type="radio" name="radio"><i></i><span>One-Day Shipping</span><span>35.00</span></label>
-				 <div class="clearfix"></div>				 
+				 <h3>Shipping Method</h3>			 
 			 </div>	
 			 <div class="price-details">
 				 <h3>Price Details</h3>
 				 <span>Purchase</span>
-				 <span class="total1">94.00</span>
+				 <span id="purchase" class="total1">94.00</span>
 				 <span>Tax</span>
-				 <span class="total1">15.98</span>
+				 <span id="tax" class="total1">15.98</span>
 				 <span>Subtotal</span>
-				 <span class="total1">109.98</span>
+				 <span id="subtotal" class="total1">109.98</span>
 				 <span>Delivery Charges</span>
-				 <span class="total1">15.00</span>
+				 <span id="shippingfee" class="total1">15.00</span>
 				 <div class="clearfix"></div>				 
 			 </div>	
 			 <ul class="total_price">
 			   <li class="last_price"> <h4>TOTAL</h4></li>	
-			   <li class="last_price"><span>CAD$ 124.98</span></li>
+			   <li class="last_price"><span id="totalfee">CAD$ 124.98</span></li>
 			   <div class="clearfix"> </div>
 			 </ul>
 			
@@ -227,71 +362,8 @@ $(document).ready(function(){
 			 <div class="clearfix"></div>
 			 <a class="order" href="confirmorder.html">Checkout</a>
 			</div>
-			<!--后期要利用javascript把整合一下，目的是删除某一项，点击对应的按钮删除的是父节点-->
 		 <div class="col-md-13 cart-items">
-			 <h1>My Shopping Bag</h1>
-				<script>$(document).ready(function(c) {
-					$('.close1').on('click', function(c){
-						$('.cart-header').fadeOut('slow', function(c){
-							$('.cart-header').remove();
-						});
-						});	  
-					});
-			   </script>
-			 <div class="cart-header">
-				 <div class="close1"> </div>
-				 <div class="cart-sec simpleCart_shelfItem">
-						<div class="cart-item cyc">
-							 <img src="images/1.png" class="img-responsive" alt=""/>
-						</div>
-					   <div class="cart-item-info">
-						<h3><a href="#">Revival</a><span>by Selena Gomez</span></h3>
-						<h3>Price: CAD$ 49.00</h3>
-						<ul class="qty">
-							<li><p>Qty : </p>
-							<input class="quantityinput" type="text" placeholder="1"/></li>
-						</ul>
-						
-							 <div class="delivery">
-							 <span>Delivered in 2-3 bussiness days</span>
-							 <div class="clearfix"></div>
-				        </div>	
-					   </div>
-					   <div class="clearfix"></div>
-											
-				  </div>
-			 </div>
-			 <script>$(document).ready(function(c) {
-					$('.close2').on('click', function(c){
-							$('.cart-header2').fadeOut('slow', function(c){
-						$('.cart-header2').remove();
-					});
-					});	  
-					});
-			 </script>
-			 <div class="cart-header2">
-				 <div class="close2"> </div>
-				  <div class="cart-sec simpleCart_shelfItem">
-						<div class="cart-item cyc">
-							 <img src="images/2-.jpg" class="img-responsive" alt=""/>
-						</div>
-					   <div class="cart-item-info">
-						<h3><a href="#">1989</a><span>by Taylor Swift</span></h3>
-						<h3>Price: CAD$ 45.00</h3>
-						<ul class="qty">
-							<li><p>Qty : </p>
-							<input class="quantityinput" type="text" placeholder="1"/></li>
-
-						</ul>
-							 <div class="delivery">
-							 <span>Delivered in 2-3 bussiness days</span>
-							 <div class="clearfix"></div>
-				        </div>	
-					   </div>
-					   <div class="clearfix"></div>
-											
-				  </div>
-			  </div>		
+			 <h1>My Shopping Bag</h1>	
 		 </div>
 		 
 		

@@ -71,6 +71,30 @@
     <servlet-name>AddToCartServlet</servlet-name>
     <url-pattern>/addtocart.do</url-pattern>
   </servlet-mapping>
+   <servlet>
+    <servlet-name>RemoveCartItemServlet</servlet-name>
+    <servlet-class>edu.carleton.comp.cdstore.cookies.RemoveCartItem</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RemoveCartItemServlet</servlet-name>
+    <url-pattern>/deleteCartItems.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>ModifyQuantityServlet</servlet-name>
+    <servlet-class>edu.carleton.comp.cdstore.cookies.ModifyQuantity</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ModifyQuantityServlet</servlet-name>
+    <url-pattern>/changeCartItems.do</url-pattern>
+  </servlet-mapping>
+ <servlet>
+    <servlet-name>GetShippingMethodServlet</servlet-name>
+    <servlet-class>edu.carleton.comp.cdstore.controllers.GetShippingMethod</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetShippingMethodServlet</servlet-name>
+    <url-pattern>/shipping.do</url-pattern>
+  </servlet-mapping>
    <error-page>
         <error-code>404</error-code>
         <location>/404.html</location>

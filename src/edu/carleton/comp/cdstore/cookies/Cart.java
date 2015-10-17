@@ -11,7 +11,6 @@ public class Cart {
 	int quantity;
 	
 	public Cart() {
-
 		super();
 
 		}

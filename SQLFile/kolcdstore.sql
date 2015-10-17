@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50517
 File Encoding         : 65001
 
-Date: 2015-10-16 10:31:16
+Date: 2015-10-17 19:48:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -80,7 +80,7 @@ INSERT INTO `category` VALUES ('4', 'Blues');
 INSERT INTO `category` VALUES ('5', 'Hip-Hop');
 INSERT INTO `category` VALUES ('6', 'Rock');
 INSERT INTO `category` VALUES ('7', 'Dance');
-INSERT INTO `category` VALUES ('8', 'R&B');
+INSERT INTO `category` VALUES ('8', 'Folk');
 
 -- ----------------------------
 -- Table structure for `cd`
@@ -112,7 +112,7 @@ INSERT INTO `cd` VALUES ('5', 'THE HILLS', 'The Weekends', '2015-05-27', '\"The 
 INSERT INTO `cd` VALUES ('6', '1989', 'Taylor Swift', '2014-10-27', '1989 is the fifth studio album by American singer-songwriter Taylor Swift. It was released on October 27, 2014, through Big Machine Records. Swift began preparing for the album during the same year that Red was released, and during a significant amount of media scrutiny. Over the course of the two-year songwriting period, she primarily collaborated with producers Max Martin and Shellback—Martin served as the album\'s executive producer alongside Swift. The album\'s title was inspired by the pop-music scene of the 1980s, particularly Swift\'s birth year.', '45', '58', 'images/cdcover/2-.jpg', '1');
 INSERT INTO `cd` VALUES ('7', 'WHAT DO YOU MEAN?', 'Justin Bibber', '2015-07-28', '\"What Do You Mean?\" is a song recorded by Canadian singer Justin Bieber for his upcoming fourth studio album Purpose. The song was announced on July 28, 2015, on On Air with Ryan Seacrest, and released on August 28, 2015, as the album\'s lead single.[2] It was well received by music critics. The track was also a commercial success, it topped the charts in 17 countries and became Bieber\'s first number one single on the US Billboard Hot 100 for a single week, debuting in the position with first-week sales of 337,000 copies.', '48', '18', 'images/cdcover/c6.jpg', '4');
 INSERT INTO `cd` VALUES ('8', 'HOTLINE BLING', 'Dreke', '2015-07-31', '\"Hotline Bling\" is a song by Canadian hip hop recording artist Drake, released as a single digitally on July 31, 2015.[1] Produced by Nineteen85, the song\'s instrumental heavily samples R&B singer Timmy Thomas\' 1972 song \"Why Can\'t We Live Together\".[2] The song is going to act as the lead single to Drake\'s upcoming fourth studio album Views from the 6. Upon release, it received various comparisons to \"Cha Cha\" by American rapper D.R.A.M., which Drake had expressed interest in remixing, with Rap-Up calling it a \"quasi-cover\" of D.R.A.M.\'s song.[3] Drake leaked the song along with \"Back to Back\" on his blog. The song has been covered by English DJ duo Disclosure and English recording artist Sam Smith together in the BBC Radio 1 Live Lounge.', '34', '30', 'images/cdcover/c8.jpg', '7');
-INSERT INTO `cd` VALUES ('9', 'PHOTOGRAPH', 'Ed Sheeran', '2015-05-11', '\"Photograph\" is a song recorded by English singer-songwriter Ed Sheeran for his second studio album, x (2014). Sheeran co-wrote the song with Snow Patrol member Johnny McDaid, who had a piano loop upon which the composition developed. After recording several versions with other producers, Sheeran eventually solicited help from Jeff Bhasker; the collaboration generated a version that Bhasker further enhanced for months. The ballad derives its music primarily from an acoustic guitar, piano and programmed drums. With visually descriptive lyrics, the song discusses a long-distance relationship inspired by Sheeran\'s own experience of being away from his then-girlfriend while he was on tour. It received generally positive commentary from critics who noted the lyrics and Sheeran\'s use of imagery.\r\n\r\n\"Photograph\" is a song recorded by English singer-songwriter Ed Sheeran for his second studio album, x (2014). Sheeran co-wrote the song with Snow Patrol member Johnny McDaid, who had a piano loop upon which the composition developed. After recording several versions with other producers, Sheeran eventually solicited help from Jeff Bhasker; the collaboration generated a version that Bhasker further enhanced for months. The ballad derives its music primarily from an acoustic guitar, piano and programmed drums. With visually descriptive lyrics, the song discusses a long-distance relationship inspired by Sheeran\'s own experience of being away from his then-girlfriend while he was on tour. It received generally positive commentary from critics who noted the lyrics and Sheeran\'s use of imagery.', '40', '24', 'images/cdcover/c9.jpg', '8');
+INSERT INTO `cd` VALUES ('9', 'PHOTOGRAPH', 'Ed Sheeran', '2015-05-11', '\"Photograph\" is a song recorded by English singer-songwriter Ed Sheeran for his second studio album, x (2014). Sheeran co-wrote the song with Snow Patrol member Johnny McDaid, who had a piano loop upon which the composition developed. After recording several versions with other producers, Sheeran eventually solicited help from Jeff Bhasker; the collaboration generated a version that Bhasker further enhanced for months. The ballad derives its music primarily from an acoustic guitar, piano and programmed drums. With visually descriptive lyrics, the song discusses a long-distance relationship inspired by Sheeran\'s own experience of being away from his then-girlfriend while he was on tour. It received generally positive commentary from critics who noted the lyrics and Sheeran\'s use of imagery.\r\n\r\n\"Photograph\" is a song recorded by English singer-songwriter Ed Sheeran for his second studio album, x (2014). Sheeran co-wrote the song with Snow Patrol member Johnny McDaid, who had a piano loop upon which the composition developed. After recording several versions with other producers, Sheeran eventually solicited help from Jeff Bhasker; the collaboration generated a version that Bhasker further enhanced for months. The ballad derives its music primarily from an acoustic guitar, piano and programmed drums. With visually descriptive lyrics, the song discusses a long-distance relationship inspired by Sheeran\'s own experience of being away from his then-girlfriend while he was on tour. It received generally positive commentary from critics who noted the lyrics and Sheeran\'s use of imagery.', '40', '24', 'images/cdcover/c9.png', '8');
 INSERT INTO `cd` VALUES ('10', 'DOWNTOWN', 'Macklemore & Ryan Lewis', '2015-08-27', '\"Downtown\" is a song by American hip hop duo Macklemore & Ryan Lewis featuring Eric Nally, Melle Mel, Kool Moe Dee, and Grandmaster Caz. The song was officially released as a single on August 27, 2015. A music video for the song was uploaded to Ryan Lewis\' own YouTube channel on the day of the song\'s release.', '55', '15', 'images/cdcover/c10.jpg', '6');
 INSERT INTO `cd` VALUES ('11', 'COOL FOR THE SUMMER', 'Demi Lovato', '2015-07-01', '\"Cool for the Summer\" is a song by American singer Demi Lovato. It serves as the lead single from her fifth studio album Confident.[2][3] The song was released on July 1, 2015, by Hollywood, and Island Records, and made its radio premiere on the same date via Republic Records.[4][5] It was written by Lovato, Max Martin, Ali Payami, Alexander Erik Kronlund and Savan Kotecha.[6] The song has received attention for its bi-curious insinuations and sexually suggestive lyrics.', '40', '38', 'images/cdcover/c11.jpg', '5');
 INSERT INTO `cd` VALUES ('12', 'DRAG ME DOWN', 'One Direction', '2015-07-31', '\"Drag Me Down\" is a song recorded by British-Irish boy band One Direction for their fifth studio album, Made in the A.M. (2015).[2] The song was released worldwide on 31 July 2015. Written by Jamie Scott, John Ryan and Julian Bunetta, the song is produced by the latter two.[1] The track marked their first single since Zayn Malik\'s departure in March 2015. \"Drag Me Down\" debuted at the top of the charts in the UK, Ireland, France, Austria, Australia, and New Zealand upon its release. It became the group\'s first number one single in France and Australia, as well as their fourth number one in New Zealand and the UK. It debuted at number three on the Billboard Hot 100 chart.', '45', '47', 'images/cdcover/c12.jpg', '1');
@@ -134,7 +134,7 @@ CREATE TABLE `customer` (
 -- ----------------------------
 -- Records of customer
 -- ----------------------------
-INSERT INTO `customer` VALUES ('1', '123', 'zhang', 'zhibo', 'zhibo_zhang@yahoo.com', 'female');
+INSERT INTO `customer` VALUES ('1', '123', 'zhibo', 'zhang', 'zhibo_zhang@yahoo.com', 'female');
 INSERT INTO `customer` VALUES ('2', '123', 'wenqian', 'wang', 'wenqianwang@yahoo.com', 'male');
 
 -- ----------------------------
@@ -167,7 +167,8 @@ CREATE TABLE `order` (
   `status` char(255) NOT NULL,
   `total` float NOT NULL,
   `userid` bigint(20) NOT NULL,
-  `addrid` bigint(20) NOT NULL,
+  `addrid` bigint(20) DEFAULT NULL,
+  `billid` bigint(20) DEFAULT NULL,
   `shipid` bigint(20) NOT NULL,
   `taxid` bigint(20) NOT NULL,
   PRIMARY KEY (`orderid`),
@@ -175,6 +176,8 @@ CREATE TABLE `order` (
   KEY `add_cus` (`addrid`),
   KEY `ship_cus` (`shipid`),
   KEY `tax_cus` (`taxid`),
+  KEY `order_bill` (`billid`),
+  CONSTRAINT `order_bill` FOREIGN KEY (`billid`) REFERENCES `bill` (`billid`),
   CONSTRAINT `add_cus` FOREIGN KEY (`addrid`) REFERENCES `address` (`addrid`),
   CONSTRAINT `ship_cus` FOREIGN KEY (`shipid`) REFERENCES `shipping` (`shipid`),
   CONSTRAINT `tax_cus` FOREIGN KEY (`taxid`) REFERENCES `tax` (`taxid`),
@@ -194,11 +197,14 @@ CREATE TABLE `shipping` (
   `method` varchar(255) NOT NULL,
   `price` float NOT NULL,
   PRIMARY KEY (`shipid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of shipping
 -- ----------------------------
+INSERT INTO `shipping` VALUES ('1', 'Standard Shipping', '15');
+INSERT INTO `shipping` VALUES ('2', 'Express Shipping', '25');
+INSERT INTO `shipping` VALUES ('3', 'One-Day Shipping', '35');
 
 -- ----------------------------
 -- Table structure for `tax`
@@ -207,10 +213,11 @@ DROP TABLE IF EXISTS `tax`;
 CREATE TABLE `tax` (
   `taxid` bigint(20) NOT NULL AUTO_INCREMENT,
   `taxname` varchar(255) NOT NULL,
-  `taxrate` float(255,0) NOT NULL,
+  `taxrate` float(255,2) NOT NULL,
   PRIMARY KEY (`taxid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tax
 -- ----------------------------
+INSERT INTO `tax` VALUES ('1', 'HST', '0.13');

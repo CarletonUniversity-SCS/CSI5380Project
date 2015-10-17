@@ -3,7 +3,6 @@ package edu.carleton.comp.cdstore.controllers;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -11,10 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.alibaba.fastjson.JSON;
-
-import edu.carleton.comp.cdstore.dao.CategoryDAO;
-public class GetCategoryListController extends HttpServlet  {
+public class GetPriceDetailsController extends HttpServlet  {
 	private static final long serialVersionUID = 1L;
 	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -25,12 +21,11 @@ public class GetCategoryListController extends HttpServlet  {
 		Map<String, Object> result = new HashMap<String, Object>();
 		PrintWriter out = resp.getWriter();
 		
-		CategoryDAO dao=new CategoryDAO();
-		List<Object> c=dao.findall();
-		dao.destory();
-		result.put("categoryList", c);
-		String result_str = JSON.toJSONString(result);
-		out.print(result_str);
+		String cjson=req.getParameter("cjson");
+		String shipidstr=req.getParameter("shipid");
+		Integer shipid=Integer.valueOf(shipidstr);
+		
+		
 		
 	}
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -38,4 +33,5 @@ public class GetCategoryListController extends HttpServlet  {
 			this.doGet(req, resp);
 
 }
+
 }

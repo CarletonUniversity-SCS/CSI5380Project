@@ -32,7 +32,7 @@ $(document).ready(function(){
         success: function (result, textStatus) {
         	while(result!=null){
         	$(".login").remove();
-        	var accountinfo="<div class='accountinfo'><span>Welcome back, <a class='fisrtname' style='text-transform: capitalize'>"+result.account.fname+" !</a></span></div>";
+        	var accountinfo="<div class='accountinfo'><span>Welcome back, <a class='fisrtname' style='text-transform: capitalize'>"+result.account.fname+"</a> !</span></div>";
         	$(".log").append(accountinfo);
         	break;
         	}
@@ -168,7 +168,7 @@ $(document).ready(function(){
 });
 	$("#search").click(function(){
         var content=$("#content").val();
-        window.location.href="cdcatalog.html?content="+content+"&key=&menu=";
+        window.location.href="cdcatalog.html?content="+content+"&key=&menu=&title="+content;
         //$.post("cdcatalog.html",{"menu": menu,"content": content});
 });
     

@@ -1,30 +1,29 @@
 package edu.carleton.comp.cdstore.cookies;
 
-import java.sql.Date;
 
 public class Cart {
 	int cdid;
 	String title;
 	String artist;
-	Date date;
-	String intro;
 	float price;
 	int stock;
 	String imgurl;
-	int cateid;	
 	int quantity;
 	
-	public Cart(int cdid,String title,String artist,Date date,String intro,float price,int stock,String imgurl,int cateid,int quantity) {
+	public Cart() {
+
+		super();
+
+		}
+	
+	public Cart(int cdid,String title,String artist,float price,int stock,String imgurl,int quantity) {
 		super();
 		this.cdid = cdid;
 		this.title = title;
 		this.artist = artist;
-		this.date = date;
-		this.intro = intro;
 		this.price = price;
-		this.stock = stock;
+		this.stock=stock;
 		this.imgurl = imgurl;
-		this.cateid = cateid;
 		this.quantity=quantity;
 	}
 	
@@ -46,18 +45,6 @@ public class Cart {
 	public void setArtist(String artist) {
 		this.artist = artist;
 	}
-	public Date getDate() {
-		return date;
-	}
-	public void setDate(Date date) {
-		this.date = date;
-	}
-	public String getIntro() {
-		return intro;
-	}
-	public void setIntro(String intro) {
-		this.intro = intro;
-	}
 	public float getPrice() {
 		return price;
 	}
@@ -75,12 +62,6 @@ public class Cart {
 	}
 	public void setImgurl(String imgurl) {
 		this.imgurl = imgurl;
-	}
-	public int getCateid() {
-		return cateid;
-	}
-	public void setCateid(int cateid) {
-		this.cateid = cateid;
 	}
 	public int getQuantity() {
 		return quantity;

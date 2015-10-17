@@ -55,6 +55,22 @@
     <servlet-name>GetProductListServlet</servlet-name>
     <url-pattern>/getProductlist.do</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>GetProductDetailsServlet</servlet-name>
+    <servlet-class>edu.carleton.comp.cdstore.controllers.GetProductDetails</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetProductDetailsServlet</servlet-name>
+    <url-pattern>/getDetails.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>AddToCartServlet</servlet-name>
+    <servlet-class>edu.carleton.comp.cdstore.cookies.AddToCart</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddToCartServlet</servlet-name>
+    <url-pattern>/addtocart.do</url-pattern>
+  </servlet-mapping>
    <error-page>
         <error-code>404</error-code>
         <location>/404.html</location>

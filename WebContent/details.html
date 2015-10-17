@@ -12,30 +12,11 @@
 <link href="css/style.css" rel='stylesheet' type='text/css' />
 <!-- Custom Theme files -->
 <!--//theme-style-->
-
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- start menu -->
 <link href="css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
-<link rel="stylesheet" href="css/etalage.css">
 <script type="text/javascript" src="js/megamenu.js"></script>
-<script src="js/jquery.etalage.min.js"></script>
 <script src="js/menu_jquery.js"></script>
-<script>
-	jQuery(document).ready(function($){
-
-		$('#etalage').etalage({
-			thumb_image_width: 400,
-			thumb_image_height: 400,
-			source_image_width: 900,
-			source_image_height: 1200,
-			show_hint: true,
-			click_callback: function(image_anchor, instance_id){
-				alert('Callback example:\nYou clicked on an image with the anchor: "'+image_anchor+'"\n(in Etalage instance: "'+instance_id+'")');
-			}
-		});
-
-	});
-</script>
 <!-- ajax+jquery -->
 <script>
 $(document).ready(function(){ 
@@ -45,7 +26,7 @@ $(document).ready(function(){
 	var _json=jQuery.param({ "cdid": cd});
 	
 	//maintain session
-	var request3 = $.ajax({  
+	var request = $.ajax({  
         url: "https://"+address+"/CSI5380/keepsession.do",  
         type: "POST",  
         async: false,
@@ -54,15 +35,16 @@ $(document).ready(function(){
         success: function (result, textStatus) {
         	while(result!=null){
         	$(".login").remove();
-        	var accountinfo="<div class='accountinfo'><span>Welcome back,<a class='fisrtname'>"+result.customer.fname+"</a></span></div>";
+        	var accountinfo="<div class='accountinfo'><span>Welcome back, <a class='fisrtname' style='text-transform: capitalize'>"+result.account.fname+"</a> !</span></div>";
         	$(".log").append(accountinfo);
+        	break;
         	}
         },  
         error: function (XMLHttpRequest, textStatus, errorThrown) {
         	alert(errorThrown); }  
     });
 	
-	//create cookie store cart items and show quantity and price of the chosen items
+	 //create cookie store cart items and show quantity and price of the chosen items
 	if ($.cookie('cart')!=null){
 		var cj=$.cookie('cart');
 		var cjson= jQuery.param({"cjson": cj});
@@ -88,7 +70,6 @@ $(document).ready(function(){
     	$("#simpleCart_quantity").text(0);
 		
 	}
-	 
 	//view shopping cart
 	$("a[name='checkout']").click(function(){
     	
@@ -100,8 +81,8 @@ $(document).ready(function(){
         
 	});
 	
-	//get category list
-	var request2 = $.ajax({  
+	 //get Category list
+    var request2 = $.ajax({  
         url: "https://"+address+"/CSI5380/queryCategory.do",  
         type: "POST",  
         async: false,
@@ -109,24 +90,24 @@ $(document).ready(function(){
         cache: false,  
         success: function (result, textStatus) {
           result=eval(result.categoryList);
-          var decate="<li class='grid'><a class='color1' href='index.html'>Home</a></li><li class='grid'><a class='color2 tm'>new arrivals</a></li>";
-          $('.megamenu skyblue').append(decate);
+          var decate="<li class='active grid'><a class='color1' href='index.html'>Home</a></li><li class='grid'><a class='color2 tm'>new arrivals</a></li>";
+          $('.megamenu').append(decate);
           for(var i=0; i< result.length; i++) 
           {  
            j=i+1;
-           
-           if(result[i].name==menu){
-        	   var category="<li class='active grid'><a class='color"+j+" tm'>"+result[i].name+"</a></li>";
-           }else{
-        	   var category="<li class='grid'><a class='color"+j+" tm'>"+result[i].name+"</a></li>";
-        	   }
-           $('.megamenu skyblue').append(category);
-           
-           }
-        
+          	var category="<li class='grid'><a class='color"+(j+2)+" tm'>"+result[i].catename+"</a></li>";
+           $('.megamenu').append(category);
+          }
           $(".tm").unbind('click').bind('click',function(){
-              var menu=$(this).text;
-              window.location.href="cdcatalog.html?menu="+menu;
+              var menu=$(this).text();
+              if(menu=="new arrivals"){
+            	  window.location.href="cdcatalog.html?content=&key=redate&menu=&title=new arrivals";
+              }else if(menu=="Home"){
+            	  window.location.href="index.html";
+              }else{
+            	  window.location.href="cdcatalog.html?content=&key=&menu="+escape(menu);
+              }
+             
               //$.post("cdcatalog.html",{"menu": menu});
           });
         },
@@ -134,22 +115,23 @@ $(document).ready(function(){
         	alert(errorThrown); }  
           
         });
+	 
 	//get product details
 	var request1 = $.ajax({  
-        url: "https://"+address+"/CSI5380/queryCDbyID.do",  
+        url: "https://"+address+"/CSI5380/getDetails.do",  
         type: "POST",  
         async: false,
         data:_json,
         dataType: "json",  
         cache: false,  
         success: function (result, textStatus) {
-        	var image="<ul id='etalage'><li><a><img class='etalage_thumb_image' src='"+result.imgurl+"' class='img-responsive' /><img class='etalage_source_image' src='"+result.imgurl+"' class='img-responsive'/></a></li></ul>";
-        	$('.grid images_3_of_2').append(image);
-        	var info="<h3>"+result.title+"</h3><span class='artist'>Artist: <a  href='cdcatalog.html?artist='"+result.artist+">"+result.artist+"</a></span><br><span class='category'>Category: <a href='cdcatalog.html?menu='"+result.category+">"+result.category+"</a></span><br><span class='rdate'>Released Date: <a>"+result.date+"</a> </span><br><div class='price'><span class='text'>Price:</span><span class='price-new'>  CAD$ "+result.price+"</span></div><div class='det_nav1'><h4>Quantity:<select name='quantity' id='quantity' class='cdquantity'><option selected=''>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select>&nbsp;<span>(<a class='stock' id='stock'>"+result.stock+"</a> in stock)</span></h4>";
-        	$('.desc1 span_3_of_2').append(info);
-        	var button="<a name='buy' id='"+result.cdid+"' href='checkout.html'>buy</a>";
-        	$('.btn_form').append(button);
-        	var details="<h6>Details</h6><p class='prod-desc'>"+result.intro+"</p>";
+        	var image="<img src='"+result.result.imgurl+"' class='img-responsive' /><div class='clearfix'></div>";
+        	$('.images_3_of_2').append(image);
+        	var info="<h3>"+result.result.title+"</h3><span class='artist'>Artist: <a>"+result.result.artist+"</a></span><br><span class='category'>Category: <a>"+result.result.category+"</a></span><br><span class='rdate'>Released Date: <a>"+result.result.date+"</a> </span><br><div class='price'><span class='text'>Price:</span><span class='price-new'>  CAD$ "+result.result.price+"</span></div><div class='det_nav1'><h4>Quantity:<select name='quantity' id='quantity' class='cdquantity'><option selected=''>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select>&nbsp;<span>(<a class='stock' id='stock'>"+result.result.stock+"</a> in stock)</span></h4><div class='btn_form'><a name='buy' id='"+result.result.cdid+"' href='checkout.html'>buy</a></div>";
+        	$('.span_3_of_2').append(info);
+        	//var button="<a name='buy' id='"+result.result.cdid+"' href='checkout.html'>buy</a>";
+        	//$('.btn_form').append(button);
+        	var details="<h6>Details</h6><p class='prod-desc'>"+result.result.intro+"</p>";
         	$('.single-bottom1').append(details);
         	
         	$("a[name='buy']").unbind('click').bind('click',function(){
@@ -172,12 +154,13 @@ $(document).ready(function(){
         	alert(errorThrown); }  
           
         });
-	//search product by key word
+	
+	//search product by key words
 	$("#search").click(function(){
         var content=$("#content").val();
-        //window.location.href="cdcatalog.html?content="+content;
-        $.post("cdcatalog.html",{"content": content});
-}); 
+        window.location.href="cdcatalog.html?content="+content+"&key=&menu=&title="+content;
+        //$.post("cdcatalog.html",{"menu": menu,"content": content,"title":content});
+});
 	
 
 });
@@ -221,7 +204,7 @@ $(document).ready(function(){
 					<!-- loginform defaultly hidden,while click "loginButton",it shows.(menu_jquery.js)-->
 						<div id="loginContainer"><a href="#" id="loginButton"><span>Login</span></a>
 						    <div id="loginBox">                
-						        <form id="loginForm">
+						        <div id="loginForm">
 						                <fieldset id="body">
 						                	<fieldset>
 						                        <label for="email">Email Address</label>
@@ -237,12 +220,11 @@ $(document).ready(function(){
 						                    <input type="submit" id="login" value="Sign in"><label><a href="register.html">Register</a></label></span>
 						            	</fieldset>
 						            <span><a href="#">Forgot your password?</a></span>
-								</form>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="reg"></div>
 				<div class="cart box_1">
 					<a name="checkout" class="checka">
 						<h3> <span id="simpleCart_total" class="simpleCart_total"></span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span> items)<img src="images/bag.png" alt=""></h3>
@@ -261,17 +243,7 @@ $(document).ready(function(){
 	</div>
 		<!-- start header menu -->
 	<ul class="megamenu skyblue">
-		<li class="active grid"><a class="color1" href="index.html">Home</a></li>
-		<li class="grid"><a class="color2" href="cdcatalog.html">new arrivals</a></li>
-		<li class="grid"><a class="color4" href="cdcatalog.html">Pop</a></li>				
-		<li class="grid"><a class="color5" href="cdcatalog.html#">Jazz</a></li>
-		<li class="grid"><a class="color11" href="cdcatalog.html">Country</a></li>
-		<li class="grid"><a class="color8" href="cdcatalog.html">Blues</a></li>
-		<li class="grid"><a class="color9" href="cdcatalog.html">Hip-hop</a></li>
-		<li class="grid"><a class="color3" href="cdcatalog.html#">Rock</a></li>
-		<li class="grid"><a class="color7" href="cdcatalog.html#">Dance</a></li>
-		<li class="grid"><a class="color10" href="cdcatalog.html">R&B</a></li>
-
+		
 	</ul> 
 </div>
 </div>
@@ -282,64 +254,14 @@ $(document).ready(function(){
 			<div class="row single">
 				<div class="col-md-9 det">
 				  <div class="single_left">
-					<div class="grid images_3_of_2">
-						<ul id="etalage">
-							<li>
-								<a href="optionallink.html">
-									<img class="etalage_thumb_image" src="images/1.png" class="img-responsive" />
-									<img class="etalage_source_image" src="images/1.png" class="img-responsive" title="" />
-								</a>
-							</li>
-						</ul>
-						 <div class="clearfix"></div>		
+					<div class="grid images_3_of_2">			
 				  </div>
 				  <div class="desc1 span_3_of_2">
-					<h3>Revival</h3>
-					<span class="artist">Artist: <a href="#">Selena Gomez</a></span>
-					<br>
-					<span class="category">Category: <a href="#">Pop</a></span>
-					<br>
-					<span class="rdate">Released Date: <a>2015-10-09</a> </span>
-					<br>
-						<div class="price">
-							<span class="text">Price:</span>
-							<span class="price-new">  CAD$49.00</span>
-							<!--<span class="price-old">$100.00</span>-->
-						</div>
-					<div class="det_nav1">
-						<h4>Quantity:
-								<select name="quantity" id="quantity" class="cdquantity">
-								<option selected="">1</option>
-								<option>2</option>
-								<option>3</option>
-								<option>4</option>
-								<option>5</option>
-								<option>6</option>
-								<option>7</option>
-								<option>8</option>
-								<option>9</option>
-								<option>10</option>
-								</select>
-								&nbsp;
-
-								<span>(<a class="stock" id="stock">25</a> in stock)</span>
-						</h4>
-						
-					</div>
-					<div class="btn_form">
-						<a href="checkout.html">buy</a>
-					</div>
-					
 			   	 </div>
           	    <div class="clearfix"></div>
           	   </div>
           	    <div class="single-bottom1">
-					<h6>Details</h6>
-					<p class="prod-desc">
-						Revival is the second solo studio album by American singer Selena Gomez. It was released on October 9, 2015, through Interscope and Polydor Records as a follow-up to Stars Dance (2013). It is her first project released under her new recording contract with the labels, after completing her contractual obligations with previous label, Hollywood Records, with the compilation album For You and the single "The Heart Wants What It Wants", in 2014. Gomez has cited artists such as Janet Jackson and Christina Aguilera as influences on the record, which has been described as a mixture of pop and electronic, and features lyrical themes of love, heartbreak, and confidence.
-					</p>
 				</div>
-	       </div>	
 		   <div class="clearfix"></div>		
 	  </div>
 	<!-- end content -->

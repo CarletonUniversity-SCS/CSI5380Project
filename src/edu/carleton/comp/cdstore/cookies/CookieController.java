@@ -29,16 +29,18 @@ public class CookieController extends HttpServlet  {
 			List<Cart> cartList = JSONArray.parseArray(cjson, Cart.class);
 			float p=0;
 			int q=0;
+			int tq=0;
 			float s=0;
 			float t=0;
-			for(int i=0;i<=cartList.size();i++){
+			for(int i=0;i<cartList.size();i++){
 				q=cartList.get(i).getQuantity();
 				p=cartList.get(i).getPrice();
+				tq=q+tq;
 				s=p*q;
 				t=t+s;	
 			}
 			result.put("totalprice", String.valueOf(t));
-			result.put("quantity",String.valueOf(cartList.size()));
+			result.put("quantity",String.valueOf(tq));
 			String result_str = JSON.toJSONString(result,SerializerFeature.DisableCircularReferenceDetect);
 			out.print(result_str);
 

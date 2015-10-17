@@ -84,7 +84,7 @@ public class CDDAO extends DAO{
 		try{
 			if(rs.next()){
 			
-				SimpleDateFormat format=new SimpleDateFormat("YYYY-MM-DD");
+				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
 				String date=format.format(rs.getDate(4));
 				cd=new CD(rs.getInt(1),rs.getString(2),rs.getString(3),date,rs.getString(5),rs.getFloat(6),rs.getInt(7),rs.getString(8),rs.getInt(9));
 			}

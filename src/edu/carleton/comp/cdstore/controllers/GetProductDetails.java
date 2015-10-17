@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.alibaba.fastjson.JSON;
 
 import edu.carleton.comp.cdstore.dao.CDDAO;
+import edu.carleton.comp.cdstore.dao.CategoryDAO;
 import edu.carleton.comp.cdstore.models.CD;
+import edu.carleton.comp.cdstore.models.Category;
 
 /**
  * Servlet implementation class GetProductDetails
@@ -44,8 +46,12 @@ public class GetProductDetails extends HttpServlet {
 		int cdid=Integer.parseInt(req.getParameter("cdid"));
 		CDDAO dao=new CDDAO();
 		CD cd=(CD)(dao.findByPrimaryKey(cdid));
-		result.put("productdetail", cd);
 		dao.destory();
+		CategoryDAO dao1=new CategoryDAO();
+		Category cate=(Category)(dao1.findByPrimaryKey(cd.getCateid()));
+		dao1.destory();
+		Object[] cdfinal={cd.getTitle(),cd.getArtist(),cd.getDate(),cd.getIntro(),cd.getPrice(),cd.getStock(),cd.getImgurl(),cate.getCatename()};
+		result.put("productdetail", cdfinal);
 		String result_str=JSON.toJSONString(result);
 		out.print(result_str);
 	}

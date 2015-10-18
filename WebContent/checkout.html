@@ -105,7 +105,29 @@ $(document).ready(function(){
                      error: function (XMLHttpRequest, textStatus, errorThrown) {
                      	alert(errorThrown); }  
                  });
+				 
+				 var shipid=$("input[name='radio']:checked").attr("id");
+					var pjson= jQuery.param({"cjson":$.cookie('cart'),"shipping":shipid});
+						var request8 = $.ajax({
+					        url: "https://"+address+"/CSI5380/pricedetails.do",  
+					        type: "POST",  
+					        async: false,
+					        data:pjson,
+					        dataType: "json",  
+					        cache: false,  
+					        success: function (result, textStatus) {
+					        	$("#purchase").text(result.purchase);
+					        	$("#tax").text(result.tax);
+					        	$("#subtotal").text(result.subtotal);
+					        	$("#shippingfee").text(result.shippingfee);
+					        	$("#totalfee").text("CAD$ "+result.totalfee);
+					        },  
+					        error: function (XMLHttpRequest, textStatus, errorThrown) {
+					        	alert(errorThrown); }  
+					    });
          });
+			
+			
      	
 			});
 		//modify items quantity in cookies
@@ -147,6 +169,27 @@ $(document).ready(function(){
                  error: function (XMLHttpRequest, textStatus, errorThrown) {
                  	alert(errorThrown); }  
              });
+			 
+			 var shipid=$("input[name='radio']:checked").attr("id");
+				var pjson= jQuery.param({"cjson":$.cookie('cart'),"shipping":shipid});
+					var request8 = $.ajax({
+				        url: "https://"+address+"/CSI5380/pricedetails.do",  
+				        type: "POST",  
+				        async: false,
+				        data:pjson,
+				        dataType: "json",  
+				        cache: false,  
+				        success: function (result, textStatus) {
+				        	$("#purchase").text(result.purchase);
+				        	$("#tax").text(result.tax);
+				        	$("#subtotal").text(result.subtotal);
+				        	$("#shippingfee").text(result.shippingfee);
+				        	$("#totalfee").text("CAD$ "+result.totalfee);
+				        },  
+				        error: function (XMLHttpRequest, textStatus, errorThrown) {
+				        	alert(errorThrown); }  
+				    });
+					
 			});
 		
 	}else{
@@ -192,8 +235,7 @@ $(document).ready(function(){
               }else{
             	  window.location.href="cdcatalog.html?content=&key=&menu="+escape(menu);
               }
-             
-              //$.post("cdcatalog.html",{"menu": menu});
+
           });
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -224,6 +266,26 @@ $(document).ready(function(){
     			$(".shipping-details").append(method);	
     		}
     		$(".shipping-details").append("<div class='clearfix'></div>");
+    		
+    		var shipid=$("input[name='radio']:checked").attr("id");
+    		var pjson= jQuery.param({"cjson":$.cookie('cart'),"shipping":shipid});
+    			var request8 = $.ajax({
+    		        url: "https://"+address+"/CSI5380/pricedetails.do",  
+    		        type: "POST",  
+    		        async: false,
+    		        data:pjson,
+    		        dataType: "json",  
+    		        cache: false,  
+    		        success: function (result, textStatus) {
+    		        	$("#purchase").text(result.purchase);
+    		        	$("#tax").text(result.tax);
+    		        	$("#subtotal").text(result.subtotal);
+    		        	$("#shippingfee").text(result.shippingfee);
+    		        	$("#totalfee").text("CAD$ "+result.totalfee);
+    		        },  
+    		        error: function (XMLHttpRequest, textStatus, errorThrown) {
+    		        	alert(errorThrown); }  
+    		    });
         },  
         error: function (XMLHttpRequest, textStatus, errorThrown) {
         	alert(errorThrown); }  
@@ -244,11 +306,34 @@ $(document).ready(function(){
 	        	$("#tax").text(result.tax);
 	        	$("#subtotal").text(result.subtotal);
 	        	$("#shippingfee").text(result.shippingfee);
-	        	$("#totalfee").text(result.totalfee);
+	        	$("#totalfee").text("CAD$ "+result.totalfee);
 	        },  
 	        error: function (XMLHttpRequest, textStatus, errorThrown) {
 	        	alert(errorThrown); }  
 	    });
+		
+		$("input[name='radio']").change(function() {
+			var shipid=$("input[name='radio']:checked").attr("id");
+			var pjson= jQuery.param({"cjson":$.cookie('cart'),"shipping":shipid});
+				var request8 = $.ajax({
+			        url: "https://"+address+"/CSI5380/pricedetails.do",  
+			        type: "POST",  
+			        async: false,
+			        data:pjson,
+			        dataType: "json",  
+			        cache: false,  
+			        success: function (result, textStatus) {
+			        	$("#purchase").text(result.purchase);
+			        	$("#tax").text(result.tax);
+			        	$("#subtotal").text(result.subtotal);
+			        	$("#shippingfee").text(result.shippingfee);
+			        	$("#totalfee").text("CAD$ "+result.totalfee);
+			        },  
+			        error: function (XMLHttpRequest, textStatus, errorThrown) {
+			        	alert(errorThrown); }  
+			    });
+			
+		});
 	
 });	
 </script>
@@ -343,18 +428,18 @@ $(document).ready(function(){
 			 <div class="price-details">
 				 <h3>Price Details</h3>
 				 <span>Purchase</span>
-				 <span id="purchase" class="total1">94.00</span>
+				 <span id="purchase" class="total1"></span>
 				 <span>Tax</span>
-				 <span id="tax" class="total1">15.98</span>
+				 <span id="tax" class="total1"></span>
 				 <span>Subtotal</span>
-				 <span id="subtotal" class="total1">109.98</span>
+				 <span id="subtotal" class="total1"></span>
 				 <span>Delivery Charges</span>
-				 <span id="shippingfee" class="total1">15.00</span>
+				 <span id="shippingfee" class="total1"></span>
 				 <div class="clearfix"></div>				 
 			 </div>	
 			 <ul class="total_price">
 			   <li class="last_price"> <h4>TOTAL</h4></li>	
-			   <li class="last_price"><span id="totalfee">CAD$ 124.98</span></li>
+			   <li class="last_price"><span id="totalfee"></span></li>
 			   <div class="clearfix"> </div>
 			 </ul>
 			

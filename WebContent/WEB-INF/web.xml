@@ -95,6 +95,14 @@
     <servlet-name>GetShippingMethodServlet</servlet-name>
     <url-pattern>/shipping.do</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>GetPriceDetailsServlet</servlet-name>
+    <servlet-class>edu.carleton.comp.cdstore.controllers.GetPriceDetailsController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetPriceDetailsServlet</servlet-name>
+    <url-pattern>/pricedetails.do</url-pattern>
+  </servlet-mapping>
    <error-page>
         <error-code>404</error-code>
         <location>/404.html</location>

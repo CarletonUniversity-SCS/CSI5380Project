@@ -57,7 +57,7 @@
   </servlet-mapping>
   <servlet>
     <servlet-name>GetProductDetailsServlet</servlet-name>
-    <servlet-class>edu.carleton.comp.cdstore.controllers.GetProductDetails</servlet-class>
+    <servlet-class>edu.carleton.comp.cdstore.controllers.GetProductDetailsController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>GetProductDetailsServlet</servlet-name>
@@ -89,7 +89,7 @@
   </servlet-mapping>
  <servlet>
     <servlet-name>GetShippingMethodServlet</servlet-name>
-    <servlet-class>edu.carleton.comp.cdstore.controllers.GetShippingMethod</servlet-class>
+    <servlet-class>edu.carleton.comp.cdstore.controllers.GetShippingMethodController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>GetShippingMethodServlet</servlet-name>

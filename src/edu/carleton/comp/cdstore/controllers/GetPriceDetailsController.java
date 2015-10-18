@@ -24,6 +24,8 @@ public class GetPriceDetailsController extends HttpServlet  {
 		String cjson=req.getParameter("cjson");
 		String shipidstr=req.getParameter("shipid");
 		Integer shipid=Integer.valueOf(shipidstr);
+
+		
 		
 		
 		

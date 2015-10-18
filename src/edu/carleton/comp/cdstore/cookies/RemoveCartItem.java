@@ -35,9 +35,18 @@ public class RemoveCartItem extends HttpServlet  {
 				}
 			}
 			
+			if(cartList.size()==0){
+				result.put("cookies", JSON.toJSONString("",SerializerFeature.DisableCircularReferenceDetect));
+				result.put("flag", "last");
+				String result_str = JSON.toJSONString(result,SerializerFeature.DisableCircularReferenceDetect);
+				out.print(result_str);
+				
+			}else{
 			result.put("cookies", JSON.toJSONString(cartList,SerializerFeature.DisableCircularReferenceDetect));
+			result.put("flag", "right");
 			String result_str = JSON.toJSONString(result,SerializerFeature.DisableCircularReferenceDetect);
 			out.print(result_str);
+			}
 
 		
 	}

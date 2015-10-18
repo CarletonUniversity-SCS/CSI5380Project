@@ -135,10 +135,42 @@ $(document).ready(function(){
         	$("a[name='buy']").unbind('click').bind('click',function(){
                 var cdid=$(this).attr("id");
                 var quantity=$("#quantity").find("option:selected").text();
-                if(result.stock>0){
+                if(result.result[6]>0){
                 	//add item to cookies/session
-                	 var aj=$.cookie('cart');
-                     $.post("https://"+address+"/CSI5380/addtocart.do",{"cdid": cdid,"quantity":1,"aj":aj});
+                     var aj=$.cookie('cart');
+                     ajson=jQuery.param({"cdid": cdid,"quantity":quantity,"aj":aj});
+                     var request4 = $.ajax({  
+                         url: "https://"+address+"/CSI5380/addtocart.do",  
+                         type: "POST",  
+                         async: false,
+                         data:ajson,
+                         dataType: "json",  
+                         cache: false,  
+                         success: function (result, textStatus) {
+                         	 $.cookie("cart", result.cookies);
+                         	var cj=$.cookie('cart');
+                      		var cjson= jQuery.param({"cjson": cj});
+                      		var request5 = $.ajax({
+                      	        url: "https://"+address+"/CSI5380/cookies.do",  
+                      	        type: "POST",  
+                      	        async: false,
+                      	        data:cjson,
+                      	        dataType: "json",  
+                      	        cache: false,  
+                      	        success: function (result, textStatus) {
+                      	        	$("#simpleCart_total").text("$"+result.totalprice);
+                      	        	$("#simpleCart_quantity").text(result.quantity);
+                      	        	
+                      	        },  
+                      	        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                      	        	alert(errorThrown); }  
+                      	    });
+                      		alert("Nice Choice!");
+                         },  
+                         error: function (XMLHttpRequest, textStatus, errorThrown) {
+                         	alert(errorThrown); }  
+                     }); 
+                	
                 }else{
                 	
                 	alert("You Can Not Buy Stock Out Item!");

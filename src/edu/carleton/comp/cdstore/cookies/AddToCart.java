@@ -30,6 +30,7 @@ public class AddToCart extends HttpServlet  {
 		PrintWriter out = resp.getWriter();
 		Map<String, String> result = new HashMap<String, String>();
 		
+		if(!cdid.equals("")){
 		CDDAO dao=new CDDAO();
 		Object cdob=dao.findByPrimaryKey(Integer.parseInt(cdid));
 		CD cd=(CD) cdob;
@@ -64,7 +65,7 @@ public class AddToCart extends HttpServlet  {
 			String result_str = JSON.toJSONString(result,SerializerFeature.DisableCircularReferenceDetect);
 			out.print(result_str);
 		}
-	
+		}
 
 }
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)

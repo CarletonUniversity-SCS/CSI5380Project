@@ -54,6 +54,7 @@ public class GetPriceDetailsController extends HttpServlet  {
 		float price=ship.getPrice();
 		float tax=(float) (t*0.13);
 		float subtotal=t+tax;
+		dao.destory();
 		
 		result.put("purchase", String.valueOf(t));
 		result.put("tax",String.valueOf(tax));

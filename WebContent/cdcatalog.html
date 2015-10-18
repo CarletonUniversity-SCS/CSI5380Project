@@ -53,7 +53,7 @@ $(document).ready(function(){
 	if ($.cookie('cart')!=null){
 		var cj=$.cookie('cart');
 		var cjson= jQuery.param({"cjson": cj});
-		var request3 = $.ajax({
+		var request13 = $.ajax({
 	        url: "https://"+address+"/CSI5380/cookies.do",  
 	        type: "POST",  
 	        async: false,
@@ -75,17 +75,6 @@ $(document).ready(function(){
     	$("#simpleCart_quantity").text(0);
 		
 	}
-	 
-	//view shopping cart
-	$("a[name='checkout']").click(function(){
-    	
-		if($.cookie('cart')!="" && $.cookie('cart')!=null){
-			window.location.href="checkout.html";
-		}else{
-			alert("You Do Not Have Items In Cart Yet!");
-		}
-        
-	});
 	
 	//get Category list
     var request2 = $.ajax({  
@@ -120,8 +109,9 @@ $(document).ready(function(){
         	alert(errorThrown); }  
           
         }); 
+  
 	//getProductlist
-	var request1 = $.ajax({  
+	var request3 = $.ajax({  
     	url: "https://"+address+"/CSI5380/getProductlist.do",  
     	type: "POST",  
     	async: false,
@@ -130,6 +120,7 @@ $(document).ready(function(){
     	cache: false,  
     	success: function (result, textStatus) {
         	result=eval(result.cdList);
+        	if(result.length>0){
         	$(".subset1").children().remove();
         	for(i=0;i<result.length;i++){
         		j=i+1;
@@ -155,12 +146,12 @@ $(document).ready(function(){
         				$(".subset3").append(item);		
         			}
         		}
-        		$("a[name='images']").bind('click',function(){
+        		$("a[name='images']").unbind('click').bind('click',function(){
                     var cdid=$(this).parent().parent().attr("id");
                     window.location.href="details.html?cdid="+cdid;
-                    //$.post("details.html",{"cdid": cdid});
+                   
             }); 
-        		$("a[name='title']").bind('click',function(){
+        		$("a[name='title']").unbind('click').bind('click',function(){
                     var cdid=$(this).parent().parent().parent().attr("id");
                     window.location.href="details.html?cdid="+cdid;
             });
@@ -169,7 +160,7 @@ $(document).ready(function(){
                     //add item to cookies/session
                     var aj=$.cookie('cart');
                     ajson=jQuery.param({"cdid": cdid,"quantity":1,"aj":aj});
-                    var request = $.ajax({  
+                    var request4 = $.ajax({  
                         url: "https://"+address+"/CSI5380/addtocart.do",  
                         type: "POST",  
                         async: false,
@@ -177,10 +168,10 @@ $(document).ready(function(){
                         dataType: "json",  
                         cache: false,  
                         success: function (result, textStatus) {
-                        	 $.cookie("cart", result.cookies, { expires: 7 });
+                        	 $.cookie("cart", result.cookies);
                         	var cj=$.cookie('cart');
                      		var cjson= jQuery.param({"cjson": cj});
-                     		var request3 = $.ajax({
+                     		var request5 = $.ajax({
                      	        url: "https://"+address+"/CSI5380/cookies.do",  
                      	        type: "POST",  
                      	        async: false,
@@ -195,6 +186,7 @@ $(document).ready(function(){
                      	        error: function (XMLHttpRequest, textStatus, errorThrown) {
                      	        	alert(errorThrown); }  
                      	    });
+                     		alert("Nice Choice!");
                         },  
                         error: function (XMLHttpRequest, textStatus, errorThrown) {
                         	alert(errorThrown); }  
@@ -207,212 +199,33 @@ $(document).ready(function(){
         		}
         	}
         	
-        	
+        	}else{
+        		window.location.href="notavailable.html";
+        	}
        	 
     	}, 
     	
     	error: function (XMLHttpRequest, textStatus, errorThrown) {
         	alert(errorThrown); }  
 	});
-/**
-	//get productlist order by sales
-		$("a[name='popular']").bind('click',function(){
-			url: "https://"+address+"/CSI5380/getProductlist.do",  
-	    	type: "POST",  
-	    	async: false,
-	    	data:_json1,
-	    	dataType: "json",  
-	    	cache: false,  
-	    	success: function (result, textStatus) {
-	        	result=eval(result.cdList);
-	        	$(".subset1").children().remove();
-	        	for(i=0;i<=cdList.length;i++){
-	        		j=i+1;
-	        		h=parseInt(j/4);
-	        		l=j%4;
-	        		var item="<div class='grid1_of_4' id='"+result[i].cdid+"'><div class='content_box'><a name="images"><img src='"+result[i].imgurl+"' class='img-responsive'/></a><h4><a name="title">"+result[i].title+"</a></h4><p>by "+result[i].artist+"</p><div class='grid_1 simpleCart_shelfItem'><div class='item_add'><span class='item_price'><h6>ONLY CAD$"+result[i].price+"</h6></span></div><div class='item_add'><span class='item_price'><a id="cart">add to cart</a></span></div></div></div></div>";
-	        		if(h==1){
-	        			$(".subset1").append(item);		
-	        		}else if(h==2){
-	        			$(".subset2").append(item);
-	        		}else if(h==3){
-	        			$(".subset3").append(item);
-	        		}
-	        		//get detail of the product
-	        		$("a[name='images']").unbind('click').bind('click',function(){
-	                    var cdid=$(this).parent().parent().attr("id");
-	                    //window.location.href="details.html?cdid="+cdid;
-	                    $.post("details.html",{"cdid": cdid});
-	            }); 
-	        		//get detail of the product
-	        		$("a[name='title']").unbind('click').bind('click',function(){
-	                    var cdid=$(this).parent().parent().parent().attr("id");
-	                    //window.location.href="details.html?cdid="+cdid;
-	                    $.post("details.html",{"cdid": cdid});
-	            });
-	        		//get detail of the product
-	        		$("#cart").unbind('click').bind('click',function(){
-	                    var cdid=$(this).parent().parent().parent().parent().parent().parent().attr("id");
-	                    //add item to cookies/session
-	                    $.post("https://"+address+"/CSI5380/addtocart.do",{"cdid": cdid,"quantity":1});
-	                    
-	            });
-	       	 
-	    	},  
-	    	error: function (XMLHttpRequest, textStatus, errorThrown) {
-	        	alert(errorThrown); }  
-		});
-		
-		
-		//get productlist order by released date
-		$("a[name='new']").bind('click',function(){
-			url: "https://"+address+"/CSI5380/getProductlist.do",  
-	    	type: "POST",  
-	    	async: false,
-	    	data:_json2
-	    	dataType: "json",  
-	    	cache: false,  
-	    	success: function (result, textStatus) {
-	        	result=eval(result.cdList);
-	        	$(".subset1").children().remove();
-	        	for(i=0;i<=cdList.length;i++){
-	        		j=i+1;
-	        		h=parseInt(j/4);
-	        		l=j%4;
-	        		var item="<div class='grid1_of_4' id='"+result[i].cdid+"'><div class='content_box'><a name="images"><img src='"+result[i].imgurl+"' class='img-responsive'/></a><h4><a name="title">"+result[i].title+"</a></h4><p>by "+result[i].artist+"</p><div class='grid_1 simpleCart_shelfItem'><div class='item_add'><span class='item_price'><h6>ONLY CAD$"+result[i].price+"</h6></span></div><div class='item_add'><span class='item_price'><a id="cart">add to cart</a></span></div></div></div></div>";
-	        		if(h==1){
-	        			$(".subset1").append(item);		
-	        		}else if(h==2){
-	        			$(".subset2").append(item);
-	        		}else if(h==3){
-	        			$(".subset3").append(item);
-	        		}
-	        		//get detail of the product
-	        		$("a[name='images']").unbind('click').bind('click',function(){
-	                    var cdid=$(this).parent().parent().attr("id");
-	                    //window.location.href="details.html?cdid="+cdid;
-	                    $.post("details.html",{"cdid": cdid});
-	            }); 
-	        		//get detail of the product
-	        		$("a[name='title']").unbind('click').bind('click',function(){
-	                    var cdid=$(this).parent().parent().parent().attr("id");
-	                    //window.location.href="details.html?cdid="+cdid;
-	                    $.post("details.html",{"cdid": cdid});
-	            });
-	        		//get detail of the product
-	        		$("#cart").bind('click',function(){
-	                    var cdid=$(this).parent().parent().parent().parent().parent().parent().attr("id");
-	                  //add item to cookies/session
-	                    $.post("https://"+address+"/CSI5380/addtocart.do",{"cdid": cdid,"quantity":1});
-	            });
-	       	 
-	    	},  
-	    	error: function (XMLHttpRequest, textStatus, errorThrown) {
-	        	alert(errorThrown); }  
-		});
-		//get productlist order by promotion
-		$("a[name='dicount']").bind('click',function(){
-			url: "https://"+address+"/CSI5380/getProductlist.do",  
-	    	type: "POST",  
-	    	async: false,
-	    	data:_json3
-	    	dataType: "json",  
-	    	cache: false,  
-	    	success: function (result, textStatus) {
-	        	result=eval(result.cdList);
-	        	$(".subset1").children().remove();
-	        	for(i=0;i<=cdList.length;i++){
-	        		j=i+1;
-	        		h=parseInt(j/4);
-	        		l=j%4;
-	        		var item="<div class='grid1_of_4' id='"+result[i].cdid+"'><div class='content_box'><a name="images"><img src='"+result[i].imgurl+"' class='img-responsive'/></a><h4><a name="title">"+result[i].title+"</a></h4><p>by "+result[i].artist+"</p><div class='grid_1 simpleCart_shelfItem'><div class='item_add'><span class='item_price'><h6>ONLY CAD$"+result[i].price+"</h6></span></div><div class='item_add'><span class='item_price'><a id="cart">add to cart</a></span></div></div></div></div>";
-	        		if(h==1){
-	        			$(".subset1").append(item);		
-	        		}else if(h==2){
-	        			$(".subset2").append(item);
-	        		}else if(h==3){
-	        			$(".subset3").append(item);
-	        		}
-	        		//get detail of the product
-	        		$("a[name='images']").unbind('click').bind('click',function(){
-	                    var cdid=$(this).parent().parent().attr("id");
-	                    //window.location.href="details.html?cdid="+cdid;
-	                    $.post("details.html",{"cdid": cdid});
-	            }); 
-	        		//get detail of the product
-	        		$("a[name='title']").unbind('click').bind('click',function(){
-	                    var cdid=$(this).parent().parent().parent().attr("id");
-	                    //window.location.href="details.html?cdid="+cdid;
-	                     $.post("details.html",{"cdid": cdid});
-	            });
-	        		//get detail of the product
-	        		$("#cart").unbind('click').bind('click',function(){
-	                    var cdid=$(this).parent().parent().parent().parent().parent().parent().attr("id");
-	                  //add item to cookies/session
-	                    $.post("https://"+address+"/CSI5380/addtocart.do",{"cdid": cdid,"quantity":1});
-	            });
-	       	 
-	    	},  
-	    	error: function (XMLHttpRequest, textStatus, errorThrown) {
-	        	alert(errorThrown); }  
-		});
-		//get productlist order by price
-		$("a[name='price']").bind('click',function(){
-			url: "https://"+address+"/CSI5380/getProductlist.do",  
-	    	type: "POST",  
-	    	async: false,
-	    	data:_json4
-	    	dataType: "json",  
-	    	cache: false,  
-	    	success: function (result, textStatus) {
-	        	result=eval(result.cdList);
-	        	$(".subset1").children().remove();
-	        	for(i=0;i<=cdList.length;i++){
-	        		j=i+1;
-	        		h=parseInt(j/4);
-	        		l=j%4;
-	        		var item="<div class='grid1_of_4' id='"+result[i].cdid+"'><div class='content_box'><a name="images"><img src='"+result[i].imgurl+"' class='img-responsive'/></a><h4><a name="title">"+result[i].title+"</a></h4><p>by "+result[i].artist+"</p><div class='grid_1 simpleCart_shelfItem'><div class='item_add'><span class='item_price'><h6>ONLY CAD$"+result[i].price+"</h6></span></div><div class='item_add'><span class='item_price'><a id="cart">add to cart</a></span></div></div></div></div>";
-	        		if(h==1){
-	        			$(".subset1").append(item);		
-	        		}else if(h==2){
-	        			$(".subset2").append(item);
-	        		}else if(h==3){
-	        			$(".subset3").append(item);
-	        		}
-	        		//get detail of the product
-	        		$("a[name='images']").unbind('click').bind('click',function(){
-	                    var cdid=$(this).parent().parent().attr("id");
-	                    //window.location.href="details.html?cdid="+cdid;
-	                    $.post("details.html",{"cdid": cdid});
-	            }); 
-	        		//get detail of the product
-	        		$("a[name='title']").unbind('click').bind('click',function(){
-	                    var cdid=$(this).parent().parent().parent().attr("id");
-	                    //window.location.href="details.html?cdid="+cdid;
-	                    $.post("details.html",{"cdid": cdid});
-	            });
-	        		//get detail of the product
-	        		$("#cart").unbind('click').bind('click',function(){
-	                    var cdid=$(this).parent().parent().parent().parent().parent().parent().attr("id");
-	                  //add item to cookies/session
-	                    $.post("https://"+address+"/CSI5380/addtocart.do",{"cdid": cdid,"quantity":1});
-	            });
-	       	 
-	    	},  
-	    	error: function (XMLHttpRequest, textStatus, errorThrown) {
-	        	alert(errorThrown); }  
-		});
-		
-**/
+	
 		//search product by key words
 		$("#search").click(function(){
 	        var content=$("#content").val();
 	        window.location.href="cdcatalog.html?content="+content+"&key=&menu="+menu+"&title="+content;
-	        //$.post("cdcatalog.html",{"menu": menu,"content": content,"title":content});
 	});
 		
-		
-		
+
+		 //view shopping cart
+	    $("a[name='checkout']").click(function(){
+	    	
+	    	if($.cookie('cart')!="" && $.cookie('cart')!=null){
+	    		window.location.href="checkout.html";
+	    	}else{
+	    		alert("You Do Not Have Items In Cart Yet!");
+	    	}
+	        
+	    });		
 		
 	
 });

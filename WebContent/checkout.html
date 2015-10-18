@@ -83,7 +83,11 @@ $(document).ready(function(){
                      dataType: "json",  
                      cache: false,  
                      success: function (result, textStatus) {
-                    	 $.cookie("cart", result.cookies, { expires: 7 });
+                    	 
+                    if(result.flag!="last"){
+                    		
+                    	$.cookie("cart", result.cookies); 
+                    	
                       	var cj=$.cookie('cart');
                    		var cjson= jQuery.param({"cjson": cj});
                    		var request3 = $.ajax({
@@ -101,32 +105,42 @@ $(document).ready(function(){
                    	        error: function (XMLHttpRequest, textStatus, errorThrown) {
                    	        	alert(errorThrown); }  
                    	    });
+                   		
+                   	 var shipid=$("input[name='radio']:checked").attr("id");
+ 					var pjson= jQuery.param({"cjson":$.cookie('cart'),"shipping":shipid});
+ 						var request8 = $.ajax({
+ 					        url: "https://"+address+"/CSI5380/pricedetails.do",  
+ 					        type: "POST",  
+ 					        async: false,
+ 					        data:pjson,
+ 					        dataType: "json",  
+ 					        cache: false,  
+ 					        success: function (result, textStatus) {
+ 					        	$("#purchase").text(result.purchase);
+ 					        	$("#tax").text(result.tax);
+ 					        	$("#subtotal").text(result.subtotal);
+ 					        	$("#shippingfee").text(result.shippingfee);
+ 					        	$("#totalfee").text("CAD$ "+result.totalfee);
+ 					        },  
+ 					        error: function (XMLHttpRequest, textStatus, errorThrown) {
+ 					        	alert(errorThrown); }  
+ 					    });
+ 						
+                    }else{
+                    	$.removeCookie('cart');
+                    	alert("You Have Nothing In Cart NOW,This Page Will Lead You To Home Page!");
+						window.location.href="index.html";
+					}
                      },  
                      error: function (XMLHttpRequest, textStatus, errorThrown) {
                      	alert(errorThrown); }  
                  });
 				 
-				 var shipid=$("input[name='radio']:checked").attr("id");
-					var pjson= jQuery.param({"cjson":$.cookie('cart'),"shipping":shipid});
-						var request8 = $.ajax({
-					        url: "https://"+address+"/CSI5380/pricedetails.do",  
-					        type: "POST",  
-					        async: false,
-					        data:pjson,
-					        dataType: "json",  
-					        cache: false,  
-					        success: function (result, textStatus) {
-					        	$("#purchase").text(result.purchase);
-					        	$("#tax").text(result.tax);
-					        	$("#subtotal").text(result.subtotal);
-					        	$("#shippingfee").text(result.shippingfee);
-					        	$("#totalfee").text("CAD$ "+result.totalfee);
-					        },  
-					        error: function (XMLHttpRequest, textStatus, errorThrown) {
-					        	alert(errorThrown); }  
-					    });
+				
+						
+				
+					
          });
-			
 			
      	
 			});
@@ -137,6 +151,7 @@ $(document).ready(function(){
 		$(".quantityinput").keyup(function(){
 			var cdid=$(this).attr("name");
 			var quantity=$(this).val();
+			if(quantity!=0){
 			var mjson=jQuery.param({"cdid": cdid,"cjson": $.cookie('cart'),"quantity":quantity});
 			
 			 var request4 = $.ajax({  
@@ -189,7 +204,45 @@ $(document).ready(function(){
 				        error: function (XMLHttpRequest, textStatus, errorThrown) {
 				        	alert(errorThrown); }  
 				    });
-					
+				
+			}else{
+				
+				var djson=jQuery.param({"cdid": cdid,"cjson": $.cookie('cart')});
+				
+				 var request2 = $.ajax({  
+                    url: "https://"+address+"/CSI5380/deleteCartItems.do",  
+                    type: "POST",  
+                    async: false,
+                    data:djson,
+                    dataType: "json",  
+                    cache: false,  
+                    success: function (result, textStatus) {
+                   	 $.cookie("cart", result.cookies, { expires: 7 });
+                     	var cj=$.cookie('cart');
+                  		var cjson= jQuery.param({"cjson": cj});
+                  		var request3 = $.ajax({
+                  	        url: "https://"+address+"/CSI5380/cookies.do",  
+                  	        type: "POST",  
+                  	        async: false,
+                  	        data:cjson,
+                  	        dataType: "json",  
+                  	        cache: false,  
+                  	        success: function (result, textStatus) {
+                  	        	$("#simpleCart_total").text("$"+result.totalprice);
+                  	        	$("#simpleCart_quantity").text(result.quantity);
+                  	        	
+                  	        },  
+                  	        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                  	        	alert(errorThrown); }  
+                  	    });
+                    },  
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    	alert(errorThrown); }  
+                });
+				 
+				 $(this).parent().parent().parent().parent().remove();
+			}
+			
 			});
 		
 	}else{

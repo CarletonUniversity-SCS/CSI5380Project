@@ -2,6 +2,7 @@ package edu.carleton.comp.cdstore.util;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -24,6 +25,26 @@ public class DBConnection {
 		return false;
 	}
 	
+	public int executeUpdateandGetKey(String sql) {
+		int key=-1;
+		Statement statement;
+		try {
+			statement = this.connection.createStatement();
+			statement.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+			ResultSet rs=statement.getGeneratedKeys();
+			statement.close();
+			if(rs.next()){
+				key=rs.getInt(1);
+			}
+			return key;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			  return key;
+		}
+		
+	}
+
 	public int executeUpdate(String sql){
 		try{
 			Statement statement=this.connection.createStatement();
@@ -61,4 +82,6 @@ public class DBConnection {
 		}
 		return null;
 	}
+
+	
  }

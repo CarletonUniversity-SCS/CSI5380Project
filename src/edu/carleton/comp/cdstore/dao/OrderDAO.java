@@ -35,7 +35,7 @@ public class OrderDAO extends DAO{
 		Order order=null;
 		try{
 			if(rs.next()){
-		order=new Order(rs.getInt(1),rs.getTimestamp(2),rs.getString(3),rs.getFloat(4),rs.getInt(5),rs.getInt(6),rs.getInt(7),rs.getInt(8));
+		order=new Order(rs.getInt(1),rs.getTimestamp(2),rs.getString(3),rs.getFloat(4),rs.getInt(5),rs.getInt(6),rs.getInt(7),rs.getInt(8),rs.getInt(9));
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -47,27 +47,25 @@ public class OrderDAO extends DAO{
 		}
 		return order;
 	}
-
 	
-	
-	
-	
-	@Override
-	public boolean create(Object o) {
-		Order order=(Order) o;
-		String sql=this.sqlcode.getProperty("order.create");
-		String sqlString=MessageFormat.format(sql, new Object[]{
-				order.getDate(),
-				order.getStatus(),
-				order.getTotal(),
-				order.getUserid(),
-				order.getAddrid(),
-				order.getShipid(),
-				order.getTaxid()
-		});
-		return this.dao.execute(sqlString);
-		
+	public  int createandgetkey(Object o){
+	Order order=(Order) o;
+	String sql=this.sqlcode.getProperty("order.create");
+	String sqlString=MessageFormat.format(sql, new Object[]{
+			order.getDate(),
+			order.getStatus(),
+			order.getTotal(),
+			order.getUserid(),
+			order.getAddrid(),
+			order.getBillid(),
+			order.getShipid(),
+			order.getTaxid()
+	});
+	return this.dao.executeandgetkey(sqlString);
 	}
+	
+	
+
 
 	@Override
 	public boolean update(Object paramObject) {
@@ -110,6 +108,11 @@ public class OrderDAO extends DAO{
 	public Object find(Object paramObject) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public boolean create(Object paramObject) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	

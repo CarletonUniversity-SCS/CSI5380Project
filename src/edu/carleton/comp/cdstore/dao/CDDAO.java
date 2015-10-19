@@ -79,13 +79,13 @@ public class CDDAO extends DAO{
 	}
 	
 	
-//	public int getstock(int cdid){
-//		String sql=this.sqlcode.getProperty("CD.getstock");
-//		String sqlstring=MessageFormat.format(sql, new Object[]{cdid});
-//		return Integer.parseInt(this.dao.executeLookup(sqlstring, "CD.getstock").toString());
-//	}
-//	
-//	
+	public int getstock(int cdid){
+		String sql=this.sqlcode.getProperty("CD.getstock");
+		String sqlstring=MessageFormat.format(sql, new Object[]{cdid});
+		return Integer.parseInt(this.dao.executeLookup(sqlstring, "CD.getstock").toString());
+	}
+	
+	
 	
 	
 	

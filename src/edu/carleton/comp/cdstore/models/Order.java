@@ -9,16 +9,31 @@ public class Order {
 	float total;
 	int userid;
 	int addrid;
+	int billid;
 	int shipid;
 	int taxid;
 	
-	public Order(int orderid, Timestamp date, String status, float total, int userid, int addrid, int shipid, int taxid) {
+	
+	
+	public Order(Timestamp date, String status, float total, int userid, int addrid, int billid, int shipid,int taxid) {
+		super();	
+		this.date = date;
+		this.status = status;
+		this.total = total;
+		this.userid = userid;
+		this.addrid = addrid;
+		this.billid = billid;
+		this.shipid = shipid;
+		this.taxid = taxid;
+	}
+	public Order(int orderid, Timestamp date, String status, float total, int userid, int addrid, int billid, int shipid, int taxid) {
 		this.orderid = orderid;
 		this.date = date;
 		this.status = status;
 		this.total = total;
 		this.userid = userid;
 		this.addrid = addrid;
+		this.billid = billid;
 		this.shipid = shipid;
 		this.taxid = taxid;
 	}
@@ -71,6 +86,11 @@ public class Order {
 		this.taxid = taxid;
 	}
 	
-	
+	public final int getBillid() {
+		return billid;
+	}
+	public final void setBillid(int billid) {
+		this.billid = billid;
+	}
 	
 }

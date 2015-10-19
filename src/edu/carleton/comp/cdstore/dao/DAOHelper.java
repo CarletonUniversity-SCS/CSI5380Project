@@ -3,11 +3,13 @@ package edu.carleton.comp.cdstore.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import edu.carleton.comp.cdstore.util.DBConnection;
 
 public class DAOHelper {
 	public int affectedrow;
+	public int generatedkey;
 	private DBConnection connection=null;
 	
 	public DAOHelper(){
@@ -16,6 +18,12 @@ public class DAOHelper {
 	
 	public boolean execute(String sql){
 		return this.connection.executeStatement(sql);
+	}
+	
+	public int executeandgetkey(String sql) {
+		
+		return generatedkey=this.connection.executeUpdateandGetKey(sql);
+		
 	}
 	
 	public boolean executeUpdate(String sql){

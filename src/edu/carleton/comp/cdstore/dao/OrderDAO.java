@@ -35,7 +35,7 @@ public class OrderDAO extends DAO{
 		Order order=null;
 		try{
 			if(rs.next()){
-		order=new Order(rs.getInt(1),rs.getDate(2),rs.getString(3),rs.getFloat(4),rs.getInt(5),rs.getInt(6),rs.getInt(7),rs.getInt(8));
+		order=new Order(rs.getInt(1),rs.getTimestamp(2),rs.getString(3),rs.getFloat(4),rs.getInt(5),rs.getInt(6),rs.getInt(7),rs.getInt(8));
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -48,6 +48,10 @@ public class OrderDAO extends DAO{
 		return order;
 	}
 
+	
+	
+	
+	
 	@Override
 	public boolean create(Object o) {
 		Order order=(Order) o;

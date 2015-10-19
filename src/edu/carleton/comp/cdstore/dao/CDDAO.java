@@ -77,7 +77,19 @@ public class CDDAO extends DAO{
 		return super.processResultSet(condition);
 		
 	}
-
+	
+	
+//	public int getstock(int cdid){
+//		String sql=this.sqlcode.getProperty("CD.getstock");
+//		String sqlstring=MessageFormat.format(sql, new Object[]{cdid});
+//		return Integer.parseInt(this.dao.executeLookup(sqlstring, "CD.getstock").toString());
+//	}
+//	
+//	
+	
+	
+	
+	
 	@Override
 	protected Object getDataObject(ResultSet rs, boolean close) {
 		CD cd=null;
@@ -97,8 +109,12 @@ public class CDDAO extends DAO{
 			}
 		return cd;
 	}
-	
-	
+	public boolean updatestock(int stock, int cdid) {
+			String sql=this.sqlcode.getProperty("CD.updatestock");
+			String sqlstring=MessageFormat.format(sql, new Object[]{cdid,stock});
+			return this.dao.executeUpdate(sqlstring);	
+	}
+
 
 	@Override
 	public Object findByPrimaryKey(int cdid) {

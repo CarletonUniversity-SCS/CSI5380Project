@@ -39,7 +39,11 @@ public class AddressDAO extends DAO {
 		return getDataObject(this.dao.executeLookup(sqlstring,"address.searchbyuserid"),true);
 	}
 
-	
+	public int getaddrid(int userid){
+		String sql=this.sqlcode.getProperty("address.getaddrid");
+		String sqlstring=MessageFormat.format(sql, new Object[]{userid});
+		return Integer.parseInt(this.dao.executeLookup(sqlstring, "address.getaddrid").toString());
+	}
 
 	public boolean create(Object o) {
 		Address address=(Address) o;

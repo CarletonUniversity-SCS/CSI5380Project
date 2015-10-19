@@ -1,10 +1,10 @@
 package edu.carleton.comp.cdstore.models;
 
-import java.util.Date;
+import java.sql.Timestamp;;
 
 public class Order {
 	int orderid;
-	Date date;
+	Timestamp date;
 	String status;
 	float total;
 	int userid;
@@ -12,7 +12,7 @@ public class Order {
 	int shipid;
 	int taxid;
 	
-	public Order(int orderid, Date date, String status, float total, int userid, int addrid, int shipid, int taxid) {
+	public Order(int orderid, Timestamp date, String status, float total, int userid, int addrid, int shipid, int taxid) {
 		this.orderid = orderid;
 		this.date = date;
 		this.status = status;
@@ -28,10 +28,10 @@ public class Order {
 	public final void setOrderid(int orderid) {
 		this.orderid = orderid;
 	}
-	public final Date getDate() {
+	public final Timestamp getDate() {
 		return date;
 	}
-	public final void setDate(Date date) {
+	public final void setDate(Timestamp date) {
 		this.date = date;
 	}
 	public final String getStatus() {

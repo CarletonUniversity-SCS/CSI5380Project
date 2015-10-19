@@ -32,6 +32,12 @@ public class BillDAO extends DAO{
 		return bill;
 	}
 	
+	public int getbillid(int userid){
+		String sql=this.sqlcode.getProperty("bill.getbillid");
+		String sqlstring=MessageFormat.format(sql, new Object[]{userid});
+		return Integer.parseInt(this.dao.executeLookup(sqlstring, "bill.getbillid").toString());
+	}
+	
 	@Override
 	public Object findByPrimaryKey(int userid) {
 		String sql=this.sqlcode.getProperty("bill.searchbyuserid");

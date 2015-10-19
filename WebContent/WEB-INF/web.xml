@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
-  
-  
- <display-name>CSI5380</display-name>
- <welcome-file-list>
+  <display-name>CSI5380</display-name>
+  <welcome-file-list>
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
-  
   <servlet>
     <servlet-name>RegisterServlet</servlet-name>
     <servlet-class>edu.carleton.comp.cdstore.controllers.RegisterController</servlet-class>
@@ -30,7 +27,7 @@
   <servlet-mapping>
     <servlet-name>CookieServlet</servlet-name>
     <url-pattern>/cookies.do</url-pattern>
-  </servlet-mapping>    
+  </servlet-mapping>
   <servlet>
     <servlet-name>MaintainSession</servlet-name>
     <servlet-class>edu.carleton.comp.cdstore.sessionmanager.MaintainSession</servlet-class>
@@ -39,7 +36,7 @@
     <servlet-name>MaintainSession</servlet-name>
     <url-pattern>/keepsession.do</url-pattern>
   </servlet-mapping>
-   <servlet>
+  <servlet>
     <servlet-name>GetCategoryListServlet</servlet-name>
     <servlet-class>edu.carleton.comp.cdstore.controllers.GetCategoryListController</servlet-class>
   </servlet>
@@ -71,7 +68,7 @@
     <servlet-name>AddToCartServlet</servlet-name>
     <url-pattern>/addtocart.do</url-pattern>
   </servlet-mapping>
-   <servlet>
+  <servlet>
     <servlet-name>RemoveCartItemServlet</servlet-name>
     <servlet-class>edu.carleton.comp.cdstore.cookies.RemoveCartItem</servlet-class>
   </servlet>
@@ -87,7 +84,7 @@
     <servlet-name>ModifyQuantityServlet</servlet-name>
     <url-pattern>/changeCartItems.do</url-pattern>
   </servlet-mapping>
- <servlet>
+  <servlet>
     <servlet-name>GetShippingMethodServlet</servlet-name>
     <servlet-class>edu.carleton.comp.cdstore.controllers.GetShippingMethodController</servlet-class>
   </servlet>
@@ -103,8 +100,8 @@
     <servlet-name>GetPriceDetailsServlet</servlet-name>
     <url-pattern>/pricedetails.do</url-pattern>
   </servlet-mapping>
-   <error-page>
-        <error-code>404</error-code>
-        <location>/404.html</location>
-    </error-page>
+  <error-page>
+    <error-code>404</error-code>
+    <location>/404.html</location>
+  </error-page>
 </web-app>

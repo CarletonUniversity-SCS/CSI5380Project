@@ -30,7 +30,6 @@ import edu.carleton.comp.cdstore.dao.ItemDAO;
 import edu.carleton.comp.cdstore.dao.OrderDAO;
 import edu.carleton.comp.cdstore.dao.ShippingDAO;
 import edu.carleton.comp.cdstore.dao.TaxDAO;
-import edu.carleton.comp.cdstore.models.CD;
 import edu.carleton.comp.cdstore.models.Customer;
 import edu.carleton.comp.cdstore.models.Item;
 import edu.carleton.comp.cdstore.models.Order;

@@ -36,7 +36,7 @@ public class OrderDAO extends DAO{
 		Order order=null;
 		try{
 			if(rs.next()){
-		order=new Order(rs.getInt(1),rs.getTimestamp(2),rs.getString(3),rs.getFloat(4),rs.getInt(5),rs.getInt(6),rs.getInt(7),rs.getInt(8),rs.getInt(9));
+		order=new Order(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getFloat(4),rs.getInt(5),rs.getInt(6),rs.getInt(7),rs.getInt(8),rs.getInt(9));
 			}
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -67,12 +67,12 @@ public class OrderDAO extends DAO{
 	
 	public  int createandgetkeynull(Object o){
 		Order order=(Order) o;
-		Timestamp date=order.getDate();
+		
 
 		String sql=this.sqlcode.getProperty("order.createnull");
 		String sqlString=MessageFormat.format(sql, new Object[]{
 				order.getOrderid(),
-				date,
+				order.getDate(),
 				order.getStatus(),
 				order.getTotal(),
 				order.getUserid(),

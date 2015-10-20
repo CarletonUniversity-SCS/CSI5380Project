@@ -113,7 +113,7 @@ public class OrderController extends HttpServlet {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS",Locale.ENGLISH);
 		/*partially ignore the input format*/
 		dateFormat.setLenient(false);   
-		Timestamp date=java.sql.Timestamp.valueOf(dateFormat.format(new Date()));
+		String date=dateFormat.format(new Date());
 		Order order;
 		int orderid=0;
 		if(addrid==0 || billid==0){

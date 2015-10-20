@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 public class Order {
 	int orderid;
 	//Timestamp date;
-	Timestamp date;
+	String date;
 	String status;
 	float total;
 	int userid;
@@ -14,7 +14,7 @@ public class Order {
 	int shipid;
 	int taxid;
 
-	public Order(Timestamp date, String status, float total, int userid, Integer addrid,Integer billid,int shipid,int taxid) {
+	public Order(String date, String status, float total, int userid, Integer addrid,Integer billid,int shipid,int taxid) {
 		super();	
 		this.date = date;
 		this.status = status;
@@ -25,7 +25,7 @@ public class Order {
 		this.shipid = shipid;
 		this.taxid = taxid;
 	}
-	public Order(Timestamp date, String status, float total, int userid, int shipid,int taxid) {
+	public Order(String date, String status, float total, int userid, int shipid,int taxid) {
 		super();	
 		this.date = date;
 		this.status = status;
@@ -34,7 +34,7 @@ public class Order {
 		this.shipid = shipid;
 		this.taxid = taxid;
 	}
-	public Order(int orderid, Timestamp date, String status, float total, int userid, int addrid, int billid, int shipid, int taxid) {
+	public Order(int orderid, String date, String status, float total, int userid, int addrid, int billid, int shipid, int taxid) {
 		this.orderid = orderid;
 		this.date = date;
 		this.status = status;
@@ -51,10 +51,10 @@ public class Order {
 	public final void setOrderid(int orderid) {
 		this.orderid = orderid;
 	}
-	public final Timestamp getDate() {
+	public final String getDate() {
 		return date;
 	}
-	public final void setDate(Timestamp date) {
+	public final void setDate(String date) {
 		this.date = date;
 	}
 	public final String getStatus() {

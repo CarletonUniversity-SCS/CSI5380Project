@@ -2,6 +2,7 @@ package edu.carleton.comp.cdstore.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -66,10 +67,12 @@ public class OrderDAO extends DAO{
 	
 	public  int createandgetkeynull(Object o){
 		Order order=(Order) o;
+		Timestamp date=order.getDate();
+
 		String sql=this.sqlcode.getProperty("order.createnull");
 		String sqlString=MessageFormat.format(sql, new Object[]{
 				order.getOrderid(),
-				order.getDate(),
+				date,
 				order.getStatus(),
 				order.getTotal(),
 				order.getUserid(),

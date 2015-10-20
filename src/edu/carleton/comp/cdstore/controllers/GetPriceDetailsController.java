@@ -2,6 +2,7 @@ package edu.carleton.comp.cdstore.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,16 +52,23 @@ public class GetPriceDetailsController extends HttpServlet  {
 		ShippingDAO dao=new ShippingDAO();
 		Object shipping=dao.findByPrimaryKey(shipid);
 		Shipping ship=(Shipping) shipping;
-		float price=ship.getPrice();
-		float tax=(float) (t*0.13);
-		float subtotal=t+tax;
+		BigDecimal priceb=new BigDecimal(ship.getPrice());  
+		double pricef=priceb.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		BigDecimal tb=new BigDecimal(t);  
+		double tf=tb.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		BigDecimal taxb=new BigDecimal(t*0.13);  
+		double tax=taxb.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		BigDecimal subtotalb=new BigDecimal(t+tax);  
+		double subtotal=subtotalb.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		BigDecimal totalfeeb=new BigDecimal(t+tax+ship.getPrice());  
+		double totalfee=totalfeeb.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 		dao.destory();
 		
-		result.put("purchase", String.valueOf(t));
+		result.put("purchase", String.valueOf(tf));
 		result.put("tax",String.valueOf(tax));
 		result.put("subtotal",String.valueOf(subtotal));
-		result.put("shippingfee",String.valueOf(price));
-		result.put("totalfee",String.valueOf(subtotal+price));
+		result.put("shippingfee",String.valueOf(pricef));
+		result.put("totalfee",String.valueOf(totalfee));
 		String result_str = JSON.toJSONString(result,SerializerFeature.DisableCircularReferenceDetect);
 		out.print(result_str);
 		

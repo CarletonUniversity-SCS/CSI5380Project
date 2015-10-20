@@ -387,6 +387,41 @@ $(document).ready(function(){
 			    });
 			
 		});
+		//checkout process
+		$(".order").click(function(){
+			var shipid=$("input[name='radio']:checked").attr("id");
+			var request9 = $.ajax({
+		        url: "https://"+address+"/CSI5380/verifysession.do",  
+		        type: "POST",  
+		        async: false,
+		        dataType: "json", 
+		        cache: false,  
+		        success: function (result, textStatus) {
+		        	if(result.code=="yes"){
+		        		var pjson= jQuery.param({"cjson":$.cookie('cart'),"shipping":shipid});
+		        		var request10 = $.ajax({
+					        url: "https://"+address+"/CSI5380/order.do",  
+					        type: "POST", 
+					        async: false,
+					        data:pjson,
+					        dataType: "json",  
+					        cache: false,  
+					        success: function (result, textStatus) {
+					        	alert('sucess');
+					        },  
+					        error: function (XMLHttpRequest, textStatus, errorThrown) {
+					        	alert(errorThrown); }  
+					    });
+						
+					}else{
+						window.location.href="register.html";
+					}	
+		        },  
+		        error: function (XMLHttpRequest, textStatus, errorThrown) {
+		        	alert(errorThrown); }  
+		    });
+	        
+		});
 	
 });	
 </script>
@@ -457,10 +492,10 @@ $(document).ready(function(){
 				<div class="clearfix"> </div>
 			</div>
 			<div class="search">
-				<form>
+				
 					<input type="text" value="" placeholder="search...">
 					<input type="submit" value="">
-				</form>
+				
 			</div>
 			<div class="clearfix"> </div>
 		</div>
@@ -498,7 +533,7 @@ $(document).ready(function(){
 			
 			 
 			 <div class="clearfix"></div>
-			 <a class="order" href="confirmorder.html">Checkout</a>
+			 <a class="order">Checkout</a>
 			</div>
 		 <div class="col-md-13 cart-items">
 			 <h1>My Shopping Bag</h1>	

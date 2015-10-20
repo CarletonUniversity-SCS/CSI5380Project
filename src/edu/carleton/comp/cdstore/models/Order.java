@@ -1,28 +1,36 @@
 package edu.carleton.comp.cdstore.models;
 
-import java.sql.Timestamp;;
+import java.sql.Timestamp;
 
 public class Order {
 	int orderid;
+	//Timestamp date;
 	Timestamp date;
 	String status;
 	float total;
 	int userid;
-	int addrid;
-	int billid;
+	Integer addrid;
+	Integer billid;
 	int shipid;
 	int taxid;
-	
-	
-	
-	public Order(Timestamp date, String status, float total, int userid, int addrid, int billid, int shipid,int taxid) {
+
+	public Order(Timestamp date, String status, float total, int userid, Integer addrid,Integer billid,int shipid,int taxid) {
 		super();	
 		this.date = date;
 		this.status = status;
 		this.total = total;
 		this.userid = userid;
-		this.addrid = addrid;
-		this.billid = billid;
+		this.addrid=addrid;
+		this.billid=billid;
+		this.shipid = shipid;
+		this.taxid = taxid;
+	}
+	public Order(Timestamp date, String status, float total, int userid, int shipid,int taxid) {
+		super();	
+		this.date = date;
+		this.status = status;
+		this.total = total;
+		this.userid = userid;
 		this.shipid = shipid;
 		this.taxid = taxid;
 	}
@@ -67,10 +75,10 @@ public class Order {
 	public final void setUserid(int userid) {
 		this.userid = userid;
 	}
-	public final int getAddrid() {
+	public final Integer getAddrid() {
 		return addrid;
 	}
-	public final void setAddrid(int addrid) {
+	public final void setAddrid(Integer addrid) {
 		this.addrid = addrid;
 	}
 	public final int getShipid() {
@@ -86,10 +94,10 @@ public class Order {
 		this.taxid = taxid;
 	}
 	
-	public final int getBillid() {
+	public final Integer getBillid() {
 		return billid;
 	}
-	public final void setBillid(int billid) {
+	public final void setBillid(Integer billid) {
 		this.billid = billid;
 	}
 	

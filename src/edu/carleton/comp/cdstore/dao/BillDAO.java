@@ -35,7 +35,7 @@ public class BillDAO extends DAO{
 	public int getbillid(int userid){
 		String sql=this.sqlcode.getProperty("bill.getbillid");
 		String sqlstring=MessageFormat.format(sql, new Object[]{userid});
-		return Integer.parseInt(this.dao.executeLookup(sqlstring, "bill.getbillid").toString());
+		return getInteger(this.dao.executeLookup(sqlstring, "bill.getbillid"), true);
 	}
 	
 	@Override
@@ -114,6 +114,21 @@ public class BillDAO extends DAO{
 		// TODO Auto-generated method stub
 		return false;
 	}
+	@Override
+	protected Integer getInteger(ResultSet rs, boolean close) {
+		Integer addrid=0;
+		try{
+			if(rs.next()){
+				addrid=rs.getInt(1);
+			}
+		}catch(SQLException e){
+				e.printStackTrace();
+			}finally{
+				if(close){
+					close(rs);
+				}
+			}
+		return addrid;
+	}
+	}
 	
-	
-}

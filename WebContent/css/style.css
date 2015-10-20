@@ -69,7 +69,6 @@ body a{
 .total {
   display: inline-block;
 }
-/*----*/
 /*--checkout--*/
 .cart h2{
 	font-size:1.5em;
@@ -268,7 +267,6 @@ a.item_add1 {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   border-top-right-radius: 0;
-  /* border-bottom-right-radius: 50%; */
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   border-top-left-radius: 0;
@@ -472,7 +470,7 @@ select.item_Size {
 #loginForm:after {
 	content: '';
 	position: absolute;
-	right: 25px;
+	right: 228px;
 	top: -10px;
 	border-left:10px solid rgba(0, 0, 0, 0);
 	border-right:10px solid rgba(0, 0, 0, 0);
@@ -626,13 +624,13 @@ input:focus {
 .log {
   float: left;
   /**width: 19%;**/
-  width: 40%;
+  width: 60%;
 }
-.reg {
+/*.reg {
   float: left;
   width: 20%;
   margin: 5px 0;
-}
+}*/
 /* create_btn */
 .create_btn,.confirm_btn {
   float: left;
@@ -4052,6 +4050,6 @@ a.cpns {
   src:url(../css/fonts/Playfair Display.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
-.pointer,#menutitle{
+.pointer,#menutitle,.order{
 	cursor: pointer;
 }

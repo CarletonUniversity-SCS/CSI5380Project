@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.alibaba.fastjson.JSON;
 
@@ -27,6 +28,7 @@ import edu.carleton.comp.cdstore.models.Customer;
 			String email=req.getParameter("email");
 			String sex = req.getParameter("sex");
 			String password = req.getParameter("password");
+			HttpSession session=req.getSession();
 			
 			Map<String, Object> result = new HashMap<String, Object>();
 			
@@ -39,6 +41,8 @@ import edu.carleton.comp.cdstore.models.Customer;
 							result.put("code", "success");
 							String result_str = JSON.toJSONString(result);
 							out.print(result_str);
+							
+							session.setAttribute("account", email);
 					}else{
 						result.put("code", "User Already Existed!");
 						String result_str = JSON.toJSONString(result);

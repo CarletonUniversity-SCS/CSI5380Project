@@ -64,6 +64,23 @@ public class OrderDAO extends DAO{
 	return this.dao.executeandgetkey(sqlString);
 	}
 	
+	public  int createandgetkeynull(Object o){
+		Order order=(Order) o;
+		String sql=this.sqlcode.getProperty("order.createnull");
+		String sqlString=MessageFormat.format(sql, new Object[]{
+				order.getOrderid(),
+				order.getDate(),
+				order.getStatus(),
+				order.getTotal(),
+				order.getUserid(),
+				order.getAddrid(),
+				order.getBillid(),
+				order.getShipid(),
+				order.getTaxid()
+		});
+		return this.dao.executeandgetkey(sqlString);
+		}
+		
 	
 
 
@@ -113,6 +130,11 @@ public class OrderDAO extends DAO{
 	public boolean create(Object paramObject) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	@Override
+	protected Integer getInteger(ResultSet paramResultSet, boolean paramBoolean) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

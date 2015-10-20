@@ -2,14 +2,20 @@ package edu.carleton.comp.cdstore.models;
 
 public class Customer {
 	private int userid;
-	
 	private String password;
 	private String fname;
 	private String iname;
 	private String email;
 	private String sex;
+	public Customer(Integer userid,String password, String fname, String iname,String email,String sex){
+		this.userid=userid;
+		this.password=password;
+		this.fname=fname;
+		this.iname=iname;
+		this.email=email;
+		this.sex=sex;
+	}
 	public Customer(String password, String fname, String iname,String email,String sex){
-		
 		this.password=password;
 		this.fname=fname;
 		this.iname=iname;

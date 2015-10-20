@@ -66,7 +66,6 @@ public class AddToCart extends HttpServlet  {
 			out.print(result_str);
 		}
 		}
-
 }
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {

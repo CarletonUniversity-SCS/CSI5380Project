@@ -10,8 +10,8 @@ public class ConfigProperties {
 	public String SQL_DIR=null;
 	public static String WORKING_DIR=null;
 	private ConfigProperties(){
-		this.URL=(WORKING_DIR+"/configure.properties");
-		this.SQL_DIR=(WORKING_DIR+"/sql.properties");
+		this.URL=("E:\\workspace(current)\\CSI5380Project\\src\\configure.properties");
+		this.SQL_DIR=("E:\\workspace(current)\\CSI5380Project\\src\\sql.properties");
 		System.out.println("URL:"+this.URL);
 		System.out.println("Sql dir:"+this.SQL_DIR);
 		//init();

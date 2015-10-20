@@ -24,9 +24,9 @@ public class CustomerDAO extends DAO {
 		}
 		
 		@Override
-		public Object findByPrimaryKey(String paramString) {
+		public Object findByPrimaryKey(String email) {
 			String sql=this.sqlcode.getProperty("customer.searchuserbyemail");
-			String sqlstring=MessageFormat.format(sql, new Object[]{paramString});
+			String sqlstring=MessageFormat.format(sql, new Object[]{email});
 			return getDataObject(this.dao.executeLookup(sqlstring,"customer.searchuserbyemail"),true);
 		}
 		@Override
@@ -34,7 +34,7 @@ public class CustomerDAO extends DAO {
 			Customer customer=null;
 			try{
 				if(rs.next()){
-					customer=new Customer(rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6));
+					customer=new Customer(Integer.valueOf(rs.getString(1)),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6));
 				}
 			}catch(SQLException e){
 				e.printStackTrace();
@@ -115,6 +115,11 @@ public class CustomerDAO extends DAO {
 	
 	@Override
 	public Object find(Object paramObject) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	protected Integer getInteger(ResultSet paramResultSet, boolean paramBoolean) {
 		// TODO Auto-generated method stub
 		return null;
 	}

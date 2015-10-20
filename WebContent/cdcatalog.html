@@ -158,8 +158,10 @@ $(document).ready(function(){
         		$(".cart").unbind('click').bind('click',function(){
                     var cdid=$(this).parent().parent().parent().parent().parent().attr("id")
                     //add item to cookies/session
+                    
                     var aj=$.cookie('cart');
                     ajson=jQuery.param({"cdid": cdid,"quantity":1,"aj":aj});
+                    //if(!typeof(cdid) == "undefined"){
                     var request4 = $.ajax({  
                         url: "https://"+address+"/CSI5380/addtocart.do",  
                         type: "POST",  
@@ -191,7 +193,9 @@ $(document).ready(function(){
                         error: function (XMLHttpRequest, textStatus, errorThrown) {
                         	alert(errorThrown); }  
                     });
+                   // }   
             });
+        		
         		if(mtitle!=null){
         		$('#menutitle').text(mtitle+" - "+result.length+" items");	
         		}else{
@@ -203,6 +207,7 @@ $(document).ready(function(){
         		window.location.href="notavailable.html";
         	}
        	 
+        	
     	}, 
     	
     	error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -302,10 +307,8 @@ $(document).ready(function(){
 				<div class="clearfix"> </div>
 			</div>
 			<div class="search">
-				
 					<input id="content" type="text" value="" placeholder="search...">
 					<input id="search" type="submit" value="">
-				
 			</div>
 			<div class="clearfix"> </div>
 		</div>

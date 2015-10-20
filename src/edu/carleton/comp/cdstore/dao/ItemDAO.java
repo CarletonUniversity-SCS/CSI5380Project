@@ -93,6 +93,11 @@ public class ItemDAO extends DAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	protected Integer getInteger(ResultSet paramResultSet, boolean paramBoolean) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	
 

@@ -13,6 +13,7 @@ public abstract class DAO implements DAOInterface{
 	protected Properties sqlcode=null;
 	public DAO(){}
 	protected abstract Object getDataObject(ResultSet paramResultSet, boolean paramBoolean);
+	protected abstract Integer getInteger(ResultSet paramResultSet, boolean paramBoolean);
 	protected void init(){
 		try{
 			String sqlFile =ConfigProperties.getInstance().SQL_DIR;

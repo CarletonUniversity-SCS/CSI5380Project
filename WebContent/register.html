@@ -49,7 +49,8 @@ $(document).ready(function(){
                 success: function (result, textStatus) {
                 	if (result.code=="success")
                     {
-                		window.location.href="index.html";
+                		//window.location.href="index.html";
+                		history.go(-1);
                     }else{
                   alert(result.code);  }
                 	
@@ -67,9 +68,9 @@ $(document).ready(function(){
     });
     
     $("#login").click(function(){ 
-
-        var _json = jQuery.param({ "email": $("#email").val(),"password": $("#password").val()});  
+        var _json = jQuery.param({ "email": $("#email1").val(),"password": $("#password1").val()});  
         var request1 = $.ajax({  
+        	
             url: "https://"+address+"/CSI5380/login.do",  
             type: "POST",  
             async: false,  
@@ -79,7 +80,8 @@ $(document).ready(function(){
             success: function (result, textStatus) {
                 if (result.code=="success")
                   {
-                    window.location.href="index.html" 
+                    //window.location.href="index.html" 
+                    history.go(-1);
                   }else{
                 alert(result.code);  }
                 
@@ -183,16 +185,15 @@ $(document).ready(function(){
 	<div class="registration_left">
 		<h2>existing user</h2>
 		 <div class="registration_form">
-		 <!-- Form -->
-			<form id="registration_form" action="" method="post">
+			<div id="registration_form">
 				<div>
 					<label>
-						<input id="email" placeholder="email:" type="email" tabindex="3" required>
+						<input id="email1" placeholder="email:" type="email" tabindex="3" required>
 					</label>
 				</div>
 				<div>
 					<label>
-						<input id="password" placeholder="password" type="password" tabindex="4" required>
+						<input id="password1" placeholder="password" type="password" tabindex="4" required>
 					</label>
 				</div>						
 				<div>
@@ -201,8 +202,7 @@ $(document).ready(function(){
 				<div class="forget">
 					<a href="#">forgot your password</a>
 				</div>
-			</form>
-			<!-- Form -->
+			</div>
 			</div>
 	</div>
 	<div class="clearfix"></div>

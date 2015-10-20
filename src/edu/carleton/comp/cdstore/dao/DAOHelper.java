@@ -3,7 +3,6 @@ package edu.carleton.comp.cdstore.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import edu.carleton.comp.cdstore.util.DBConnection;
 

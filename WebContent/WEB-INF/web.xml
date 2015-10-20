@@ -103,6 +103,22 @@
     <servlet-name>GetPriceDetailsServlet</servlet-name>
     <url-pattern>/pricedetails.do</url-pattern>
   </servlet-mapping>
+  <servlet>
+  <servlet-name>VerifySession</servlet-name>
+    <servlet-class>edu.carleton.comp.cdstore.sessionmanager.VerifySession</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>VerifySession</servlet-name>
+    <url-pattern>/verifysession.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>OrderServlet</servlet-name>
+    <servlet-class>edu.carleton.comp.cdstore.controllers.OrderController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>OrderServlet</servlet-name>
+    <url-pattern>/order.do</url-pattern>
+  </servlet-mapping>
    <error-page>
         <error-code>404</error-code>
         <location>/404.html</location>

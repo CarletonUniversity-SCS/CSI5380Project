@@ -42,7 +42,7 @@ public class AddressDAO extends DAO {
 	public int getaddrid(int userid){
 		String sql=this.sqlcode.getProperty("address.getaddrid");
 		String sqlstring=MessageFormat.format(sql, new Object[]{userid});
-		return Integer.parseInt(this.dao.executeLookup(sqlstring, "address.getaddrid").toString());
+		return getInteger(this.dao.executeLookup(sqlstring, "address.getaddrid"), true);
 	}
 
 	public boolean create(Object o) {
@@ -129,7 +129,23 @@ public class AddressDAO extends DAO {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	@Override
+	protected Integer getInteger(ResultSet rs, boolean close) {
+		Integer addrid=0;
+		try{
+			if(rs.next()){
+				addrid=rs.getInt(1);
+			}
+		}catch(SQLException e){
+				e.printStackTrace();
+			}finally{
+				if(close){
+					close(rs);
+				}
+			}
+		return addrid;
+	}
+	}
 	
 
 	
-}

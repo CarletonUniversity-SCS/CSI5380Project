@@ -82,13 +82,10 @@ public class CDDAO extends DAO{
 	public int getstock(int cdid){
 		String sql=this.sqlcode.getProperty("CD.getstock");
 		String sqlstring=MessageFormat.format(sql, new Object[]{cdid});
-		return Integer.parseInt(this.dao.executeLookup(sqlstring, "CD.getstock").toString());
+		return getInteger(this.dao.executeLookup(sqlstring, "CD.getstock"), true);
+		
 	}
-	
-	
-	
-	
-	
+
 	
 	@Override
 	protected Object getDataObject(ResultSet rs, boolean close) {
@@ -209,6 +206,21 @@ public class CDDAO extends DAO{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	@Override
+	protected Integer getInteger(ResultSet rs, boolean close) {
+		Integer stock=0;
+		try{
+			if(rs.next()){
+				stock=rs.getInt(1);
+			}
+		}catch(SQLException e){
+				e.printStackTrace();
+			}finally{
+				if(close){
+					close(rs);
+				}
+			}
+		return stock;
+	}
 	
 }

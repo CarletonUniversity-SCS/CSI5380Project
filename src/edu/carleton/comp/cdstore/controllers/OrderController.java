@@ -30,7 +30,6 @@ import edu.carleton.comp.cdstore.dao.ItemDAO;
 import edu.carleton.comp.cdstore.dao.OrderDAO;
 import edu.carleton.comp.cdstore.dao.ShippingDAO;
 import edu.carleton.comp.cdstore.dao.TaxDAO;
-import edu.carleton.comp.cdstore.models.CD;
 import edu.carleton.comp.cdstore.models.Customer;
 import edu.carleton.comp.cdstore.models.Item;
 import edu.carleton.comp.cdstore.models.Order;
@@ -43,10 +42,10 @@ public class OrderController extends HttpServlet {
        
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String cjson=req.getParameter("cjson");
-		String account=(String)req.getSession().getAttribute("Account");
+		String account=(String) req.getSession().getAttribute("account");
 		PrintWriter out=resp.getWriter();
 	
-		int shipid=Integer.parseInt(req.getParameter("shipid"));
+		int shipid=Integer.parseInt(req.getParameter("shipping"));
 		ShippingDAO shipdao =new ShippingDAO();
 		Shipping shipping=(Shipping)(shipdao.findByPrimaryKey(shipid));
 		shipdao.destory();
@@ -58,16 +57,19 @@ public class OrderController extends HttpServlet {
 		float taxrate=tax.getTaxrate();
 		
 		CustomerDAO customerdao=new CustomerDAO();
-		Customer customer=(Customer)(customerdao.findByPrimaryKey(account));
+		CustomerDAO dao=new CustomerDAO();
+		Customer customer=(Customer)dao.findByPrimaryKey(account);
 		int userid=customer.getUserid();
 		customerdao.destory();
 		
+		//at the beginning address are null
 		AddressDAO addressdao=new AddressDAO();
-		int addrid=addressdao.getaddrid(userid);
+		Integer addrid=addressdao.getaddrid(userid);
 		addressdao.destory();
 		
+		//same as address
 		BillDAO billdao=new BillDAO();
-		int billid=billdao.getbillid(userid);
+		Integer billid=billdao.getbillid(userid);
 		billdao.destory();
 		
 		/*setting format for the timestamp*/
@@ -111,8 +113,15 @@ public class OrderController extends HttpServlet {
 	//crate order in datebase
 		OrderDAO orderdao=new OrderDAO();
 		Timestamp date=new java.sql.Timestamp(new Date().getTime());
-		Order order=new Order(date, "1", total, userid, addrid, billid,shipid,1);
-		int orderid=orderdao.createandgetkey(order);
+		Order order;
+		int orderid=0;
+		if(addrid==0 || billid==0){
+			order=new Order(date, "1", total, userid,null,null,shipid,1);
+			orderid=orderdao.createandgetkeynull(order);
+		}else{
+			order=new Order(date, "1", total, userid,addrid,billid,shipid,1);
+			orderid=orderdao.createandgetkey(order);
+		}
 		orderdao.destory();
 		//create item;
 		if(orderid<0){

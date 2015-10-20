@@ -22,7 +22,7 @@ public class TaxDAO extends DAO{
 		Tax tax=null;
 		try{
 			if(rs.next())
-				tax=new Tax(rs.getInt(0),rs.getString(1),rs.getFloat(2));
+				tax=new Tax(rs.getInt(1),rs.getString(2),rs.getFloat(3));
 		}catch(SQLException e){
 			e.printStackTrace();
 		}
@@ -92,6 +92,11 @@ public class TaxDAO extends DAO{
 
 	@Override
 	public Object find(Object paramObject) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	protected Integer getInteger(ResultSet paramResultSet, boolean paramBoolean) {
 		// TODO Auto-generated method stub
 		return null;
 	}

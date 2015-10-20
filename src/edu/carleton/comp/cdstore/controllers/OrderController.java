@@ -72,10 +72,7 @@ public class OrderController extends HttpServlet {
 		Integer billid=billdao.getbillid(userid);
 		billdao.destory();
 		
-		/*setting format for the timestamp*/
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS",Locale.ENGLISH);
-		/*partially ignore the input format*/
-		dateFormat.setLenient(false);   
+		
 		
 	
 		
@@ -112,7 +109,11 @@ public class OrderController extends HttpServlet {
 	}
 	//crate order in datebase
 		OrderDAO orderdao=new OrderDAO();
-		Timestamp date=new java.sql.Timestamp(new Date().getTime());
+		/*setting format for the timestamp*/
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS",Locale.ENGLISH);
+		/*partially ignore the input format*/
+		dateFormat.setLenient(false);   
+		Timestamp date=java.sql.Timestamp.valueOf(dateFormat.format(new Date()));
 		Order order;
 		int orderid=0;
 		if(addrid==0 || billid==0){

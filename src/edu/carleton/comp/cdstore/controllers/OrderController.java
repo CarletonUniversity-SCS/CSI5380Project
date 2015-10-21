@@ -39,10 +39,15 @@ public class OrderController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		int requesttime=0;
+		requesttime=Integer.parseInt(req.getParameter("requesttime"));
+		
+		
+		
 		String cjson=req.getParameter("cjson");
 		String account=(String) req.getSession().getAttribute("account");
 		PrintWriter out=resp.getWriter();
-	
+		
 		int shipid=Integer.parseInt(req.getParameter("shipping"));
 		ShippingDAO shipdao =new ShippingDAO();
 		Shipping shipping=(Shipping)(shipdao.findByPrimaryKey(shipid));
@@ -64,6 +69,14 @@ public class OrderController extends HttpServlet {
 
 		List <Cart> successfulone=new ArrayList<Cart>();
 		List<Cart> unsuccessfulone=new ArrayList<Cart>();
+		//generate output
+		Map<String, Object> result =new HashMap<String, Object>();
+		if(requesttime==5){
+			result.put("errormessage", String.valueOf("request reaches 5"));
+			String result_str = JSON.toJSONString(result,SerializerFeature.DisableCircularReferenceDetect);
+			out.print(result_str);
+			//reset requesttime into 0; 
+		}else{
 		float sum=0;
 		if(cjson!=""){
 			List<Cart> cartList = JSONArray.parseArray(cjson, Cart.class);
@@ -83,7 +96,7 @@ public class OrderController extends HttpServlet {
 		float total=(sum*(1+taxrate))+shippingfee;
 		float taxtopay=sum*taxrate;
 		//crate order in datebase
-		OrderDAO orderdao=new OrderDAO();
+		
 		/*setting format for the timestamp*/
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS",Locale.ENGLISH);
 		/*partially ignore the input format*/
@@ -91,6 +104,7 @@ public class OrderController extends HttpServlet {
 		String date=dateFormat.format(new Date());
 		Order order;
 		int orderid=0;
+		OrderDAO orderdao=new OrderDAO();
 		order=new Order(date, "1", total, userid,0,0,shipid,1);
 		orderid=orderdao.createandgetkeynull(order);
 		orderdao.destory();
@@ -127,8 +141,7 @@ public class OrderController extends HttpServlet {
 		BigDecimal subtotalb=new BigDecimal(total-shippingfee);  
 		double subtotalf=subtotalb.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 		
-		//generate output
-		Map<String, Object> result =new HashMap<String, Object>();
+	
 		result.put("successfulpaymentcartlist", successfulone);
 		result.put("beforetax", String.valueOf(sumf));
 		result.put("HST", String.valueOf(taxtopayf));
@@ -141,7 +154,7 @@ public class OrderController extends HttpServlet {
 		result.put("unsuccessfulpaymentcartlist", unsuccessfulone);
 		String result_str = JSON.toJSONString(result,SerializerFeature.DisableCircularReferenceDetect);
 		out.print(result_str);
-		
+		}
 	}
 
 	private Boolean checkstock(Cart cart){

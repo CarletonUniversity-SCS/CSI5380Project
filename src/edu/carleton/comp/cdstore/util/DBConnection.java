@@ -32,10 +32,10 @@ public class DBConnection {
 			statement = this.connection.createStatement();
 			statement.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
 			ResultSet rs=statement.getGeneratedKeys();
-			statement.close();
 			if(rs.next()){
 				key=rs.getInt(1);
 			}
+			statement.close();
 			return key;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

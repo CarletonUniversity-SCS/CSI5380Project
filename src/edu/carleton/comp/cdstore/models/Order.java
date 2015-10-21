@@ -1,10 +1,8 @@
 package edu.carleton.comp.cdstore.models;
 
-import java.sql.Timestamp;
 
 public class Order {
 	int orderid;
-	//Timestamp date;
 	String date;
 	String status;
 	float total;

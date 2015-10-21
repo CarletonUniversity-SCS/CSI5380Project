@@ -2,7 +2,6 @@ package edu.carleton.comp.cdstore.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -84,7 +83,16 @@ public class OrderDAO extends DAO{
 		return this.dao.executeandgetkey(sqlString);
 		}
 		
-	
+	public boolean updateaddr(int orderid, int addrid) {
+		String sql=this.sqlcode.getProperty("order.updateaddr");
+		String sqlstring=MessageFormat.format(sql, new Object[]{orderid,addrid});
+		return this.dao.executeUpdate(sqlstring);	
+}
+	public boolean updatebilladdr(int orderid, int billid) {
+		String sql=this.sqlcode.getProperty("order.updatebilladdr");
+		String sqlstring=MessageFormat.format(sql, new Object[]{orderid,billid});
+		return this.dao.executeUpdate(sqlstring);	
+}
 
 
 	@Override
@@ -138,6 +146,11 @@ public class OrderDAO extends DAO{
 	protected Integer getInteger(ResultSet paramResultSet, boolean paramBoolean) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	public List<Object> getrecentorder(int userid) {
+		String sql=this.sqlcode.getProperty("order.getrecentorder");
+		String sqlstring=MessageFormat.format(sql, new Object[]{userid});
+		return super.processResultSet(this.dao.executeLookup(sqlstring, "order.getrecentorder"));
 	}
 
 	

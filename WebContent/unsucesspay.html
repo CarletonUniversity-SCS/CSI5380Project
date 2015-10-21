@@ -9,36 +9,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
 <script src="js/menu_jquery.js"></script>
-</head>
-<script>
-$(document).ready(function(){ 
-	var address="localhost:8443";
-	$("#verifycredit").click(function(){
-		var request = $.ajax({  
-        	url: "https://"+address+"/CSI5380/verifycredit.do",
-            type: "POST",  
-            async: false,
-            dataType: "json",  
-            cache: false,  
-            success: function (result, textStatus) {
-            	if (result.code=="success")
-                {
-            		window.location.href="successpay.html";
-            		$.removeCookie('cart');
-                }else{
-                	window.location.href="unsuccesspay.html"; 
-                	}
-            	
-            },  
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert(errorThrown);
-                }  
-        });
-		
-	});
-	
-});
+<script type="text/javascript">
+	setTimeout(function (){window.location.href='index.html'},3000); 
 </script>
+</head>
 <body>
 <!-- header_top -->
 <div class="top_bg">
@@ -61,6 +35,8 @@ $(document).ready(function(){
 		</div>
 	</div>
 </div>
+
+
 <!-- header -->
 <div class="header_bg">
 <div class="container">
@@ -72,7 +48,7 @@ $(document).ready(function(){
 
 		<div class="header_right">
 			<div class="rgt-bottom">
-				<img src="images/s6.png" class="img-responsive" alt=""/>
+				<img src="images/s7.png" class="img-responsive" alt=""/>
 				</div>
 				</div>
 				
@@ -83,73 +59,16 @@ $(document).ready(function(){
 	</div>
 	</div>
 </div>
-<!-- content -->
-<div class="container">
-<div class="main">
-	<!-- start registration -->
-	<div class="registration">
-		<div class="registration_left">
-		<h2>Payment Method</h2>
-		 <div class="registration_form">
-		 <!-- Form -->
-			<form id="registration_form" action="" method="post">
-				<div>
-					<label>
-						<input style="width:60%" placeholder="Credit Card # :" type="text" tabindex="1" required autofocus>
-						<img style="margin-left:160px;margin-top:10px;" src="images/payment.jpg" class="img-responsive" alt=""/>
-					</label>
-				</div>
-				<div>
-					<label>
-						<input style="width:43%" placeholder="Verification # :" type="text" tabindex="2" required autofocus>
-					</label>
-				</div>
-				
-				
-				<div>
-				<span>
-					<select name="month" id="month" style="color:gray;width:20%;display:inline">
-								<option disabled selected>Month</option>
-								<option>01</option>
-								<option>02</option>
-								<option>03</option>
-								<option>04</option>
-								<option>05</option>
-								<option>06</option>
-								<option>07</option>
-								<option>08</option>
-								<option>09</option>
-								<option>10</option>
-								<option>11</option>
-								<option>12</option>
-					</select>
-					</span>
-					/
-					<span>
-					<select name="year" id="year" style="color:gray;width:20%;display:inline">
-								<option disabled selected>Year</option>
-								<option>2015</option>
-								<option>2016</option>
-								<option>2017</option>
-								<option>2018</option>
-								<option>2019</option>
-						
-					</select>
-					</span>
-				</div>							
-				<div>
-					<input type="submit" value="Confirm The Payment" id="verifycredit">
-				</div>
-			</form>
-			<!-- /Form -->
-		</div>
+<!-- content style in style.css-->
+<!--message may changed when credit card is denied-->
+<div class="special">
+	<div class="container">
+		<h3>Sorry!</h3>
 	</div>
-	<div class="registration_left">
+	<div class="message">
+	<p>Credit Card Authorization Failed!</p>
+	<p>Thank you for shopping with us!</p>
 	</div>
-	<div class="clearfix"></div>
-	</div>
-	<!-- end registration -->
-</div>
 </div>
 <div class="foot-top">
 	<div class="container">
@@ -171,7 +90,7 @@ $(document).ready(function(){
 					</ul>
 				</div>
 			</li>
-			<div class="clearfix"> </div>
+				<div class="clearfix"> </div>
 		</div>
 	</div>
 </div>

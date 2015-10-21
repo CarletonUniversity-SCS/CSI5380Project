@@ -108,7 +108,7 @@ public class CDDAO extends DAO{
 	}
 	public boolean updatestock(int stock, int cdid) {
 			String sql=this.sqlcode.getProperty("CD.updatestock");
-			String sqlstring=MessageFormat.format(sql, new Object[]{cdid,stock});
+			String sqlstring=MessageFormat.format(sql, new Object[]{stock,cdid});
 			return this.dao.executeUpdate(sqlstring);	
 	}
 

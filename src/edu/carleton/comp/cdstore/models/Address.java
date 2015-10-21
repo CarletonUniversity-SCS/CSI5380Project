@@ -2,6 +2,7 @@ package edu.carleton.comp.cdstore.models;
 
 public class Address {
 	int addrid;
+	String fullname;
 	String addrline1;
 	String addrline2;
 	String city;
@@ -12,10 +13,11 @@ public class Address {
 	int userid;
 	
 	
-	public Address(int addrid, String addrline1, String addrline2, String city, String province, String zipcode,
+	public Address(int addrid, String fullname,String addrline1, String addrline2, String city, String province, String zipcode,
 			String country, String phone, int userid) {
 		
 		this.addrid = addrid;
+		this.fullname=fullname;
 		this.addrline1 = addrline1;
 		this.addrline2 = addrline2;
 		this.city = city;
@@ -27,9 +29,10 @@ public class Address {
 	}
 	
 	
-	public Address(String addrline1, String addrline2, String city, String province, String zipcode,
+	public Address(String fullname,String addrline1, String addrline2, String city, String province, String zipcode,
 			String country, String phone, int userid){
 		
+		this.fullname=fullname;
 		this.addrline1 = addrline1;
 		this.addrline2 = addrline2;
 		this.city = city;
@@ -40,9 +43,10 @@ public class Address {
 		this.userid = userid;
 	}
 	
-	public Address(String addrline1, String addrline2, String city, String province, String zipcode,
+	public Address(String fullname,String addrline1, String addrline2, String city, String province, String zipcode,
 			String country, String phone){
 		
+		this.fullname=fullname;
 		this.addrline1 = addrline1;
 		this.addrline2 = addrline2;
 		this.city = city;
@@ -106,4 +110,15 @@ public class Address {
 	public final void setUserid(int userid) {
 		this.userid = userid;
 	}
+
+
+	public String getFullname() {
+		return fullname;
+	}
+
+
+	public void setFullname(String fullname) {
+		this.fullname = fullname;
+	}
+	
 }

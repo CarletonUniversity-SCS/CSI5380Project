@@ -2,7 +2,7 @@ package edu.carleton.comp.cdstore.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Timestamp;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,8 +22,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 
 import edu.carleton.comp.cdstore.cookies.Cart;
-import edu.carleton.comp.cdstore.dao.AddressDAO;
-import edu.carleton.comp.cdstore.dao.BillDAO;
 import edu.carleton.comp.cdstore.dao.CDDAO;
 import edu.carleton.comp.cdstore.dao.CustomerDAO;
 import edu.carleton.comp.cdstore.dao.ItemDAO;
@@ -50,6 +48,7 @@ public class OrderController extends HttpServlet {
 		Shipping shipping=(Shipping)(shipdao.findByPrimaryKey(shipid));
 		shipdao.destory();
 		float shippingfee=shipping.getPrice();
+		String method=shipping.getMethod();
 		
 		TaxDAO taxdao=new TaxDAO();
 		Tax tax=(Tax)(taxdao.findByPrimaryKey(1));
@@ -61,21 +60,8 @@ public class OrderController extends HttpServlet {
 		Customer customer=(Customer)dao.findByPrimaryKey(account);
 		int userid=customer.getUserid();
 		customerdao.destory();
-		
-		//at the beginning address are null
-		AddressDAO addressdao=new AddressDAO();
-		Integer addrid=addressdao.getaddrid(userid);
-		addressdao.destory();
-		
-		//same as address
-		BillDAO billdao=new BillDAO();
-		Integer billid=billdao.getbillid(userid);
-		billdao.destory();
-		
-		
-		
-	
-		
+
+
 		List <Cart> successfulone=new ArrayList<Cart>();
 		List<Cart> unsuccessfulone=new ArrayList<Cart>();
 		float sum=0;
@@ -96,18 +82,7 @@ public class OrderController extends HttpServlet {
 		
 		float total=(sum*(1+taxrate))+shippingfee;
 		float taxtopay=sum*taxrate;
-//update cd stock		
-	if(successfulone.size()>0){	
-		for(int i=0;i<successfulone.size();i++){
-			CDDAO cddao1=new CDDAO();
-			int cdid=successfulone.get(i).getCdid();
-			int orign=cddao1.getstock(cdid);
-			int newstock=orign-successfulone.get(i).getQuantity();
-			cddao1.updatestock(newstock, cdid);
-			cddao1.destory();
-		}
-	}
-	//crate order in datebase
+		//crate order in datebase
 		OrderDAO orderdao=new OrderDAO();
 		/*setting format for the timestamp*/
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS",Locale.ENGLISH);
@@ -116,13 +91,8 @@ public class OrderController extends HttpServlet {
 		String date=dateFormat.format(new Date());
 		Order order;
 		int orderid=0;
-		if(addrid==0 || billid==0){
-			order=new Order(date, "1", total, userid,null,null,shipid,1);
-			orderid=orderdao.createandgetkeynull(order);
-		}else{
-			order=new Order(date, "1", total, userid,addrid,billid,shipid,1);
-			orderid=orderdao.createandgetkey(order);
-		}
+		order=new Order(date, "1", total, userid,0,0,shipid,1);
+		orderid=orderdao.createandgetkeynull(order);
 		orderdao.destory();
 		//create item;
 		if(orderid<0){
@@ -130,20 +100,44 @@ public class OrderController extends HttpServlet {
 		}
 		else
 		{
+			//create items and update stock
 			for(int i=0;i<successfulone.size();i++){
 				ItemDAO itemdao=new ItemDAO();
 				Item item=new Item(successfulone.get(i).getQuantity(), orderid, successfulone.get(i).getCdid());
 				itemdao.create(item);
 				itemdao.destory();
+				CDDAO cddao1=new CDDAO();
+				//update stock
+				int cdid=successfulone.get(i).getCdid();
+				int orign=cddao1.getstock(cdid);
+				int newstock=orign-successfulone.get(i).getQuantity();
+				cddao1.updatestock(newstock, cdid);
+				cddao1.destory();
 			}
 		}
+		//fomat output
+		BigDecimal sumb=new BigDecimal(sum);  
+		double sumf=sumb.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		BigDecimal taxtopayb=new BigDecimal(taxtopay);  
+		double taxtopayf=taxtopayb.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		BigDecimal totalb=new BigDecimal(total);  
+		double totalf=totalb.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		BigDecimal shippingfeeb=new BigDecimal(shippingfee);  
+		double shippingfeef=shippingfeeb.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		BigDecimal subtotalb=new BigDecimal(total-shippingfee);  
+		double subtotalf=subtotalb.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 		
 		//generate output
 		Map<String, Object> result =new HashMap<String, Object>();
 		result.put("successfulpaymentcartlist", successfulone);
-		result.put("beforetax", sum);
-		result.put("HST", taxtopay);
-		result.put("total", total);
+		result.put("beforetax", String.valueOf(sumf));
+		result.put("HST", String.valueOf(taxtopayf));
+		result.put("total", String.valueOf(totalf));
+		result.put("shippingfee", String.valueOf(shippingfeef));
+		result.put("method", method);
+		result.put("subtotal", String.valueOf(subtotalf));
+		result.put("orderid", orderid);
+		result.put("userid", String.valueOf(userid));
 		result.put("unsuccessfulpaymentcartlist", unsuccessfulone);
 		String result_str = JSON.toJSONString(result,SerializerFeature.DisableCircularReferenceDetect);
 		out.print(result_str);

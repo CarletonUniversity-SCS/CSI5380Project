@@ -107,8 +107,6 @@ $(document).ready(function(){
               }else{
             	  window.location.href="cdcatalog.html?content=&key=&menu="+escape(menu);
               }
-             
-              //$.post("cdcatalog.html",{"menu": menu});
           });
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -189,7 +187,6 @@ $(document).ready(function(){
 	$("#search").click(function(){
         var content=$("#content").val();
         window.location.href="cdcatalog.html?content="+content+"&key=&menu=&title="+content;
-        //$.post("cdcatalog.html",{"menu": menu,"content": content,"title":content});
 });
 	
 

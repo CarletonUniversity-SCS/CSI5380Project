@@ -7,14 +7,9 @@
 <script type='text/javascript' src="js/jquery-2.1.3.js"></script>
 <script type='text/javascript' src="js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="js/jquery.cookie.js"></script>
-<!-- Custom Theme files -->
 <link href="css/style.css" rel='stylesheet' type='text/css' />
-<!-- Custom Theme files -->
-<!--theme-style-->
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<!-- start menu style -->
 <link href="css/megamenu.css" rel="stylesheet" type="text/css" media="all" />
-<!--show login form-->
 <script src="js/menu_jquery.js"></script>
 
 <!-- ajax+jquery --> 
@@ -168,8 +163,9 @@ $(document).ready(function(){
 });
 	$("#search").click(function(){
         var content=$("#content").val();
-        window.location.href="cdcatalog.html?content="+content+"&key=&menu=&title="+content;
+        //window.location.href="cdcatalog.html?content="+content+"&key=&menu=&title="+content;
         //$.post("cdcatalog.html",{"menu": menu,"content": content});
+        window.location.href="cdcatalog.html?content="+content+"&key=&menu=&title="+content;
 });
     
    

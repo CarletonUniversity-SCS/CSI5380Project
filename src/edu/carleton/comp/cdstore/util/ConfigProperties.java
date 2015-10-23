@@ -10,18 +10,18 @@ public class ConfigProperties {
 	public String SQL_DIR=null;
 	public static String WORKING_DIR=null;
 	private ConfigProperties(){
-		this.URL=("E:\\workspace(current)\\CSI5380Project\\src\\configure.properties");
-		this.SQL_DIR=("E:\\workspace(current)\\CSI5380Project\\src\\sql.properties");
+		this.URL=WORKING_DIR+"configure.properties";
+		this.SQL_DIR=WORKING_DIR+"sql.properties";
 		System.out.println("URL:"+this.URL);
 		System.out.println("Sql dir:"+this.SQL_DIR);
 		//init();
 	}
 	/*getting a property file reader instance */
 	public static synchronized ConfigProperties getInstance() {
-		String loc=ConfigProperties.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+		WORKING_DIR=ConfigProperties.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+		
 		// TODO Auto-generated method stub
 		if(instance==null){
-			WORKING_DIR=loc;
 			synchronized(ConfigProperties.class){
 				if(instance==null){
 					instance=new ConfigProperties();
